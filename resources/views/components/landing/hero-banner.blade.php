@@ -34,13 +34,13 @@
                     </span>
                 </x-button>
 
-                <x-button tag="a" href="#" size="lg" inverted>
+                <x-button tag="a" href="#" size="lg" class="group" inverted>
                     <span>
-                        @svg('heroicon-o-play', 'h-8 w-8')
+                        Learn More
                     </span>
 
                     <span>
-                        Play Now
+                        @svg('heroicon-o-arrow-sm-right', 'h-8 w-8 transition-all group-hover:pl-2')
                     </span>
                 </x-button>
             </div>
