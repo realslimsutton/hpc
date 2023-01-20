@@ -4,12 +4,32 @@ const defaultTheme = require('tailwindcss/defaultTheme');
 /** @type {import('tailwindcss').Config} */
 module.exports = {
     content: [
-        './resources/**/*.blade.php'
+        './resources/**/*.blade.php',
+        './vendor/filament/support/*.blade.php',
+        './vendor/filament/notifications/*.blade.php',
+        './vendor/filament/forms/*.blade.php',
+        './vendor/filament/tables/*.blade.php'
     ],
     theme: {
         extend: {
             colors: {
                 gray: colors.neutral,
+                danger: colors.rose,
+                success: colors.green,
+                warning: colors.amber,
+                primary: {
+                    DEFAULT: '#FFCD67',
+                    50: '#FFEBC3',
+                    100: '#FFE8B9',
+                    200: '#FFE1A4',
+                    300: '#FFDA90',
+                    400: '#FFD47B',
+                    500: '#FFCD67',
+                    600: '#FFBB2F',
+                    700: '#F6A500',
+                    800: '#BE7F00',
+                    900: '#865A00'
+                },
                 hpc: {
                     red: {
                         DEFAULT: '#5A0410',
@@ -48,6 +68,7 @@ module.exports = {
         }
     },
     plugins: [
+        require('@tailwindcss/forms'),
         require('@tailwindcss/typography')
     ]
 };

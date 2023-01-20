@@ -1,3 +1,5 @@
+@import '../../vendor/filament/forms/dist/module.esm.css';
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -14,4 +16,13 @@
     @apply h-[90px];
     @apply bg-gray-900;
     @apply shadow;
+}
+
+.filament-forms-field-wrapper-label span {
+    @apply text-base;
+    @apply text-white;
+}
+
+.filament-forms-text-input-component div {
+    @apply w-full;
 }
