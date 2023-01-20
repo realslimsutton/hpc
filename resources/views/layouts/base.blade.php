@@ -36,14 +36,18 @@
 
         @stack('head.end')
     </head>
-    <body class="antialiased">
+    <body class="antialiased bg-hpc-red">
         @stack('body.start')
 
-        <x-page.header/>
+        <div class="min-h-screen w-full flex flex-col justify-between">
+            <div>
+                <x-page.header/>
 
-        @yield('body')
+                @yield('body')
+            </div>
 
-        <x-page.footer/>
+            <x-page.footer/>
+        </div>
 
         @stack('body.end')
     </body>
