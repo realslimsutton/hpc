@@ -1,3 +1,17 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+[x-cloak] {
+    display: none !important;
+}
+
+#main-header {
+    @apply h-[135px];
+}
+
+#main-header.scrolled {
+    @apply h-[90px];
+    @apply bg-gray-900;
+    @apply shadow;
+}

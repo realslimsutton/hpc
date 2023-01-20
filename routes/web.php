@@ -13,6 +13,4 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return 'Landing Page';
-});
+Route::view('/', 'index')->name('home');

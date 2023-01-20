@@ -1,10 +1,51 @@
+const colors = require('tailwindcss/colors');
+const defaultTheme = require('tailwindcss/defaultTheme');
+
 /** @type {import('tailwindcss').Config} */
 module.exports = {
     content: [
         './resources/**/*.blade.php'
     ],
     theme: {
-        extend: {}
+        extend: {
+            colors: {
+                gray: colors.neutral,
+                hpc: {
+                    red: {
+                        DEFAULT: '#5A0410',
+                        50: '#F40B2B',
+                        100: '#E30A28',
+                        200: '#C10922',
+                        300: '#9E071C',
+                        400: '#7C0616',
+                        500: '#5A0410',
+                        600: '#4B030D',
+                        700: '#3D030B',
+                        800: '#2E0208',
+                        900: '#1F0106'
+                    },
+                    gold: {
+                        DEFAULT: '#FFCD67',
+                        50: '#FFEBC3',
+                        100: '#FFE8B9',
+                        200: '#FFE1A4',
+                        300: '#FFDA90',
+                        400: '#FFD47B',
+                        500: '#FFCD67',
+                        600: '#FFBB2F',
+                        700: '#F6A500',
+                        800: '#BE7F00',
+                        900: '#865A00'
+                    }
+                }
+            },
+            fontFamily: {
+                sans: [ 'Poppins', ...defaultTheme.fontFamily.sans ]
+            }
+        },
+        container: {
+            center: true
+        }
     },
     plugins: []
 };
