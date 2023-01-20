@@ -1,4 +1,5 @@
 <section
+    id="why-join-our-club"
     class="bg-gray-800 py-12 bg-center bg-cover bg-no-repeat text-white text-center"
     style="background-image: url('{{ asset('images/why-join-our-club-bg.jpg') }}')"
 >
