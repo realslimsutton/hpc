@@ -1,11 +1,11 @@
 <section
-    class="min-h-screen w-full bg-center bg-cover bg-no-repeat flex items-center justify-center py-[135px]"
+    class="min-h-screen w-full bg-center bg-cover bg-no-repeat flex items-center justify-center py-[135px] text-center lg:text-left"
     style="background-image: url('{{ asset('/images/hero-banner-bg.jpg') }}')"
 >
     <div class="w-full max-w-screen-2xl mx-auto px-4 grid lg:grid-cols-2 mt-8">
         <div class="flex flex-col justify-center space-y-8">
             <div class="space-y-6">
-                <div>
+                <div class="space-y-4 lg:space-y-0">
                     <h2 class="text-7xl text-white font-bold">
                         By <span class="text-hpc-gold">Poker Players,</span>
                     </h2>
@@ -23,7 +23,7 @@
                 </p>
             </div>
 
-            <div class="flex items-center flex-wrap gap-4">
+            <div class="flex items-center justify-center lg:justify-start flex-wrap gap-4">
                 <x-button tag="a" href="#" size="lg">
                     <span>
                         @svg('heroicon-o-play', 'h-8 w-8')

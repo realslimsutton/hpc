@@ -1,12 +1,7 @@
 <section
-    class="relative bg-gray-800 py-12 bg-no-repeat bg-center text-white after:absolute after:z-10 after:inset-0 after:bg-gray-900/50"
+    class="relative py-12 bg-cover bg-no-repeat text-white after:absolute after:z-10 after:inset-0 after:bg-gray-900/50 text-center lg:text-left"
+    style="background-image: url('{{ asset('images/about-bg.png') }}')"
 >
-    <div
-        class="absolute inset-y-0 right-0 left-[60%] bg-no-repeat bg-center opacity-60"
-        style="background-image: url('{{ asset('images/about-bg.png') }}')"
-    >
-    </div>
-
     <div class="w-full max-w-screen-2xl mx-auto px-4 grid lg:grid-cols-2 gap-12 z-20 relative">
         <div class="grid sm:grid-cols-2 gap-8 items-center justify-center">
             <x-landing.about.stat
