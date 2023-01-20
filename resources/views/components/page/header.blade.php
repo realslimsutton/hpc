@@ -16,7 +16,7 @@
     <div class="h-full relative w-full max-w-screen-2xl mx-auto px-4 flex items-center justify-between">
         <div class="h-full">
             <a href="{{ route('home') }}">
-                <img src="{{ asset('images/transparent-logo.png') }}" alt="Logo" class="h-full w-auto"/>
+                <img src="{{ asset_version('images/transparent-logo.png') }}" alt="Logo" class="h-full w-auto"/>
             </a>
         </div>
 

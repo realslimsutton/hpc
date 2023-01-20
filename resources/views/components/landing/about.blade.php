@@ -1,6 +1,6 @@
 <section
     class="relative py-12 bg-cover bg-no-repeat text-white after:absolute after:z-10 after:inset-0 after:bg-gray-900/50 text-center lg:text-left"
-    style="background-image: url('{{ asset('images/about-bg.png') }}')"
+    style="background-image: url('{{ asset_version('images/about-bg.png') }}')"
 >
     <div class="w-full max-w-screen-2xl mx-auto px-4 grid lg:grid-cols-2 gap-12 z-20 relative">
         <div class="grid sm:grid-cols-2 gap-8 items-center justify-center">
@@ -18,7 +18,7 @@
                 body="Ongoing Cash Games"
             >
                 <x-slot:icon>
-                    <img src="{{ asset('images/poker-table.png') }}" alt="" class="h-14 w-auto"/>
+                    <img src="{{ asset_version('images/poker-table.png') }}" alt="" class="h-14 w-auto"/>
                 </x-slot:icon>
             </x-landing.about.stat>
 

@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Services\AssetVersion;
 use Filament\Facades\Filament;
 use Illuminate\Support\ServiceProvider;
 
@@ -14,7 +15,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        //
+        $this->app->singleton(AssetVersion::class);
     }
 
     /**
