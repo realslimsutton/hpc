@@ -14,6 +14,18 @@
     </x-filament::dropdown.header>
 
     <x-filament::dropdown.list>
+        @can('page_Dashboard')
+            <x-filament::dropdown.list.item
+                icon="heroicon-o-shield-check"
+                color="success"
+                tag="a"
+                :href="Filament\Facades\Filament::getUrl()"
+                target="_blank"
+            >
+                Admin panel
+            </x-filament::dropdown.list.item>
+        @endcan
+
         <x-filament::dropdown.list.item
             icon="heroicon-o-view-grid"
             href="#"
