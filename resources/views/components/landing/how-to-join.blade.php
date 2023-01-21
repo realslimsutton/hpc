@@ -1,4 +1,5 @@
 <section
+    id="how-to-join"
     class="bg-gray-800 py-12 bg-center bg-cover bg-no-repeat text-white text-center"
     style="background-image: url('{{ asset_version('images/how-to-join-bg.jpg') }}')"
 >

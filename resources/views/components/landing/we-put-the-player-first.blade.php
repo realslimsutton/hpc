@@ -1,4 +1,5 @@
 <section
+    id="#we-put-the-player-first"
     class="relative py-24 bg-cover bg-no-repeat text-white text-center after:absolute after:z-10 after:inset-0 after:bg-gray-900/50 text-center lg:text-left"
     style="background-image: url('{{ asset_version('images/we-put-the-player-first-bg.jpg') }}')"
 >
@@ -26,7 +27,7 @@
         </div>
 
         <div>
-            <x-button tag="a" href="#" size="lg" class="group">
+            <x-button tag="a" href="#how-to-join" size="lg" class="group">
                 <span>
                     Learn More
                 </span>

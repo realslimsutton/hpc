@@ -34,7 +34,7 @@
                     </span>
                 </x-button>
 
-                <x-button tag="a" href="#" size="lg" class="group" inverted>
+                <x-button tag="a" href="#about-the-club" size="lg" class="group" inverted>
                     <span>
                         Learn More
                     </span>

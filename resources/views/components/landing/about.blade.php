@@ -1,4 +1,5 @@
 <section
+    id="about-the-club"
     class="relative py-12 bg-cover bg-no-repeat text-white after:absolute after:z-10 after:inset-0 after:bg-gray-900/50 text-center lg:text-left"
     style="background-image: url('{{ asset_version('images/about-bg.png') }}')"
 >
@@ -61,7 +62,7 @@
             </div>
 
             <div>
-                <x-button tag="a" href="#" size="lg" class="group">
+                <x-button tag="a" href="#why-join-our-club" size="lg" class="group">
                     <span>
                         Learn More
                     </span>
