@@ -17,7 +17,7 @@ module.exports = {
                 gray: colors.neutral
             },
             fontFamily: {
-                sans: [ 'Inter', ...defaultTheme.fontFamily.sans ]
+                sans: [ 'Poppins', ...defaultTheme.fontFamily.sans ]
             }
         }
     },

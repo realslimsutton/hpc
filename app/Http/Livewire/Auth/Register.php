@@ -63,7 +63,7 @@ class Register extends Component implements HasForms
                     'password',
                     'phone_number',
                     'country',
-                    'accepts_marketing'
+                    'accepts_marketing',
                 ])
                 ->all()
         );
@@ -78,7 +78,7 @@ class Register extends Component implements HasForms
         return [
             Grid::make()
                 ->columns([
-                    'md' => 2
+                    'md' => 2,
                 ])
                 ->schema([
                     TextInput::make('first_name')
@@ -101,11 +101,11 @@ class Register extends Component implements HasForms
                         ->rules([
                             static function () {
                                 return static function (string $attribute, $value, Closure $fail) {
-                                    if (!preg_match("/^[0-9-]+$/", $value)) {
+                                    if (! preg_match('/^[0-9-]+$/', $value)) {
                                         $fail('Invalid ClubGG ID');
                                     }
                                 };
-                            }
+                            },
                         ]),
                     TextInput::make('email')
                         ->label('Email address')
@@ -123,7 +123,7 @@ class Register extends Component implements HasForms
                         ->password()
                         ->required()
                         ->confirmed()
-                        ->dehydrateStateUsing(static fn(string $state): string => Hash::make($state)),
+                        ->dehydrateStateUsing(static fn (string $state): string => Hash::make($state)),
                     TextInput::make('password_confirmation')
                         ->label('Confirm password')
                         ->password()
@@ -150,9 +150,9 @@ class Register extends Component implements HasForms
                             Checkbox::make('accepts_marketing')
                                 ->label('Occasionally email me important information to help me never miss a new giveaway or player promotion.')
                                 ->helperText('Please be assured that your email address is confidential and will never be sold, rented, or shared with a third party.')
-                                ->default(true)
-                        ])
-                ])
+                                ->default(true),
+                        ]),
+                ]),
         ];
     }
 }

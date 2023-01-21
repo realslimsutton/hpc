@@ -49,7 +49,7 @@ class Login extends Component implements HasForms
 
         $data = $this->form->getState();
 
-        if (!auth()->attempt([
+        if (! auth()->attempt([
             'email' => $data['email'],
             'password' => $data['password'],
         ], $data['remember'])) {
@@ -76,7 +76,7 @@ class Login extends Component implements HasForms
                 ->required(),
             Grid::make()
                 ->columns([
-                    'default' => 2
+                    'default' => 2,
                 ])
                 ->schema([
                     Checkbox::make('remember')
@@ -85,8 +85,8 @@ class Login extends Component implements HasForms
                         ->disableLabel()
                         ->content(new HtmlString(
                             sprintf('<a href="%s" class="font-medium text-white transition-colors hover:text-hpc-gold">Forgot your password?</a>', '#')
-                        ))
-                ])
+                        )),
+                ]),
         ];
     }
 }

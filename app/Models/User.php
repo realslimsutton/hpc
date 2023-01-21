@@ -10,10 +10,11 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable implements FilamentUser, HasName
 {
-    use HasApiTokens, HasFactory, Notifiable;
+    use HasApiTokens, HasFactory, Notifiable, HasRoles;
 
     /**
      * The attributes that are mass assignable.
@@ -26,6 +27,7 @@ class User extends Authenticatable implements FilamentUser, HasName
         'date_of_birth',
         'clubgg_id',
         'email',
+        'email_verified_at',
         'password',
         'phone_number',
         'country',
@@ -56,20 +58,20 @@ class User extends Authenticatable implements FilamentUser, HasName
     protected $casts = [
         'email_verified_at' => 'datetime',
         'date_of_birth' => 'datetime',
-        'accepts_marketing' => 'bool'
+        'accepts_marketing' => 'bool',
     ];
 
     public function fullName(): Attribute
     {
         return Attribute::make(
-            get: fn() => $this->first_name . ' ' . $this->last_name
+            get: fn () => $this->first_name.' '.$this->last_name
         );
     }
 
     public function discordName(): Attribute
     {
         return Attribute::make(
-            get: fn() => $this->discord_username . '#' . $this->discord_discriminator
+            get: fn () => $this->discord_username.'#'.$this->discord_discriminator
         );
     }
 
@@ -81,5 +83,17 @@ class User extends Authenticatable implements FilamentUser, HasName
     public function getFilamentName(): string
     {
         return $this->full_name;
+    }
+
+    public function disconnectDiscord(): void
+    {
+        $this->forceFill([
+            'discord_id' => null,
+            'discord_username' => null,
+            'discord_token' => null,
+            'discord_refresh_token' => null,
+            'discord_discriminator' => null,
+            'discord_avatar' => null,
+        ])->save();
     }
 }

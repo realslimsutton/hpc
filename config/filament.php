@@ -139,7 +139,7 @@ return [
         'namespace' => 'App\\Filament\\Widgets',
         'path' => app_path('Filament/Widgets'),
         'register' => [
-            Widgets\AccountWidget::class
+            Widgets\AccountWidget::class,
         ],
     ],
 
@@ -273,7 +273,7 @@ return [
     |
     */
 
-    'default_avatar_provider' => \Filament\AvatarProviders\UiAvatarsProvider::class,
+    'default_avatar_provider' => \App\Filament\AvatarProvider::class,
 
     /*
     |--------------------------------------------------------------------------
@@ -300,7 +300,7 @@ return [
     |
     */
 
-    'google_fonts' => 'https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,400;0,500;0,700;1,400;1,500;1,700&display=swap',
+    'google_fonts' => 'https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,400;0,500;0,700;1,400;1,500;1,700&display=swap',
 
     /*
     |--------------------------------------------------------------------------

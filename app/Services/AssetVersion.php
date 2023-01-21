@@ -14,7 +14,7 @@ class AssetVersion
     {
         $version = $this->version($file);
 
-        return asset($file . '?v=' . $version, $secure);
+        return asset($file.'?v='.$version, $secure);
     }
 
     public function version(string $file): string

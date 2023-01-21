@@ -27,6 +27,10 @@ class AppServiceProvider extends ServiceProvider
     {
         Filament::serving(static function () {
             Filament::registerViteTheme('resources/css/filament.css');
+
+            Filament::registerNavigationGroups([
+                'System',
+            ]);
         });
     }
 }
