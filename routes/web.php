@@ -15,7 +15,15 @@ use Illuminate\Support\Facades\Route;
 
 Route::view('/', 'index')->name('home');
 
-Route::middleware('guest')->name('auth.')->group(static function() {
+Route::prefix('/games')->name('games.')->group(static function () {
+    Route::view('/no-limit-holdem', 'games.no-limit-holdem')->name('no-limit-holdem');
+    Route::view('/pot-limit-omaha', 'games.pot-limit-omaha')->name('pot-limit-omaha');
+    Route::view('/hand-rankings', 'games.hand-rankings')->name('hand-rankings');
+    Route::view('/tournaments', 'games.tournaments')->name('tournaments');
+    Route::view('/payout-structure', 'games.payout-structure')->name('payout-structure');
+});
+
+Route::middleware('guest')->name('auth.')->group(static function () {
     Route::view('/login', 'auth.login')->name('login');
 
     Route::view('/register', 'auth.register')->name('register');
