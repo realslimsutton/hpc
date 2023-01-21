@@ -26,3 +26,10 @@
 .filament-forms-text-input-component div {
     @apply w-full;
 }
+
+.filament-forms-text-input-component input {
+    @apply bg-hpc-red-700;
+    @apply border-hpc-red-800;
+    @apply focus:border-hpc-gold-500;
+    @apply text-white;
+}

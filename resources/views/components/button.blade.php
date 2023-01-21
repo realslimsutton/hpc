@@ -6,7 +6,7 @@
 
 @php
     $classes = [
-        'inline-flex items-center gap-2 ring ring-transparent font-semibold transition-colors',
+        'inline-flex items-center gap-2 ring ring-transparent font-semibold transition-colors disabled:opacity-60',
         'px-4 py-1 rounded-md' => $size === 'sm',
         'px-4 py-2 rounded-md' => $size === 'md',
         'p-4 rounded-lg' => $size === 'lg',

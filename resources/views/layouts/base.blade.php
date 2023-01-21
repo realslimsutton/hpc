@@ -36,6 +36,9 @@
 
         @vite(['resources/css/app.css', 'resources/js/app.js'])
 
+        @livewireStyles
+        @livewireScripts
+
         @stack('head.end')
     </head>
     <body class="antialiased bg-hpc-red">
@@ -50,6 +53,8 @@
 
             <x-page.footer/>
         </div>
+
+        @livewire('notifications')
 
         @stack('body.end')
     </body>

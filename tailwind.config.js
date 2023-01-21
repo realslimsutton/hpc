@@ -5,10 +5,10 @@ const defaultTheme = require('tailwindcss/defaultTheme');
 module.exports = {
     content: [
         './resources/**/*.blade.php',
-        './vendor/filament/support/*.blade.php',
-        './vendor/filament/notifications/*.blade.php',
-        './vendor/filament/forms/*.blade.php',
-        './vendor/filament/tables/*.blade.php'
+        './vendor/filament/support/**/*.blade.php',
+        './vendor/filament/notifications/**/*.blade.php',
+        './vendor/filament/forms/**/*.blade.php',
+        './vendor/filament/tables/**/*.blade.php'
     ],
     theme: {
         extend: {
