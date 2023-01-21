@@ -7,6 +7,7 @@ use Filament\Resources\Form;
 use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Resources\Table;
 use Filament\Tables;
+use NumberFormatter;
 
 class PlayersRelationManager extends RelationManager
 {
@@ -28,7 +29,7 @@ class PlayersRelationManager extends RelationManager
                     ->label('Net winnings')
                     ->sortable()
                     ->searchable()
-                    ->formatStateUsing(static fn($record, $state) => '$' . number_format($state, 2)),
+                    ->formatStateUsing(static fn($record, $state) => (new NumberFormatter())->formatCurrency($state, 'usd')),
                 Tables\Columns\TextColumn::make('pivot.vpip')
                     ->label('VPIP (%)')
                     ->sortable()
