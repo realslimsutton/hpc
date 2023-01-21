@@ -3,7 +3,6 @@
 namespace App\Filament\Resources\Tracker;
 
 use App\Filament\Resources\Tracker\ProfessionalPlayerResource\Pages;
-use App\Filament\Resources\Tracker\ProfessionalPlayerResource\RelationManagers;
 use App\Models\Tracker\ProfessionalPlayer;
 use Filament\Forms;
 use Filament\Resources\Form;
@@ -51,7 +50,7 @@ class ProfessionalPlayerResource extends Resource
                                 Forms\Components\Checkbox::make('enabled')
                                     ->label('Enabled')
                                     ->default(true)
-                                    ->helperText('If disabled, the player will not be viewable within the tracker')
+                                    ->helperText('If disabled, the player will not be viewable within the tracker'),
                             ]),
                     ]),
 
@@ -60,11 +59,11 @@ class ProfessionalPlayerResource extends Resource
                     ->schema([
                         Forms\Components\Placeholder::make('created_at')
                             ->label('Created at')
-                            ->content(static fn(?ProfessionalPlayer $record): string => $record?->created_at?->diffForHumans() ?? '-'),
+                            ->content(static fn (?ProfessionalPlayer $record): string => $record?->created_at?->diffForHumans() ?? '-'),
                         Forms\Components\Placeholder::make('updated_at')
                             ->label('Updated at')
-                            ->content(static fn(?ProfessionalPlayer $record): string => $record?->updated_at?->diffForHumans() ?? '-'),
-                    ])
+                            ->content(static fn (?ProfessionalPlayer $record): string => $record?->updated_at?->diffForHumans() ?? '-'),
+                    ]),
             ]);
     }
 
@@ -80,7 +79,7 @@ class ProfessionalPlayerResource extends Resource
                     ->label('Status')
                     ->enum([
                         true => 'Enabled',
-                        false => 'Disabled'
+                        false => 'Disabled',
                     ])
                     ->colors([
                         'success' => true,
@@ -97,7 +96,7 @@ class ProfessionalPlayerResource extends Resource
                 Tables\Columns\TextColumn::make('updated_at')
                     ->label('Updated at')
                     ->sortable()
-                    ->date()
+                    ->date(),
             ])
             ->filters([
                 //

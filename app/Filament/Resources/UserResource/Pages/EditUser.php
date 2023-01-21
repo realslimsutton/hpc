@@ -46,7 +46,7 @@ class EditUser extends EditRecord
                     ->color('danger')
                     ->icon('heroicon-o-x')
                     ->requiresConfirmation()
-                    ->hidden(static fn(EditUser $livewire) => $livewire->getRecord()->discord_id === null)
+                    ->hidden(static fn (EditUser $livewire) => $livewire->getRecord()->discord_id === null)
                     ->action('disconnectDiscord'),
             ]),
         ];

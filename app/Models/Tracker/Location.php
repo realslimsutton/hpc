@@ -11,7 +11,7 @@ class Location extends Model
     use HasFactory;
 
     protected $fillable = [
-        'name'
+        'name',
     ];
 
     public function professional_sessions(): HasMany

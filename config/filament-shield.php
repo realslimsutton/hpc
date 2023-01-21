@@ -64,7 +64,7 @@ return [
         'pages' => [],
 
         'widgets' => [
-            'AccountWidget'
+            'AccountWidget',
         ],
 
         'resources' => [],

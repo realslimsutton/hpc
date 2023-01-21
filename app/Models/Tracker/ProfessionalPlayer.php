@@ -12,11 +12,11 @@ class ProfessionalPlayer extends Model
 
     protected $fillable = [
         'name',
-        'enabled'
+        'enabled',
     ];
 
     protected $casts = [
-        'enabled' => 'boolean'
+        'enabled' => 'boolean',
     ];
 
     public function sessions(): BelongsToMany
@@ -28,7 +28,7 @@ class ProfessionalPlayer extends Model
                 'net_winnings',
                 'vpip',
                 'pfr',
-                'hours_played'
+                'hours_played',
             ]);
     }
 }

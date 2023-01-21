@@ -11,15 +11,15 @@ class Stake extends Model
 {
     use HasFactory;
 
-    protected $fillable =[
+    protected $fillable = [
         'small_blind',
-        'big_blind'
+        'big_blind',
     ];
 
     public function name(): Attribute
     {
         return Attribute::make(
-            get: fn() => '$' . $this->small_blind . '/' . $this->big_blind
+            get: fn () => '$'.$this->small_blind.'/'.$this->big_blind
         );
     }
 

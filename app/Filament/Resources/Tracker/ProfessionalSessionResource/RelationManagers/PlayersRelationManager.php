@@ -2,12 +2,12 @@
 
 namespace App\Filament\Resources\Tracker\ProfessionalSessionResource\RelationManagers;
 
+use Akaunting\Money\Money;
 use Filament\Forms;
 use Filament\Resources\Form;
 use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Resources\Table;
 use Filament\Tables;
-use NumberFormatter;
 
 class PlayersRelationManager extends RelationManager
 {
@@ -29,22 +29,22 @@ class PlayersRelationManager extends RelationManager
                     ->label('Net winnings')
                     ->sortable()
                     ->searchable()
-                    ->formatStateUsing(static fn($record, $state) => (new NumberFormatter())->formatCurrency($state, 'usd')),
+                    ->formatStateUsing(static fn ($record, $state) => Money::USD($state)),
                 Tables\Columns\TextColumn::make('pivot.vpip')
                     ->label('VPIP (%)')
                     ->sortable()
                     ->searchable()
-                    ->formatStateUsing(static fn($state) => number_format($state, 2) . '%'),
+                    ->formatStateUsing(static fn ($state) => number_format($state, 2).'%'),
                 Tables\Columns\TextColumn::make('pivot.pfr')
                     ->label('PFR (%)')
                     ->sortable()
                     ->searchable()
-                    ->formatStateUsing(static fn($state) => number_format($state, 2) . '%'),
+                    ->formatStateUsing(static fn ($state) => number_format($state, 2).'%'),
                 Tables\Columns\TextColumn::make('hours_played')
                     ->label('Hours played')
                     ->sortable()
                     ->searchable()
-                    ->formatStateUsing(static fn($state) => number_format($state, 1))
+                    ->formatStateUsing(static fn ($state) => number_format($state, 1)),
             ])
             ->filters([
                 //
@@ -53,28 +53,28 @@ class PlayersRelationManager extends RelationManager
                 Tables\Actions\CreateAction::make(),
                 Tables\Actions\AttachAction::make()
                     ->preloadRecordSelect()
-                    ->form(static fn(Tables\Actions\AttachAction $action): array => [
+                    ->form(static fn (Tables\Actions\AttachAction $action): array => [
                         $action->getRecordSelect(),
                         Forms\Components\TextInput::make('net_winnings')
                             ->label('Net winnings')
                             ->required()
                             ->numeric()
-                            ->afterStateHydrated(static fn($component, $state) => $state !== null ? $component->state($state / 100) : null)
-                            ->mask(static fn(Forms\Components\TextInput\Mask $mask) => $mask->money()),
+                            ->afterStateHydrated(static fn ($component, $state) => $state !== null ? $component->state($state / 100) : null)
+                            ->mask(static fn (Forms\Components\TextInput\Mask $mask) => $mask->money()),
                         Forms\Components\TextInput::make('vpip')
                             ->label('VPIP (%)')
                             ->required()
                             ->numeric()
-                            ->afterStateHydrated(static fn($component, $state) => $state !== null ? $component->state($state * 100) : null),
+                            ->afterStateHydrated(static fn ($component, $state) => $state !== null ? $component->state($state * 100) : null),
                         Forms\Components\TextInput::make('pfr')
                             ->label('PFR (%)')
                             ->required()
                             ->numeric()
-                            ->afterStateHydrated(static fn($component, $state) => $state !== null ? $component->state($state * 100) : null),
+                            ->afterStateHydrated(static fn ($component, $state) => $state !== null ? $component->state($state * 100) : null),
                         Forms\Components\TextInput::make('hours_played')
                             ->label('Hours played')
                             ->required()
-                            ->numeric()
+                            ->numeric(),
                     ]),
             ])
             ->actions([
@@ -99,7 +99,7 @@ class PlayersRelationManager extends RelationManager
                         Forms\Components\Checkbox::make('enabled')
                             ->label('Enabled')
                             ->default(true)
-                            ->helperText('If disabled, the player will not be viewable within the tracker')
+                            ->helperText('If disabled, the player will not be viewable within the tracker'),
                     ]),
                 Forms\Components\Fieldset::make('Session information')
                     ->schema([
@@ -107,23 +107,23 @@ class PlayersRelationManager extends RelationManager
                             ->label('Net winnings')
                             ->required()
                             ->numeric()
-                            ->afterStateHydrated(static fn($component, $state) => $state !== null ? $component->state($state / 100) : null)
-                            ->mask(static fn(Forms\Components\TextInput\Mask $mask) => $mask->money()),
+                            ->afterStateHydrated(static fn ($component, $state) => $state !== null ? $component->state($state / 100) : null)
+                            ->mask(static fn (Forms\Components\TextInput\Mask $mask) => $mask->money()),
                         Forms\Components\TextInput::make('vpip')
                             ->label('VPIP (%)')
                             ->required()
                             ->numeric()
-                            ->afterStateHydrated(static fn($component, $state) => $state !== null ? $component->state($state * 100) : null),
+                            ->afterStateHydrated(static fn ($component, $state) => $state !== null ? $component->state($state * 100) : null),
                         Forms\Components\TextInput::make('pfr')
                             ->label('PFR (%)')
                             ->required()
                             ->numeric()
-                            ->afterStateHydrated(static fn($component, $state) => $state !== null ? $component->state($state * 100) : null),
+                            ->afterStateHydrated(static fn ($component, $state) => $state !== null ? $component->state($state * 100) : null),
                         Forms\Components\TextInput::make('hours_played')
                             ->label('Hours played')
                             ->required()
-                            ->numeric()
-                    ])
+                            ->numeric(),
+                    ]),
             ]);
     }
 }

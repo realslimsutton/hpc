@@ -16,11 +16,11 @@ class ProfessionalSession extends Model
         'stream_link',
         'location_id',
         'poker_game_id',
-        'stake_id'
+        'stake_id',
     ];
 
     protected $casts = [
-        'date' => 'datetime'
+        'date' => 'datetime',
     ];
 
     public function location(): BelongsTo
@@ -47,7 +47,7 @@ class ProfessionalSession extends Model
                 'net_winnings',
                 'vpip',
                 'pfr',
-                'hours_played'
+                'hours_played',
             ]);
     }
 }

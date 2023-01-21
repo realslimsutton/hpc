@@ -15,34 +15,34 @@ class ProfessionalPlayerSession extends Pivot
         'net_winnings',
         'vpip',
         'pfr',
-        'hours_played'
+        'hours_played',
     ];
 
     protected $casts = [
-        'hours_played' => 'float'
+        'hours_played' => 'float',
     ];
 
     public function netWinnings(): Attribute
     {
         return Attribute::make(
-            get: fn() => $this->attributes['net_winnings'] / 100,
-            set: fn($value) => $value * 100
+            get: fn () => $this->attributes['net_winnings'] / 100,
+            set: fn ($value) => $value * 100
         );
     }
 
     public function vpip(): Attribute
     {
         return Attribute::make(
-            get: fn() => $this->attributes['vpip'] * 100,
-            set: fn($value) => $value / 100
+            get: fn () => $this->attributes['vpip'] * 100,
+            set: fn ($value) => $value / 100
         );
     }
 
     public function pfr(): Attribute
     {
         return Attribute::make(
-            get: fn() => $this->attributes['pfr'] * 100,
-            set: fn($value) => $value / 100
+            get: fn () => $this->attributes['pfr'] * 100,
+            set: fn ($value) => $value / 100
         );
     }
 }
