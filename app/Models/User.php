@@ -77,7 +77,7 @@ class User extends Authenticatable implements FilamentUser, HasName
 
     public function canAccessFilament(): bool
     {
-        return true;
+        return $this->can('page_Dashboard');
     }
 
     public function getFilamentName(): string

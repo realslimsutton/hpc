@@ -8,7 +8,7 @@ return [
         'navigation_badge' => true,
         'navigation_group' => true,
         'is_globally_searchable' => false,
-        'show_model_path' => true,
+        'show_model_path' => false,
     ],
 
     'auth_provider_model' => [
@@ -16,14 +16,14 @@ return [
     ],
 
     'super_admin' => [
-        'enabled' => true,
+        'enabled' => false,
         'name' => 'super_admin',
         'define_via_gate' => false,
         'intercept_gate' => 'before', // after
     ],
 
     'filament_user' => [
-        'enabled' => true,
+        'enabled' => false,
         'name' => 'filament_user',
     ],
 
@@ -61,12 +61,10 @@ return [
     'exclude' => [
         'enabled' => true,
 
-        'pages' => [
-            'Dashboard',
-        ],
+        'pages' => [],
 
         'widgets' => [
-            'AccountWidget', 'FilamentInfoWidget',
+            'AccountWidget'
         ],
 
         'resources' => [],

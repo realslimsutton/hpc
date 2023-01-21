@@ -10,6 +10,8 @@ use Spatie\Permission\PermissionRegistrar;
 class RolesPermissionsSeeder extends Seeder
 {
     private array $permissions = [
+        'page_Dashboard',
+
         'view_role',
         'view_any_role',
         'create_role',
