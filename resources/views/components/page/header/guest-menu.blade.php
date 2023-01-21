@@ -15,7 +15,7 @@
 
         <x-filament::dropdown.list.item
             icon="heroicon-o-user-add"
-            href="#"
+            :href="route('auth.register')"
         >
             Register
         </x-filament::dropdown.list.item>

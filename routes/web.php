@@ -15,4 +15,8 @@ use Illuminate\Support\Facades\Route;
 
 Route::view('/', 'index')->name('home');
 
-Route::view('/login', 'login')->name('auth.login');
+Route::middleware('guest')->name('auth.')->group(static function() {
+    Route::view('/login', 'auth.login')->name('login');
+
+    Route::view('/register', 'auth.register')->name('register');
+});

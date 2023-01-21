@@ -56,7 +56,7 @@
                     </x-page.header.link>
 
                     <li>
-                        <x-button tag="a" href="#" size="sm" class="uppercase">
+                        <x-button tag="a" :href="route('auth.register')" size="sm" class="uppercase">
                             Register
                         </x-button>
                     </li>

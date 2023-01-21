@@ -10,7 +10,7 @@
         icon="heroicon-o-user-circle"
         tag="div"
     >
-        {{ auth()->user()->name }}
+        {{ auth()->user()->full_name }}
     </x-filament::dropdown.header>
 
     <x-filament::dropdown.list>
