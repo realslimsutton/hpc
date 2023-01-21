@@ -2,7 +2,7 @@
     class="bg-gray-800 py-12 bg-center bg-cover bg-no-repeat text-white text-center"
     style="background-image: url('{{ asset_version('images/how-to-join-bg.jpg') }}')"
 >
-    <div class="w-full max-w-screen-2xl mx-auto px-4 flex flex-col items-center justify-center gap-8">
+    <div class="w-full max-w-screen-2xl mx-auto px-6 flex flex-col items-center justify-center gap-8">
         <h2 class="text-6xl font-bold">
             How to <span class="text-hpc-gold">Join</span> Highroll Poker Club
         </h2>

@@ -2,7 +2,7 @@
     class="relative py-12 bg-cover bg-no-repeat text-white after:absolute after:z-10 after:inset-0 after:bg-gray-900/50 text-center lg:text-left"
     style="background-image: url('{{ asset_version('images/about-bg.png') }}')"
 >
-    <div class="w-full max-w-screen-2xl mx-auto px-4 grid lg:grid-cols-2 gap-12 z-20 relative">
+    <div class="w-full max-w-screen-2xl mx-auto px-6 grid lg:grid-cols-2 gap-12 z-20 relative">
         <div class="grid sm:grid-cols-2 gap-8 items-center justify-center">
             <x-landing.about.stat
                 title="5,000+"

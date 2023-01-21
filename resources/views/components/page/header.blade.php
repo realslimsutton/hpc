@@ -13,7 +13,7 @@
     x-ref="header"
     x-on:scroll.window="onScroll"
 >
-    <div class="h-full relative w-full max-w-screen-2xl mx-auto px-4 flex items-center justify-between">
+    <div class="h-full relative w-full max-w-screen-2xl mx-auto px-6 flex items-center justify-between">
         <div class="h-full">
             <a href="{{ route('home') }}">
                 <img src="{{ asset_version('images/transparent-logo.png') }}" alt="Logo" class="h-full w-auto"/>
@@ -26,21 +26,17 @@
                     Home
                 </x-page.header.link>
 
-                <x-page.header.link>
-                    Games
-                </x-page.header.link>
-
-                <x-page.header.link>
-                    Home
-                </x-page.header.link>
+                <li>
+                    <x-page.header.game-menu placement="bottom-center"/>
+                </li>
 
                 <x-page.header.link>
                     FAQ
                 </x-page.header.link>
 
-                <x-page.header.link>
-                    Promotions
-                </x-page.header.link>
+                <li>
+                    <x-page.header.promotions-menu placement="bottom-center"/>
+                </li>
 
                 <x-page.header.link>
                     Tracker
@@ -55,17 +51,21 @@
 
             <ul class="flex items-center gap-4">
                 @guest
-                    <x-page.header.link>
+                    <x-page.header.link :href="route('auth.login')">
                         Login
                     </x-page.header.link>
 
-                    <x-button tag="a" href="#" size="sm" class="uppercase">
-                        Register
-                    </x-button>
+                    <li>
+                        <x-button tag="a" href="#" size="sm" class="uppercase">
+                            Register
+                        </x-button>
+                    </li>
                 @else
-                    <x-page.header.link>
-                        {{ auth()->user()->name }}
-                    </x-page.header.link>
+                    <li>
+                        <x-page.header.user-menu>
+                            My Account
+                        </x-page.header.user-menu>
+                    </li>
                 @endguest
             </ul>
         </nav>
@@ -73,12 +73,15 @@
         <nav class="flex lg:hidden items-center gap-6 py-5">
             <ul class="flex items-center gap-4">
                 <li>
-                    <a
-                        href="#"
-                        class="flex item-center justify-center text-white transition-colors hover:text-hpc-gold"
-                    >
-                        @svg('heroicon-o-user-circle', 'h-8 w-8')
-                    </a>
+                    @guest
+                        <x-page.header.guest-menu>
+                            @svg('heroicon-o-user-circle', 'h-8 w-8')
+                        </x-page.header.guest-menu>
+                    @else
+                        <x-page.header.user-menu>
+                            @svg('heroicon-o-user-circle', 'h-8 w-8')
+                        </x-page.header.user-menu>
+                    @endguest
                 </li>
                 <li>
                     <button
@@ -104,21 +107,17 @@
                     Home
                 </x-page.header.link>
 
-                <x-page.header.link>
-                    Games
-                </x-page.header.link>
-
-                <x-page.header.link>
-                    Home
-                </x-page.header.link>
+                <li>
+                    <x-page.header.game-menu placement="bottom-center"/>
+                </li>
 
                 <x-page.header.link>
                     FAQ
                 </x-page.header.link>
 
-                <x-page.header.link>
-                    Promotions
-                </x-page.header.link>
+                <li>
+                    <x-page.header.promotions-menu placement="bottom-center"/>
+                </li>
 
                 <x-page.header.link>
                     Tracker

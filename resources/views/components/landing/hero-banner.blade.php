@@ -2,7 +2,7 @@
     class="min-h-screen w-full bg-center bg-cover bg-no-repeat flex items-center justify-center py-[135px] text-center lg:text-left"
     style="background-image: url('{{ asset_version('/images/hero-banner-bg.jpg') }}')"
 >
-    <div class="w-full max-w-screen-2xl mx-auto px-4 grid lg:grid-cols-2 mt-8">
+    <div class="w-full max-w-screen-2xl mx-auto px-6 grid lg:grid-cols-2 mt-8">
         <div class="flex flex-col justify-center space-y-8">
             <div class="space-y-6">
                 <div class="space-y-4 lg:space-y-0">

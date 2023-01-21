@@ -1,7 +1,7 @@
 <section
     class="relative py-24 bg-gray-800 text-white text-center text-center lg:text-left"
 >
-    <div class="w-full max-w-screen-2xl mx-auto px-4 flex flex-col items-center justify-center gap-8">
+    <div class="w-full max-w-screen-2xl mx-auto px-6 flex flex-col items-center justify-center gap-8">
         <h2 class="text-6xl font-bold">
             Frequently <span class="text-hpc-gold">Asked</span> Questions
         </h2>

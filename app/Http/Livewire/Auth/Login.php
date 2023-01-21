@@ -10,7 +10,6 @@ use Filament\Forms\Components\Placeholder;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Concerns\InteractsWithForms;
 use Filament\Forms\Contracts\HasForms;
-use Filament\Notifications\Notification;
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\HtmlString;
 use Illuminate\Validation\ValidationException;
@@ -60,11 +59,6 @@ class Login extends Component implements HasForms
         }
 
         session()->regenerate();
-
-        Notification::make()
-            ->success()
-            ->title('You have been successfully logged in')
-            ->send();
 
         return redirect()->intended();
     }

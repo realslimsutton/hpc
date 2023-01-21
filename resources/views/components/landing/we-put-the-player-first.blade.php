@@ -2,7 +2,7 @@
     class="relative py-24 bg-cover bg-no-repeat text-white text-center after:absolute after:z-10 after:inset-0 after:bg-gray-900/50 text-center lg:text-left"
     style="background-image: url('{{ asset_version('images/we-put-the-player-first-bg.jpg') }}')"
 >
-    <div class="w-full max-w-screen-2xl mx-auto px-4 flex flex-col items-center justify-center gap-8 relative z-20">
+    <div class="w-full max-w-screen-2xl mx-auto px-6 flex flex-col items-center justify-center gap-8 relative z-20">
         <h2 class="text-6xl font-bold">
             We Put The Player <span class="text-hpc-gold">First</span>
         </h2>
