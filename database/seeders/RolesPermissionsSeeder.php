@@ -39,6 +39,6 @@ class RolesPermissionsSeeder extends Seeder
         Permission::query()->insert($permissions);
 
         Role::create(['name' => 'administrator'])
-            ->givePermissionTo($permissions);
+            ->givePermissionTo($this->permissions);
     }
 }
