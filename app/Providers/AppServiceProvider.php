@@ -29,6 +29,7 @@ class AppServiceProvider extends ServiceProvider
             Filament::registerViteTheme('resources/css/filament.css');
 
             Filament::registerNavigationGroups([
+                'Tracker',
                 'System',
             ]);
         });
