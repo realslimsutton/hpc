@@ -19,7 +19,7 @@
             Most Recent Episodes
         </h2>
 
-        <div class="grid lg:grid-cols-4 gap-6">
+        <div class="grid md:grid-cols-2 xl:grid-cols-4 gap-6">
             @foreach($latestSessions as $session)
                 <x-tracker.latest-session-rankings :session="$session"/>
             @endforeach

@@ -4,9 +4,11 @@ namespace App\Http\Controllers\Tracker;
 
 use App\Http\Controllers\Controller;
 use App\Models\Tracker\Location;
+use App\Models\Tracker\ProfessionalPlayerSession;
 use App\Models\Tracker\ProfessionalSession;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Str;
 
 class IndexController extends Controller
 {
@@ -23,18 +25,7 @@ class IndexController extends Controller
 
         $locationRankings = $this->getLocationRankings($locations);
 
-        $latestSessions = ProfessionalSession::query()
-            ->with([
-                'stake',
-                'poker_game',
-                'players'
-            ])
-            ->latest('date')
-            ->limit(4)
-            ->get()
-            ->map(static fn(ProfessionalSession $session): ProfessionalSession => $session
-                ->setRelation('location', $locations[$session->location_id])
-            );
+        $latestSessions = $this->getLatestSessions($locations);
 
         return view('tracker.index', [
             'locations' => $locations,
@@ -43,83 +34,143 @@ class IndexController extends Controller
         ]);
     }
 
-    private function getLocationRankings(Collection $locations): array
+    private function getLatestSessions(Collection $locations): array
     {
-        $locationRankings = collect($this->getCumulativeTotals($locations))
-            ->map(static fn(array $rankings) => [
-                'highest' => collect($rankings)
-                    ->sortByDesc('net_winnings')
-                    ->take(5)
-                    ->all(),
-                'lowest' => collect($rankings)
-                    ->sortBy('net_winnings')
-                    ->take(5)
-                    ->all()
-            ]);
+        $cacheKey = 'tracking.latest-sessions';
 
-        return $locationRankings->all();
-    }
-
-    private function getCumulativeTotals(Collection $locations): array
-    {
-        $totals = [];
-
-        foreach ($locations as $location) {
-            $cacheKey = 'tracker.location.' . $location->id . '.rankings';
-
-            if (!$rankings = null) {
-                $rankings = $this->calculateLocationRankings($location);
-
-                Cache::forever($cacheKey, $rankings);
-            }
-
-            $totals[$location->id] = $rankings;
+        if($sessions = Cache::get($cacheKey)) {
+            return $sessions;
         }
 
-        return $totals;
+        $sessions = ProfessionalSession::query()
+            ->with([
+                'stake',
+                'poker_game',
+                'players' => function($query) {
+                    $query->orderByDesc('net_winnings');
+                }
+            ])
+            ->latest('date')
+            ->limit(4)
+            ->get()
+            ->map(static fn(ProfessionalSession $session): ProfessionalSession => $session
+                ->setRelation('location', $locations[$session->location_id])
+            )
+            ->toArray();
+
+        Cache::forever($cacheKey, $sessions);
+
+        return $sessions;
     }
 
-    private function calculateLocationRankings(Location $location): array
+    private function getLocationRankings(Collection $locations): array
     {
         $rankings = [];
 
-        $sessions = $location->professional_sessions()
+        foreach ($locations as $location) {
+            $rankings[$location->id] = [
+                'highest' => $this->loadHighRankings($location),
+                'lowest' => $this->loadLowRankings($location)
+            ];
+        }
+
+        return $rankings;
+    }
+
+    private function loadHighRankings(Location $location): array
+    {
+        $cacheKey = 'tracking.location.' . $location->id . '.rankings.high';
+
+        if ($rankings = Cache::get($cacheKey)) {
+            return $rankings;
+        }
+
+        $rankings = $this->calculateLocationRankings($location, 'desc');
+
+        Cache::forever($cacheKey, $rankings);
+
+        return $rankings;
+    }
+
+    private function calculateLocationRankings(Location $location, string $direction): array
+    {
+        $playerIds = ProfessionalPlayerSession::query()
+            ->selectRaw('professional_player_id, SUM(net_winnings) as sum_net_winnings')
+            ->groupBy('professional_player_id')
+            ->orderBy('sum_net_winnings', $direction)
+            ->join(
+                'professional_sessions',
+                'professional_player_sessions.professional_session_id',
+                '=',
+                'professional_sessions.id'
+            )
+            ->join(
+                'professional_players',
+                'professional_player_sessions.professional_player_id',
+                '=',
+                'professional_players.id'
+            )
+            ->where('professional_sessions.location_id', '=', $location->id)
+            ->where('professional_players.enabled', '=', 1)
+            ->limit(5)
+            ->pluck('professional_player_id');
+
+        $results = ProfessionalPlayerSession::query()
             ->with([
-                'players'
+                'professional_player'
             ])
+            ->join(
+                'professional_sessions',
+                'professional_player_sessions.professional_session_id',
+                '=',
+                'professional_sessions.id'
+            )
+            ->where('professional_sessions.location_id', '=', $location->id)
+            ->whereIn('professional_player_id', $playerIds)
             ->lazy();
 
-        foreach ($sessions as $session) {
-            foreach ($session->players as $player) {
-                if (!$player->enabled) {
-                    continue;
-                }
+        $rankings = [];
 
-                if (!isset($rankings->player->name)) {
-                    $rankings[$player->name] = [
-                        'net_winnings' => 0,
-                        'vpip' => 0,
-                        'pfr' => 0,
-                        'session_count' => 0
-                    ];
-                }
-
-                $rankings[$player->name]['net_winnings'] += $player->pivot->net_winnings;
-                $rankings[$player->name]['vpip'] += $player->pivot->vpip;
-                $rankings[$player->name]['pfr'] += $player->pivot->pfr;
-                $rankings[$player->name]['session_count']++;
-            }
-        }
-
-        foreach ($rankings as $player) {
-            $sessionCount = $player['session_count'];
-            if ($sessionCount === 0) {
-                continue;
+        foreach ($results as $result) {
+            if (!isset($rankings[$result->professional_player->name])) {
+                $rankings[$result->professional_player->name] = [
+                    'net_winnings' => 0,
+                    'vpip' => 0,
+                    'pfr' => 0,
+                    'count' => 0
+                ];
             }
 
-            $player['vpip'] /= $sessionCount;
-            $player['pfr'] /= $sessionCount;
+            $rankings[$result->professional_player->name]['net_winnings'] += $result->net_winnings;
+            $rankings[$result->professional_player->name]['vpip'] += $result->vpip;
+            $rankings[$result->professional_player->name]['pfr'] += $result->pfr;
+            $rankings[$result->professional_player->name]['count']++;
         }
+
+        return collect($rankings)
+            ->map(static fn(array $ranking) => [
+                'net_winnings' => $ranking['net_winnings'],
+                'vpip' => $ranking['vpip'] / $ranking['count'],
+                'pfr' => $ranking['pfr'] / $ranking['count']
+            ])
+            ->sortBy(
+                callback: 'net_winnings',
+                descending: Str::lower($direction) === 'desc'
+            )
+            ->all();
+    }
+
+    private function loadLowRankings(Location $location): array
+    {
+        $cacheKey = 'tracking.location.' . $location->id . '.rankings.low';
+
+        if ($rankings = Cache::get($cacheKey)) {
+            return $rankings;
+        }
+
+        $rankings = $this->calculateLocationRankings($location, 'asc');
+
+        Cache::forever($cacheKey, $rankings);
 
         return $rankings;
     }

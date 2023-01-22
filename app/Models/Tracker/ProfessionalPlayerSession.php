@@ -9,6 +9,8 @@ use Illuminate\Support\Facades\Cache;
 
 class ProfessionalPlayerSession extends Pivot
 {
+    protected $table = 'professional_player_sessions';
+
     public $timestamps = false;
 
     protected $fillable = [

@@ -8,34 +8,34 @@
 >
     <div>
         <h3 class="text-xl font-semibold">
-            {{ $session->name }}
+            {{ $session['name'] }}
         </h3>
 
         <h4 class="font-medium">
-            <span class="text-hpc-gold">Table Stakes:</span> {{ $session->stake->name }}
+            <span class="text-hpc-gold">Table Stakes:</span> {{ $session['stake']['name'] }}
         </h4>
 
         <h4 class="font-medium">
-            <span class="text-hpc-gold">Game Played:</span> {{ $session->poker_game->name }}
+            <span class="text-hpc-gold">Game Played:</span> {{ $session['poker_game']['name'] }}
         </h4>
 
         <h4 class="font-medium">
-            <span class="text-hpc-gold">Location:</span> {{ $session->location->name }}
+            <span class="text-hpc-gold">Location:</span> {{ $session['location']['name'] }}
         </h4>
 
         <h4 class="font-medium">
-            <span class="text-hpc-gold">Date:</span> {{ $session->date->format('M j, Y') }}
+            <span class="text-hpc-gold">Date:</span> {{ Carbon\Carbon::parse($session['date'])->format('M j, Y') }}
         </h4>
 
         <a
-            href="{{ $session->stream_url }}"
+            href="{{ $session['stream_url'] }}"
             class="font-medium text-hpc-gold transition-colors hover:text-white"
         >
             View Stream
         </a>
     </div>
 
-    <div>
+    <div class="overflow-x-auto">
         <table class="w-full text-center">
             <thead>
                 <tr>
@@ -56,34 +56,34 @@
             </thead>
 
             <tbody>
-                @foreach($session->players->sortByDesc('pivot.net_winnings') as $player)
+                @foreach($session['players'] as $player)
                     <tr>
                         <td>
                             {{ $loop->iteration }}
                         </td>
 
                         <td>
-                            {{ $player->name }}
+                            {{ $player['name'] }}
                         </td>
 
                         <td>
-                            @if($player->pivot->net_winnings > 0)
+                            @if($player['pivot']['net_winnings'] > 0)
                                 <span class="text-green-500">
-                                    {{ \Akaunting\Money\Money::USD($player->pivot->net_winnings * 100) }}
+                                    {{ \Akaunting\Money\Money::USD($player['pivot']['net_winnings'] * 100) }}
                                 </span>
                             @else
                                 <span class="text-rose-500">
-                                    {{ \Akaunting\Money\Money::USD($player->pivot->net_winnings * 100) }}
+                                    {{ \Akaunting\Money\Money::USD($player['pivot']['net_winnings'] * 100) }}
                                 </span>
                             @endif
                         </td>
 
                         <td>
-                            {{ number_format($player->pivot->vpip) }}%
+                            {{ number_format($player['pivot']['vpip']) }}%
                         </td>
 
                         <td>
-                            {{ number_format($player->pivot->pfr) }}%
+                            {{ number_format($player['pivot']['pfr']) }}%
                         </td>
                     </tr>
                 @endforeach
