@@ -1,7 +1,17 @@
 <x-filament::dropdown :attributes="$attributes">
     <x-slot:trigger>
         <span
-            class="flex items-center justify-center gap-0.5 p-4 lg:p-0 text-white uppercase font-semibold transition-colors hover:text-hpc-gold">
+            @class([
+                'flex items-center justify-center gap-0.5 p-4 lg:p-0 text-white uppercase font-semibold transition-colors hover:text-hpc-gold focu:text-hpc-gold',
+                '!text-hpc-gold' => in_array(Route::currentRouteName(), [
+                    'games.no-limit-holdem',
+                    'games.pot-limit-omaha',
+                    'games.hand-rankings',
+                    'games.tournaments',
+                    'games.payout-structure'
+                 ])
+            ])
+        >
             <span>
                 Games
             </span>

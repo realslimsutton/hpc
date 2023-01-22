@@ -12,6 +12,7 @@
     }"
     x-ref="header"
     x-on:scroll.window="onScroll"
+    x-on:click.away="expanded = false"
 >
     <div class="h-full relative w-full max-w-screen-2xl mx-auto px-6 flex items-center justify-between">
         <div class="h-full">
@@ -22,7 +23,10 @@
 
         <nav class="hidden lg:flex items-center gap-6 py-5">
             <ul class="flex items-center gap-4">
-                <x-page.header.link :href="route('home')">
+                <x-page.header.link
+                    :href="route('home')"
+                    :routes="['home']"
+                >
                     Home
                 </x-page.header.link>
 
@@ -38,7 +42,10 @@
                     <x-page.header.promotions-menu placement="bottom-center"/>
                 </li>
 
-                <x-page.header.link :to="route('tracker.index')">
+                <x-page.header.link
+                    :to="route('tracker.index')"
+                    :routes="['tracker.index']"
+                >
                     Tracker
                 </x-page.header.link>
 
@@ -51,12 +58,21 @@
 
             <ul class="flex items-center gap-4">
                 @guest
-                    <x-page.header.link :href="route('auth.login')">
+                    <x-page.header.link
+                        :href="route('auth.login')"
+                        :routes="['auth.login']"
+                    >
                         Login
                     </x-page.header.link>
 
                     <li>
-                        <x-button tag="a" :href="route('auth.register')" size="sm" class="uppercase">
+                        <x-button
+                            tag="a"
+                            :href="route('auth.register')"
+                            size="sm"
+                            class="uppercase"
+                            :routes="['auth.register']"
+                        >
                             Register
                         </x-button>
                     </li>
@@ -103,7 +119,10 @@
     >
         <nav class="bg-gray-900">
             <ul>
-                <x-page.header.link :href="route('home')">
+                <x-page.header.link
+                    :href="route('home')"
+                    :routes="['home']"
+                >
                     Home
                 </x-page.header.link>
 
@@ -119,7 +138,10 @@
                     <x-page.header.promotions-menu placement="bottom-center"/>
                 </li>
 
-                <x-page.header.link :to="route('tracker.index')">
+                <x-page.header.link
+                    :to="route('tracker.index')"
+                    :routes="['tracker.index']"
+                >
                     Tracker
                 </x-page.header.link>
 
