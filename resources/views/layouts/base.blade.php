@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" class="hpc-scrollbar">
     <head>
         <meta charset="utf-8">
         <meta name="application-name" content="{{ config('app.name') }}">

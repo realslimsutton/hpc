@@ -6,6 +6,18 @@
     </x-page.banner>
 
     <div class="w-full mx-auto px-6 my-20 mt-0 md:mt-20 py-12 text-white space-y-12 space-y-12">
+        <div class="w-full max-w-xl mx-auto flex flex-col items-center justify-center gap-4">
+            @livewire('tracker.search')
+
+            @if($lastUpdated !== null)
+                <div>
+                    <h2 class="text-lg font-semibold text-center">
+                        Last updated: {{ $lastUpdated->diffForHumans() }}
+                    </h2>
+                </div>
+            @endif
+        </div>
+
         <div class="w-full max-w-screen-2xl mx-auto grid lg:grid-cols-3 gap-6">
             @foreach($locations as $location)
                 <x-tracker.location-rankings

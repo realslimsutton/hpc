@@ -6,12 +6,15 @@ use App\Http\Controllers\Controller;
 use App\Models\Tracker\Location;
 use App\Models\Tracker\ProfessionalPlayerSession;
 use App\Models\Tracker\ProfessionalSession;
+use DateTimeInterface;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Str;
 
 class IndexController extends Controller
 {
+    private ?DateTimeInterface $lastUpdated = null;
+
     public function __invoke()
     {
         $locations = $this->getLocations();
@@ -20,11 +23,25 @@ class IndexController extends Controller
 
         $latestSessions = $this->getLatestSessions($locations);
 
+        $lastUpdated = $this->getLastUpdated();
+
         return view('tracker.index', [
             'locations' => $locations,
             'locationRankings' => $locationRankings,
-            'latestSessions' => $latestSessions
+            'latestSessions' => $latestSessions,
+            'lastUpdated' => $lastUpdated
         ]);
+    }
+
+    private function getLastUpdated(): ?DateTimeInterface
+    {
+        if($this->lastUpdated !== null) {
+            Cache::forever('tracking.index.last-updated', $this->lastUpdated);
+
+            return $this->lastUpdated;
+        }
+
+        return Cache::get('tracking.index.last-updated');
     }
 
     private function getLocations(): array
@@ -46,6 +63,8 @@ class IndexController extends Controller
             ->toArray();
 
         Cache::forever($cacheKey, $locations);
+
+        $this->updateLastUpdated();
 
         return $locations;
     }
@@ -75,6 +94,8 @@ class IndexController extends Controller
         $rankings = $this->calculateLocationRankings($location, 'desc');
 
         Cache::forever($cacheKey, $rankings);
+
+        $this->updateLastUpdated();
 
         return $rankings;
     }
@@ -159,6 +180,8 @@ class IndexController extends Controller
 
         Cache::forever($cacheKey, $rankings);
 
+        $this->updateLastUpdated();
+
         return $rankings;
     }
 
@@ -188,6 +211,13 @@ class IndexController extends Controller
 
         Cache::forever($cacheKey, $sessions);
 
+        $this->updateLastUpdated();
+
         return $sessions;
+    }
+
+    private function updateLastUpdated(): void
+    {
+        $this->lastUpdated = now();
     }
 }

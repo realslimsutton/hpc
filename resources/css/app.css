@@ -8,6 +8,34 @@
     display: none !important;
 }
 
+::-moz-selection {
+    @apply bg-hpc-gold;
+    @apply text-hpc-red;
+}
+
+::selection {
+    @apply bg-hpc-gold;
+    @apply text-hpc-red;
+}
+
+.hpc-scrollbar::-webkit-scrollbar {
+    width: 8px;
+}
+
+.hpc-scrollbar {
+    scrollbar-width: thin;
+    scrollbar-color: theme('colors.hpc.gold.DEFAULT') theme('colors.hpc.red.DEFAULT');
+}
+
+.hpc-scrollbar::-webkit-scrollbar-track {
+    @apply bg-hpc-red;
+}
+
+.hpc-scrollbar::-webkit-scrollbar-thumb {
+    @apply bg-hpc-gold;
+}
+
+
 #main-header {
     @apply h-[135px];
 }

@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "416a76bb3e6202b0761617438db416bc",
+    "content-hash": "37cad03d53424e9d404e23132f66bbbe",
     "packages": [
         {
             "name": "akaunting/laravel-money",
@@ -3457,6 +3457,72 @@
                 }
             ],
             "time": "2022-07-30T15:51:26+00:00"
+        },
+        {
+            "name": "protonemedia/laravel-cross-eloquent-search",
+            "version": "3.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/protonemedia/laravel-cross-eloquent-search.git",
+                "reference": "ad00faf1f6029f7eb96a934560aaaed32c5ef268"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/protonemedia/laravel-cross-eloquent-search/zipball/ad00faf1f6029f7eb96a934560aaaed32c5ef268",
+                "reference": "ad00faf1f6029f7eb96a934560aaaed32c5ef268",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/support": "^9.0",
+                "nesbot/carbon": "^2.63",
+                "php": "^8.0|^8.1|^8.2"
+            },
+            "require-dev": {
+                "mockery/mockery": "^1.3.3",
+                "orchestra/testbench": "^7.0",
+                "phpunit/phpunit": "^9.4"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "ProtoneMedia\\LaravelCrossEloquentSearch\\ServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "ProtoneMedia\\LaravelCrossEloquentSearch\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Pascal Baljet",
+                    "email": "pascal@protone.media",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Laravel package to search through multiple Eloquent models. Supports pagination, eager loading relations, single/multiple columns, sorting and scoped queries.",
+            "homepage": "https://github.com/protonemedia/laravel-cross-eloquent-search",
+            "keywords": [
+                "laravel-cross-eloquent-search",
+                "protonemedia"
+            ],
+            "support": {
+                "issues": "https://github.com/protonemedia/laravel-cross-eloquent-search/issues",
+                "source": "https://github.com/protonemedia/laravel-cross-eloquent-search/tree/3.1.0"
+            },
+            "funding": [
+                {
+                    "url": "https://github.com/pascalbaljet",
+                    "type": "github"
+                }
+            ],
+            "time": "2022-12-09T12:10:58+00:00"
         },
         {
             "name": "psr/container",
