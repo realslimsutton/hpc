@@ -28,7 +28,7 @@ class IndexController extends Controller
             'locations' => $locations,
             'locationRankings' => $locationRankings,
             'latestSessions' => $latestSessions,
-            'lastUpdated' => $lastUpdated
+            'lastUpdated' => $lastUpdated,
         ]);
     }
 
@@ -42,11 +42,11 @@ class IndexController extends Controller
 
         $locations = Location::query()
             ->with([
-                'featured_image'
+                'featured_image',
             ])
             ->get()
-            ->mapWithKeys(static fn(Location $location): array => [
-                $location->id => $location
+            ->mapWithKeys(static fn (Location $location): array => [
+                $location->id => $location,
             ])
             ->toArray();
 
@@ -69,7 +69,7 @@ class IndexController extends Controller
         foreach ($locations as $location) {
             $rankings[$location['id']] = [
                 'highest' => $this->loadHighRankings($location),
-                'lowest' => $this->loadLowRankings($location)
+                'lowest' => $this->loadLowRankings($location),
             ];
         }
 
@@ -78,7 +78,7 @@ class IndexController extends Controller
 
     private function loadHighRankings(array $location): array
     {
-        $cacheKey = 'tracking.index.location.' . $location['id'] . '.rankings.highest';
+        $cacheKey = 'tracking.index.location.'.$location['id'].'.rankings.highest';
 
         if ($rankings = Cache::get($cacheKey)) {
             return $rankings;
@@ -118,7 +118,7 @@ class IndexController extends Controller
 
         $results = ProfessionalPlayerSession::query()
             ->with([
-                'professional_player'
+                'professional_player',
             ])
             ->join(
                 'professional_sessions',
@@ -133,13 +133,13 @@ class IndexController extends Controller
         $rankings = [];
 
         foreach ($results as $result) {
-            if (!isset($rankings[$result->professional_player->id])) {
+            if (! isset($rankings[$result->professional_player->id])) {
                 $rankings[$result->professional_player->id] = [
                     'name' => $result->professional_player->name,
                     'net_winnings' => 0,
                     'vpip' => 0,
                     'pfr' => 0,
-                    'count' => 0
+                    'count' => 0,
                 ];
             }
 
@@ -150,11 +150,11 @@ class IndexController extends Controller
         }
 
         return collect($rankings)
-            ->map(static fn(array $ranking) => [
+            ->map(static fn (array $ranking) => [
                 'name' => $ranking['name'],
                 'net_winnings' => $ranking['net_winnings'],
                 'vpip' => $ranking['vpip'] / $ranking['count'],
-                'pfr' => $ranking['pfr'] / $ranking['count']
+                'pfr' => $ranking['pfr'] / $ranking['count'],
             ])
             ->sortBy(
                 callback: 'net_winnings',
@@ -165,7 +165,7 @@ class IndexController extends Controller
 
     private function loadLowRankings(array $location): array
     {
-        $cacheKey = 'tracking.index.location.' . $location['id'] . '.rankings.lowest';
+        $cacheKey = 'tracking.index.location.'.$location['id'].'.rankings.lowest';
 
         if ($rankings = Cache::get($cacheKey)) {
             return $rankings;
@@ -194,12 +194,12 @@ class IndexController extends Controller
                 'poker_game',
                 'players' => function ($query) {
                     $query->orderByDesc('net_winnings');
-                }
+                },
             ])
             ->latest('date')
             ->limit(4)
             ->get()
-            ->map(static fn(ProfessionalSession $session): ProfessionalSession => $session
+            ->map(static fn (ProfessionalSession $session): ProfessionalSession => $session
                 ->setRelation('location', new Location($locations[$session->location_id]))
             )
             ->toArray();

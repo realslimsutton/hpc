@@ -19,7 +19,7 @@ class ProfessionalPlayerFactory extends Factory
         return [
             'name' => $this->faker->name(),
             'biography' => $this->faker->paragraphs(2, true),
-            'enabled' => true
+            'enabled' => true,
         ];
     }
 }

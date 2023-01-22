@@ -19,7 +19,7 @@ class Stake extends Model
 
     protected static function booted(): void
     {
-        $clearCache = static function() {
+        $clearCache = static function () {
             Cache::forget('tracking.index.latest-sessions');
         };
 

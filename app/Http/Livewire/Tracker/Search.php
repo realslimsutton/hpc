@@ -19,7 +19,7 @@ class Search extends Component
     public function render(): View
     {
         return view('livewire.tracker.search', [
-            'results' => $this->getSearchResults()
+            'results' => $this->getSearchResults(),
         ]);
     }
 
@@ -51,7 +51,7 @@ class Search extends Component
             ->add(
                 ProfessionalPlayer::query()
                     ->with([
-                        'featured_image'
+                        'featured_image',
                     ]),
                 'name'
             )
@@ -59,14 +59,14 @@ class Search extends Component
                 ProfessionalSession::query()
                     ->with([
                         'location',
-                        'location.featured_image'
+                        'location.featured_image',
                     ]),
                 'name'
             )
             ->add(
                 Location::query()
                     ->with([
-                        'featured_image'
+                        'featured_image',
                     ]),
                 'name'
             )

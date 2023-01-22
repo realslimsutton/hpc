@@ -78,7 +78,11 @@ class ProfessionalPlayerResource extends Resource
                                 Forms\Components\DatePicker::make('date_of_birth')
                                     ->label('Date of birth')
                                     ->nullable()
-                                    ->maxDate(now())
+                                    ->maxDate(now()),
+                                Forms\Components\TextInput::make('nickname')
+                                    ->label('Nickname')
+                                    ->nullable()
+                                    ->maxLength(255),
                             ]),
                     ]),
 
@@ -91,10 +95,10 @@ class ProfessionalPlayerResource extends Resource
                             ->helperText('If disabled, the player will not be viewable within the tracker'),
                         Forms\Components\Placeholder::make('created_at')
                             ->label('Created at')
-                            ->content(static fn(?ProfessionalPlayer $record): string => $record?->created_at?->diffForHumans() ?? '-'),
+                            ->content(static fn (?ProfessionalPlayer $record): string => $record?->created_at?->diffForHumans() ?? '-'),
                         Forms\Components\Placeholder::make('updated_at')
                             ->label('Updated at')
-                            ->content(static fn(?ProfessionalPlayer $record): string => $record?->updated_at?->diffForHumans() ?? '-'),
+                            ->content(static fn (?ProfessionalPlayer $record): string => $record?->updated_at?->diffForHumans() ?? '-'),
                     ]),
             ]);
     }

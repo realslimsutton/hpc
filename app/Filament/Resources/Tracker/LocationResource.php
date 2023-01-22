@@ -3,7 +3,6 @@
 namespace App\Filament\Resources\Tracker;
 
 use App\Filament\Resources\Tracker\LocationResource\Pages;
-use App\Filament\Resources\Tracker\LocationResource\RelationManagers;
 use App\Models\Tracker\Location;
 use Awcodes\Curator\Components\Forms\CuratorPicker;
 use Awcodes\Curator\Components\Tables\CuratorColumn;
@@ -53,7 +52,7 @@ class LocationResource extends Resource
                                     ->label('Name')
                                     ->required()
                                     ->maxLength(255),
-                            ])
+                            ]),
                     ]),
 
                 Forms\Components\Card::make()
@@ -61,10 +60,10 @@ class LocationResource extends Resource
                     ->schema([
                         Forms\Components\Placeholder::make('created_at')
                             ->label('Created at')
-                            ->content(static fn(?Location $record): string => $record?->created_at?->diffForHumans() ?? '-'),
+                            ->content(static fn (?Location $record): string => $record?->created_at?->diffForHumans() ?? '-'),
                         Forms\Components\Placeholder::make('updated_at')
                             ->label('Updated at')
-                            ->content(static fn(?Location $record): string => $record?->updated_at?->diffForHumans() ?? '-'),
+                            ->content(static fn (?Location $record): string => $record?->updated_at?->diffForHumans() ?? '-'),
                     ]),
             ]);
     }
@@ -87,7 +86,7 @@ class LocationResource extends Resource
                 Tables\Columns\TextColumn::make('updated_at')
                     ->label('Updated at')
                     ->sortable()
-                    ->date()
+                    ->date(),
             ])
             ->filters([
                 //
@@ -111,7 +110,7 @@ class LocationResource extends Resource
     {
         return parent::getEloquentQuery()
             ->with([
-                'featured_image'
+                'featured_image',
             ]);
     }
 

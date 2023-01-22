@@ -31,7 +31,7 @@ Route::prefix('/games')->name('games.')->group(static function () {
     Route::view('/payout-structure', 'games.payout-structure')->name('payout-structure');
 });
 
-Route::prefix('/tracker')->name('tracker.')->group(static function() {
+Route::prefix('/tracker')->name('tracker.')->group(static function () {
     Route::get('/', TrackerIndexController::class)->name('index');
 
     Route::get('/player/{player}', [TrackerPlayerController::class, 'show'])->name('player');

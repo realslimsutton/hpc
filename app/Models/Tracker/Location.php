@@ -15,16 +15,16 @@ class Location extends Model
 
     protected $fillable = [
         'name',
-        'featured_image_id'
+        'featured_image_id',
     ];
 
     protected static function booted(): void
     {
-        $clearCache = static function(Location $model): void {
+        $clearCache = static function (Location $model): void {
             Cache::forget('tracking.index.locations');
 
-            Cache::forget('tracking.index.location.' . $model->id . '.rankings.highest');
-            Cache::forget('tracking.index.location.' . $model->id . '.rankings.lowest');
+            Cache::forget('tracking.index.location.'.$model->id.'.rankings.highest');
+            Cache::forget('tracking.index.location.'.$model->id.'.rankings.lowest');
 
             Cache::forget('tracking.index.latest-sessions');
         };

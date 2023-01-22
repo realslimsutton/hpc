@@ -3,7 +3,6 @@
 namespace App\Filament\Resources\Tracker\LocationResource\Pages;
 
 use App\Filament\Resources\Tracker\LocationResource;
-use Filament\Pages\Actions;
 use Filament\Resources\Pages\CreateRecord;
 
 class CreateLocation extends CreateRecord

@@ -28,8 +28,8 @@ class ProfessionalPlayerSession extends Pivot
 
     protected static function booted(): void
     {
-        static::updating(static function(ProfessionalPlayerSession $model): void {
-            Cache::forget('tracker.location.' . $model->professional_session->location_id . '.rankings');
+        static::updating(static function (ProfessionalPlayerSession $model): void {
+            Cache::forget('tracker.location.'.$model->professional_session->location_id.'.rankings');
         });
     }
 

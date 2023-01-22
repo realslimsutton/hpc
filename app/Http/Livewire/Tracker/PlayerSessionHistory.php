@@ -42,7 +42,7 @@ class PlayerSessionHistory extends Component implements HasTable
                         ->label('Location')
                         ->sortable()
                         ->searchable()
-                        ->formatStateUsing(static fn($state) => new HtmlString('<span class="text-hpc-gold text-sm">' . $state . '</span>')),
+                        ->formatStateUsing(static fn ($state) => new HtmlString('<span class="text-hpc-gold text-sm">'.$state.'</span>')),
                 ]),
                 TextColumn::make('net_winnings')
                     ->sortable()
@@ -51,24 +51,24 @@ class PlayerSessionHistory extends Component implements HasTable
                         $formattedState = Money::USD($state);
 
                         if ($state > 0) {
-                            return new HtmlString('<span class="text-green-500">' . $formattedState . '</span>');
+                            return new HtmlString('<span class="text-green-500">'.$formattedState.'</span>');
                         }
 
-                        return new HtmlString('<span class="text-rose-500">' . $formattedState . '</span>');
+                        return new HtmlString('<span class="text-rose-500">'.$formattedState.'</span>');
                     }),
                 TextColumn::make('vpip')
                     ->sortable()
-                    ->formatStateUsing(static fn($state) => number_format($state * 100) . '%')
+                    ->formatStateUsing(static fn ($state) => number_format($state * 100).'%')
                     ->description('VPIP (%)', position: 'above'),
                 TextColumn::make('pfr')
                     ->sortable()
-                    ->formatStateUsing(static fn($state) => number_format($state * 100) . '%')
+                    ->formatStateUsing(static fn ($state) => number_format($state * 100).'%')
                     ->description('PFR (%)', position: 'above'),
                 TextColumn::make('hours_played')
                     ->sortable()
-                    ->formatStateUsing(static fn($state) => number_format($state, 1))
-                    ->description('Hours Played', position: 'above')
-            ])->from('md')
+                    ->formatStateUsing(static fn ($state) => number_format($state, 1))
+                    ->description('Hours Played', position: 'above'),
+            ])->from('md'),
         ];
     }
 
@@ -86,7 +86,7 @@ class PlayerSessionHistory extends Component implements HasTable
     {
         return $this->player->professional_sessions()
             ->with([
-                'location'
+                'location',
             ])
             ->getQuery();
     }

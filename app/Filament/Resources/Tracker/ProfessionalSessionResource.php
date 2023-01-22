@@ -59,7 +59,7 @@ class ProfessionalSessionResource extends Resource
 
                                         $set(
                                             'name',
-                                            'Episode ' . ProfessionalSession::query()
+                                            'Episode '.ProfessionalSession::query()
                                                 ->where('location_id', '=', $state)
                                                 ->count() + 1
                                         );
@@ -71,7 +71,7 @@ class ProfessionalSessionResource extends Resource
                                                     ->label('Name')
                                                     ->required()
                                                     ->maxLength(255),
-                                            ])
+                                            ]),
                                     ]),
                                 Forms\Components\Select::make('poker_game_id')
                                     ->label('Game played')
@@ -123,10 +123,10 @@ class ProfessionalSessionResource extends Resource
                     ->schema([
                         Forms\Components\Placeholder::make('created_at')
                             ->label('Created at')
-                            ->content(static fn(?ProfessionalSession $record): string => $record?->created_at?->diffForHumans() ?? '-'),
+                            ->content(static fn (?ProfessionalSession $record): string => $record?->created_at?->diffForHumans() ?? '-'),
                         Forms\Components\Placeholder::make('updated_at')
                             ->label('Updated at')
-                            ->content(static fn(?ProfessionalSession $record): string => $record?->updated_at?->diffForHumans() ?? '-'),
+                            ->content(static fn (?ProfessionalSession $record): string => $record?->updated_at?->diffForHumans() ?? '-'),
                     ]),
             ]);
     }
@@ -160,7 +160,7 @@ class ProfessionalSessionResource extends Resource
                     ->counts('players')
                     ->color('success')
                     ->sortable()
-                    ->formatStateUsing(static fn($state) => number_format($state)),
+                    ->formatStateUsing(static fn ($state) => number_format($state)),
                 Tables\Columns\TextColumn::make('created_at')
                     ->label('Created at')
                     ->date()

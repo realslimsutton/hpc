@@ -14,7 +14,7 @@ class PlayerController extends Controller
             'professional_sessions' => function ($query) {
                 $query->orderBy('date');
             },
-            'professional_sessions.stake'
+            'professional_sessions.stake',
         ]);
 
         $country = null;
@@ -39,7 +39,7 @@ class PlayerController extends Controller
             'hoursPlayed' => $hoursPlayed,
             'mostPlayedStake' => $mostPlayedStake,
             'firstSession' => $firstSession,
-            'chartData' => $chartData
+            'chartData' => $chartData,
         ]);
     }
 
@@ -47,7 +47,7 @@ class PlayerController extends Controller
     {
         $stakes = [];
         foreach ($player->professional_sessions as $session) {
-            if (!isset($stakes[$session->stake->name])) {
+            if (! isset($stakes[$session->stake->name])) {
                 $stakes[$session->stake->name] = 0;
             }
 
@@ -67,7 +67,7 @@ class PlayerController extends Controller
         foreach ($player->professional_sessions as $session) {
             $date = $session->date->format('Y-m-d');
 
-            if (!isset($data[$date])) {
+            if (! isset($data[$date])) {
                 $data[$date] = 0;
             }
 
@@ -75,9 +75,9 @@ class PlayerController extends Controller
         }
 
         return collect($data)
-            ->map(static fn($value, $key): array => [
+            ->map(static fn ($value, $key): array => [
                 'x' => $key,
-                'y' => $value
+                'y' => $value,
             ])
             ->values()
             ->all();

@@ -5,11 +5,9 @@ namespace App\Models\Tracker;
 use Awcodes\Curator\Models\Media;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Support\Facades\Cache;
-use Squire\Models\Country;
 
 class ProfessionalPlayer extends Model
 {
@@ -25,22 +23,22 @@ class ProfessionalPlayer extends Model
         'country',
         'hometown',
         'date_of_birth',
-        'featured_image_id'
+        'featured_image_id',
     ];
 
     protected $casts = [
         'enabled' => 'boolean',
-        'date_of_birth' => 'datetime'
+        'date_of_birth' => 'datetime',
     ];
 
     protected static function booted(): void
     {
-        $clearCache = static function() {
+        $clearCache = static function () {
             Cache::forget('tracking.index.locations');
 
-            foreach(Location::query()->lazy() as $model) {
-                Cache::forget('tracking.index.location.' . $model->id . '.rankings.highest');
-                Cache::forget('tracking.index.location.' . $model->id . '.rankings.lowest');
+            foreach (Location::query()->lazy() as $model) {
+                Cache::forget('tracking.index.location.'.$model->id.'.rankings.highest');
+                Cache::forget('tracking.index.location.'.$model->id.'.rankings.lowest');
             }
 
             Cache::forget('tracking.index.latest-sessions');
