@@ -14,14 +14,7 @@ class IndexController extends Controller
 {
     public function __invoke()
     {
-        $locations = Location::query()
-            ->with([
-                'featured_image'
-            ])
-            ->get()
-            ->mapWithKeys(static fn(Location $location): array => [
-                $location->id => $location
-            ]);
+        $locations = $this->getLocations();
 
         $locationRankings = $this->getLocationRankings($locations);
 
@@ -34,41 +27,35 @@ class IndexController extends Controller
         ]);
     }
 
-    private function getLatestSessions(Collection $locations): array
+    private function getLocations(): array
     {
-        $cacheKey = 'tracking.latest-sessions';
+        $cacheKey = 'tracking.index.locations';
 
-        if($sessions = Cache::get($cacheKey)) {
-            return $sessions;
+        if ($locations = Cache::get($cacheKey)) {
+            return $locations;
         }
 
-        $sessions = ProfessionalSession::query()
+        $locations = Location::query()
             ->with([
-                'stake',
-                'poker_game',
-                'players' => function($query) {
-                    $query->orderByDesc('net_winnings');
-                }
+                'featured_image'
             ])
-            ->latest('date')
-            ->limit(4)
             ->get()
-            ->map(static fn(ProfessionalSession $session): ProfessionalSession => $session
-                ->setRelation('location', $locations[$session->location_id])
-            )
+            ->mapWithKeys(static fn(Location $location): array => [
+                $location->id => $location
+            ])
             ->toArray();
 
-        Cache::forever($cacheKey, $sessions);
+        Cache::forever($cacheKey, $locations);
 
-        return $sessions;
+        return $locations;
     }
 
-    private function getLocationRankings(Collection $locations): array
+    private function getLocationRankings(array $locations): array
     {
         $rankings = [];
 
         foreach ($locations as $location) {
-            $rankings[$location->id] = [
+            $rankings[$location['id']] = [
                 'highest' => $this->loadHighRankings($location),
                 'lowest' => $this->loadLowRankings($location)
             ];
@@ -77,9 +64,9 @@ class IndexController extends Controller
         return $rankings;
     }
 
-    private function loadHighRankings(Location $location): array
+    private function loadHighRankings(array $location): array
     {
-        $cacheKey = 'tracking.location.' . $location->id . '.rankings.high';
+        $cacheKey = 'tracking.index.location.' . $location['id'] . '.rankings.highest';
 
         if ($rankings = Cache::get($cacheKey)) {
             return $rankings;
@@ -92,7 +79,7 @@ class IndexController extends Controller
         return $rankings;
     }
 
-    private function calculateLocationRankings(Location $location, string $direction): array
+    private function calculateLocationRankings(array $location, string $direction): array
     {
         $playerIds = ProfessionalPlayerSession::query()
             ->selectRaw('professional_player_id, SUM(net_winnings) as sum_net_winnings')
@@ -110,7 +97,7 @@ class IndexController extends Controller
                 '=',
                 'professional_players.id'
             )
-            ->where('professional_sessions.location_id', '=', $location->id)
+            ->where('professional_sessions.location_id', '=', $location['id'])
             ->where('professional_players.enabled', '=', 1)
             ->limit(5)
             ->pluck('professional_player_id');
@@ -125,7 +112,7 @@ class IndexController extends Controller
                 '=',
                 'professional_sessions.id'
             )
-            ->where('professional_sessions.location_id', '=', $location->id)
+            ->where('professional_sessions.location_id', '=', $location['id'])
             ->whereIn('professional_player_id', $playerIds)
             ->lazy();
 
@@ -160,9 +147,9 @@ class IndexController extends Controller
             ->all();
     }
 
-    private function loadLowRankings(Location $location): array
+    private function loadLowRankings(array $location): array
     {
-        $cacheKey = 'tracking.location.' . $location->id . '.rankings.low';
+        $cacheKey = 'tracking.index.location.' . $location['id'] . '.rankings.lowest';
 
         if ($rankings = Cache::get($cacheKey)) {
             return $rankings;
@@ -173,5 +160,34 @@ class IndexController extends Controller
         Cache::forever($cacheKey, $rankings);
 
         return $rankings;
+    }
+
+    private function getLatestSessions(array $locations): array
+    {
+        $cacheKey = 'tracking.index.latest-sessions';
+
+        if ($sessions = Cache::get($cacheKey)) {
+            return $sessions;
+        }
+
+        $sessions = ProfessionalSession::query()
+            ->with([
+                'stake',
+                'poker_game',
+                'players' => function ($query) {
+                    $query->orderByDesc('net_winnings');
+                }
+            ])
+            ->latest('date')
+            ->limit(4)
+            ->get()
+            ->map(static fn(ProfessionalSession $session): ProfessionalSession => $session
+                ->setRelation('location', new Location($locations[$session->location_id]))
+            )
+            ->toArray();
+
+        Cache::forever($cacheKey, $sessions);
+
+        return $sessions;
     }
 }

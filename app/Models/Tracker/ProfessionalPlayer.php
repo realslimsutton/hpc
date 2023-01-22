@@ -26,11 +26,20 @@ class ProfessionalPlayer extends Model
 
     protected static function booted(): void
     {
-        static::updating(static function(ProfessionalPlayer $model): void {
-            foreach(Location::all() as $location) {
-                Cache::forget('tracker.location.' . $location->id . '.rankings');
+        $clearCache = static function() {
+            Cache::forget('tracking.index.locations');
+
+            foreach(Location::query()->lazy() as $model) {
+                Cache::forget('tracking.index.location.' . $model->id . '.rankings.highest');
+                Cache::forget('tracking.index.location.' . $model->id . '.rankings.lowest');
             }
-        });
+
+            Cache::forget('tracking.index.latest-sessions');
+        };
+
+        static::created($clearCache);
+        static::updated($clearCache);
+        static::deleted($clearCache);
     }
 
     public function professional_sessions(): BelongsToMany

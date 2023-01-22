@@ -8,15 +8,15 @@
     x-data="{showWinners: true}"
 >
     <div class="flex items-center flex-wrap gap-8">
-        @if($location->featured_image !== null)
+        @if($location['featured_image'] !== null)
             <div>
-                <x-curator-glider :media="$location->featured_image" class="rounded-full"/>
+                <x-curator-glider :media="new \Awcodes\Curator\Models\Media($location['featured_image'])" class="rounded-full"/>
             </div>
         @endif
 
         <div>
             <h3 class="text-xl font-semibold">
-                {{ $location->name }}
+                {{ $location['name'] }}
             </h3>
 
             <h4 class="text-hpc-gold">

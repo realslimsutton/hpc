@@ -10,7 +10,7 @@
             @foreach($locations as $location)
                 <x-tracker.location-rankings
                     :location="$location"
-                    :rankings="$locationRankings[$location->id]"
+                    :rankings="$locationRankings[$location['id']]"
                 />
             @endforeach
         </div>

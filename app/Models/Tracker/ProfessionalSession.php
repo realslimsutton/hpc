@@ -27,9 +27,18 @@ class ProfessionalSession extends Model
 
     protected static function booted(): void
     {
-        static::updating(static function(ProfessionalSession $model): void {
-            Cache::forget('tracker.location.' . $model->location_id . '.rankings');
-        });
+        $clearCache = static function(ProfessionalSession $model) {
+            Cache::forget('tracking.index.locations');
+
+            Cache::forget('tracking.index.location.' . $model->location_id . '.rankings.highest');
+            Cache::forget('tracking.index.location.' . $model->location_id . '.rankings.lowest');
+
+            Cache::forget('tracking.index.latest-sessions');
+        };
+
+        static::created($clearCache);
+        static::updated($clearCache);
+        static::deleted($clearCache);
     }
 
     public function location(): BelongsTo
