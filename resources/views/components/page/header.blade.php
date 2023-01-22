@@ -71,7 +71,6 @@
                             :href="route('auth.register')"
                             size="sm"
                             class="uppercase"
-                            :routes="['auth.register']"
                         >
                             Register
                         </x-button>
