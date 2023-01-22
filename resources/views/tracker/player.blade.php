@@ -32,21 +32,23 @@
                         Nickname: {{ $player->nickname ?? 'Unknown' }}
                     </h3>
 
-                    <p>
-                        <a
-                            href="{{ $player->twitter_url }}"
-                            class="inline-flex items-center gap-1 transition-colors hover:text-hpc-gold"
-                            target="_blank"
-                        >
-                            <span>
-                                @svg('hpc-social.twitter', 'h-6 w-6')
-                            </span>
+                    @if($player->twitter_url !== null)
+                        <p>
+                            <a
+                                href="{{ $player->twitter_url }}"
+                                class="inline-flex items-center gap-1 transition-colors hover:text-hpc-gold"
+                                target="_blank"
+                            >
+                                <span>
+                                    @svg('hpc-social.twitter', 'h-6 w-6')
+                                </span>
 
-                            <span>
-                                {{ '@' . $player->twitter_handle }}
-                            </span>
-                        </a>
-                    </p>
+                                <span>
+                                    {{ '@' . $player->twitter_handle }}
+                                </span>
+                            </a>
+                        </p>
+                    @endif
                 </div>
             </div>
 
