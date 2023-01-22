@@ -18,10 +18,14 @@
 
         <div class="w-full max-w-screen-2xl mx-auto grid lg:grid-cols-2 gap-12 bg-hpc-red-700 border border-hpc-red-800 rounded-lg p-4">
             <div class="flex items-center gap-4">
-                <img
-                    src="https://ui-avatars.com/api/?name=K+S&color=FFFFFF&background=111827"
-                    class="h-32 w-auto rounded-full"
-                />
+                @if($player->featured_image !== null)
+                    <x-curator-glider :media="$result->featured_image" class="h-32 w-auto rounded-full"/>
+                @else
+                    <img
+                        src="https://ui-avatars.com/api/?name={{ urlencode($result->name) }}&color=FFCD67&background=5A0410"
+                        class="h-32 w-auto rounded-full"
+                    />
+                @endif
 
                 <div class="space-y-2">
                     <h2 class="font-semibold text-white text-4xl">
