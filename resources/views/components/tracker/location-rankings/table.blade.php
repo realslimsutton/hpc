@@ -25,7 +25,7 @@
         @foreach($rankings as $name => $data)
             <tr>
                 <td>
-                    {{ $loop->count }}
+                    {{ $loop->iteration }}
                 </td>
 
                 <td>
