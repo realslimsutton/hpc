@@ -10,6 +10,7 @@ use Filament\Resources\Form;
 use Filament\Resources\Resource;
 use Filament\Resources\Table;
 use Filament\Tables;
+use Squire\Models\Country;
 
 class ProfessionalPlayerResource extends Resource
 {
@@ -55,6 +56,29 @@ class ProfessionalPlayerResource extends Resource
                                     ->columnSpanFull()
                                     ->required()
                                     ->maxLength(65535),
+                                Forms\Components\Select::make('country')
+                                    ->label('Country')
+                                    ->options(Country::all()->pluck('name', 'id'))
+                                    ->searchable()
+                                    ->nullable(),
+                                Forms\Components\TextInput::make('hometown')
+                                    ->label('Hometown')
+                                    ->nullable()
+                                    ->maxLength(255),
+                                Forms\Components\TextInput::make('twitter_url')
+                                    ->label('Twitter URL')
+                                    ->nullable()
+                                    ->requiredWith('twitter_handle')
+                                    ->maxLength(65535),
+                                Forms\Components\TextInput::make('twitter_handle')
+                                    ->label('Twitter handle')
+                                    ->nullable()
+                                    ->requiredWith('twitter_url')
+                                    ->maxLength(255),
+                                Forms\Components\DatePicker::make('date_of_birth')
+                                    ->label('Date of birth')
+                                    ->nullable()
+                                    ->maxDate(now())
                             ]),
                     ]),
 

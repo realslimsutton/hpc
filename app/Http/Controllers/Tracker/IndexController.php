@@ -7,7 +7,6 @@ use App\Models\Tracker\Location;
 use App\Models\Tracker\ProfessionalPlayerSession;
 use App\Models\Tracker\ProfessionalSession;
 use DateTimeInterface;
-use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Str;
 
@@ -33,17 +32,6 @@ class IndexController extends Controller
         ]);
     }
 
-    private function getLastUpdated(): ?DateTimeInterface
-    {
-        if($this->lastUpdated !== null) {
-            Cache::forever('tracking.index.last-updated', $this->lastUpdated);
-
-            return $this->lastUpdated;
-        }
-
-        return Cache::get('tracking.index.last-updated');
-    }
-
     private function getLocations(): array
     {
         $cacheKey = 'tracking.index.locations';
@@ -67,6 +55,11 @@ class IndexController extends Controller
         $this->updateLastUpdated();
 
         return $locations;
+    }
+
+    private function updateLastUpdated(): void
+    {
+        $this->lastUpdated = now();
     }
 
     private function getLocationRankings(array $locations): array
@@ -140,8 +133,9 @@ class IndexController extends Controller
         $rankings = [];
 
         foreach ($results as $result) {
-            if (!isset($rankings[$result->professional_player->name])) {
-                $rankings[$result->professional_player->name] = [
+            if (!isset($rankings[$result->professional_player->id])) {
+                $rankings[$result->professional_player->id] = [
+                    'name' => $result->professional_player->name,
                     'net_winnings' => 0,
                     'vpip' => 0,
                     'pfr' => 0,
@@ -149,14 +143,15 @@ class IndexController extends Controller
                 ];
             }
 
-            $rankings[$result->professional_player->name]['net_winnings'] += $result->net_winnings;
-            $rankings[$result->professional_player->name]['vpip'] += $result->vpip;
-            $rankings[$result->professional_player->name]['pfr'] += $result->pfr;
-            $rankings[$result->professional_player->name]['count']++;
+            $rankings[$result->professional_player->id]['net_winnings'] += $result->net_winnings;
+            $rankings[$result->professional_player->id]['vpip'] += $result->vpip;
+            $rankings[$result->professional_player->id]['pfr'] += $result->pfr;
+            $rankings[$result->professional_player->id]['count']++;
         }
 
         return collect($rankings)
             ->map(static fn(array $ranking) => [
+                'name' => $ranking['name'],
                 'net_winnings' => $ranking['net_winnings'],
                 'vpip' => $ranking['vpip'] / $ranking['count'],
                 'pfr' => $ranking['pfr'] / $ranking['count']
@@ -216,8 +211,14 @@ class IndexController extends Controller
         return $sessions;
     }
 
-    private function updateLastUpdated(): void
+    private function getLastUpdated(): ?DateTimeInterface
     {
-        $this->lastUpdated = now();
+        if ($this->lastUpdated !== null) {
+            Cache::forever('tracking.index.last-updated', $this->lastUpdated);
+
+            return $this->lastUpdated;
+        }
+
+        return Cache::get('tracking.index.last-updated');
     }
 }

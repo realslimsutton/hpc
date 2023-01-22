@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Tracker\IndexController as TrackerIndexController;
+use App\Http\Controllers\Tracker\PlayerController as TrackerPlayerController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -32,4 +33,6 @@ Route::prefix('/games')->name('games.')->group(static function () {
 
 Route::prefix('/tracker')->name('tracker.')->group(static function() {
     Route::get('/', TrackerIndexController::class)->name('index');
+
+    Route::get('/player/{player}', [TrackerPlayerController::class, 'show'])->name('player');
 });

@@ -5,9 +5,11 @@ namespace App\Models\Tracker;
 use Awcodes\Curator\Models\Media;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Support\Facades\Cache;
+use Squire\Models\Country;
 
 class ProfessionalPlayer extends Model
 {
@@ -15,13 +17,20 @@ class ProfessionalPlayer extends Model
 
     protected $fillable = [
         'name',
+        'nickname',
         'biography',
         'enabled',
+        'twitter_url',
+        'twitter_handle',
+        'country',
+        'hometown',
+        'date_of_birth',
         'featured_image_id'
     ];
 
     protected $casts = [
         'enabled' => 'boolean',
+        'date_of_birth' => 'datetime'
     ];
 
     protected static function booted(): void

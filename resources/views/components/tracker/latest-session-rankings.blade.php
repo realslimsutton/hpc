@@ -57,33 +57,47 @@
 
             <tbody>
                 @foreach($session['players'] as $player)
+                    @php
+                        $playerRoute = route('tracker.player', $player['id']);
+                    @endphp
+
                     <tr>
                         <td>
-                            {{ $loop->iteration }}
+                            <a href="{{ $playerRoute }}" class="block">
+                                {{ $loop->iteration }}
+                            </a>
                         </td>
 
                         <td>
-                            {{ $player['name'] }}
+                            <a href="{{ $playerRoute }}" class="block">
+                                {{ $player['name'] }}
+                            </a>
                         </td>
 
                         <td>
-                            @if($player['pivot']['net_winnings'] > 0)
-                                <span class="text-green-500">
+                            <a href="{{ $playerRoute }}" class="block">
+                                @if($player['pivot']['net_winnings'] > 0)
+                                    <span class="text-green-500">
                                     {{ \Akaunting\Money\Money::USD($player['pivot']['net_winnings'] * 100) }}
                                 </span>
-                            @else
-                                <span class="text-rose-500">
+                                @else
+                                    <span class="text-rose-500">
                                     {{ \Akaunting\Money\Money::USD($player['pivot']['net_winnings'] * 100) }}
                                 </span>
-                            @endif
+                                @endif
+                            </a>
                         </td>
 
                         <td>
-                            {{ number_format($player['pivot']['vpip']) }}%
+                            <a href="{{ $playerRoute }}" class="block">
+                                {{ number_format($player['pivot']['vpip']) }}%
+                            </a>
                         </td>
 
                         <td>
-                            {{ number_format($player['pivot']['pfr']) }}%
+                            <a href="{{ $playerRoute }}" class="block">
+                                {{ number_format($player['pivot']['pfr']) }}%
+                            </a>
                         </td>
                     </tr>
                 @endforeach

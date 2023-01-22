@@ -22,34 +22,48 @@
     </thead>
 
     <tbody>
-        @foreach($rankings as $name => $data)
+        @foreach($rankings as $id => $data)
+            @php
+                $playerRoute = route('tracker.player', $id);
+            @endphp
+
             <tr>
                 <td>
-                    {{ $loop->iteration }}
+                    <a href="{{ $playerRoute }}" class="block">
+                        {{ $loop->iteration }}
+                    </a>
                 </td>
 
                 <td>
-                    {{ $name }}
+                    <a href="{{ $playerRoute }}" class="block">
+                        {{ $data['name'] }}
+                    </a>
                 </td>
 
                 <td>
-                    @if($data['net_winnings'] > 0)
-                        <span class="text-green-500">
-                            {{ \Akaunting\Money\Money::USD($data['net_winnings'] * 100) }}
-                        </span>
-                    @else
-                        <span class="text-rose-500">
-                            {{ \Akaunting\Money\Money::USD($data['net_winnings'] * 100) }}
-                        </span>
-                    @endif
+                    <a href="{{ $playerRoute }}" class="block">
+                        @if($data['net_winnings'] > 0)
+                            <span class="text-green-500">
+                                {{ \Akaunting\Money\Money::USD($data['net_winnings'] * 100) }}
+                            </span>
+                        @else
+                            <span class="text-rose-500">
+                                {{ \Akaunting\Money\Money::USD($data['net_winnings'] * 100) }}
+                            </span>
+                        @endif
+                    </a>
                 </td>
 
                 <td>
-                    {{ number_format($data['vpip']) }}%
+                    <a href="{{ $playerRoute }}" class="block">
+                        {{ number_format($data['vpip']) }}%
+                    </a>
                 </td>
 
                 <td>
-                    {{ number_format($data['pfr']) }}%
+                    <a href="{{ $playerRoute }}" class="block">
+                        {{ number_format($data['pfr']) }}%
+                    </a>
                 </td>
             </tr>
         @endforeach
