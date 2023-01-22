@@ -21,9 +21,14 @@ class IndexController extends Controller
                 $location->id => $location
             ]);
 
-        [$topRankings, $bottomRankings] = $this->getLocationRankings($locations);
+        $locationRankings = $this->getLocationRankings($locations);
 
         $latestSessions = ProfessionalSession::query()
+            ->with([
+                'stake',
+                'poker_game',
+                'players'
+            ])
             ->latest('date')
             ->limit(4)
             ->get()
@@ -33,24 +38,26 @@ class IndexController extends Controller
 
         return view('tracker.index', [
             'locations' => $locations,
-            'topRankings' => $topRankings,
-            'bottomRankings' => $bottomRankings,
+            'locationRankings' => $locationRankings,
             'latestSessions' => $latestSessions
         ]);
     }
 
     private function getLocationRankings(Collection $locations): array
     {
-        $locationRankings = $this->getCumulativeTotals($locations);
+        $locationRankings = collect($this->getCumulativeTotals($locations))
+            ->map(static fn(array $rankings) => [
+                'highest' => collect($rankings)
+                    ->sortByDesc('net_winnings')
+                    ->take(5)
+                    ->all(),
+                'lowest' => collect($rankings)
+                    ->sortBy('net_winnings')
+                    ->take(5)
+                    ->all()
+            ]);
 
-        return [
-            collect($locationRankings)
-                ->sortBy('net_winnings')
-                ->take(5),
-            collect($locationRankings)
-                ->sortByDesc('net_winnings')
-                ->take(5)
-        ];
+        return $locationRankings->all();
     }
 
     private function getCumulativeTotals(Collection $locations): array
@@ -60,7 +67,7 @@ class IndexController extends Controller
         foreach ($locations as $location) {
             $cacheKey = 'tracker.location.' . $location->id . '.rankings';
 
-            if (!$rankings = Cache::get($cacheKey)) {
+            if (!$rankings = null) {
                 $rankings = $this->calculateLocationRankings($location);
 
                 Cache::forever($cacheKey, $rankings);
@@ -76,7 +83,13 @@ class IndexController extends Controller
     {
         $rankings = [];
 
-        foreach ($location->professional_sessions()->lazy() as $session) {
+        $sessions = $location->professional_sessions()
+            ->with([
+                'players'
+            ])
+            ->lazy();
+
+        foreach ($sessions as $session) {
             foreach ($session->players as $player) {
                 if (!$player->enabled) {
                     continue;

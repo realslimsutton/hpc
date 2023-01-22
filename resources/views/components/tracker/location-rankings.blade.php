@@ -1,7 +1,6 @@
 @props([
     'location',
-    'topRankings',
-    'bottomRankings'
+    'rankings'
 ])
 
 <div
@@ -48,7 +47,7 @@
         </div>
 
         <div x-show="showWinners" class="w-full text-sm">
-            <x-tracker.location-rankings.table :rankings="$topRankings"/>
+            <x-tracker.location-rankings.table :rankings="$rankings['highest']"/>
         </div>
 
         <div
@@ -56,7 +55,7 @@
             x-show="!showWinners"
             x-cloak
         >
-            <x-tracker.location-rankings.table :rankings="$bottomRankings"/>
+            <x-tracker.location-rankings.table :rankings="$rankings['lowest']"/>
         </div>
     </div>
 </div>
