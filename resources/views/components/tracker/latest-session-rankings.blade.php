@@ -56,7 +56,7 @@
             </thead>
 
             <tbody>
-                @foreach($session->players->sortBy('pivot.net_winnings') as $player)
+                @foreach($session->players->sortByDesc('pivot.net_winnings') as $player)
                     <tr>
                         <td>
                             {{ $loop->count }}
