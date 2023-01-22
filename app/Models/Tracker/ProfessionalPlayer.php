@@ -66,6 +66,6 @@ class ProfessionalPlayer extends Model
 
     public function featured_image(): HasOne
     {
-        return $this->hasOne(Media::class, 'id');
+        return $this->hasOne(Media::class, 'id', 'featured_image_id');
     }
 }
