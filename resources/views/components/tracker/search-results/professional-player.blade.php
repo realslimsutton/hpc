@@ -11,7 +11,7 @@
             <x-curator-glider :media="$result->featured_image" class="h-16 w-16 rounded-full"/>
         @else
             <img
-                src="https://ui-avatars.com/api/?name={{ urlencode($player->name) }}&color=FFCD67&background=5A0410"
+                src="https://ui-avatars.com/api/?name={{ urlencode($result->name) }}&color=FFCD67&background=5A0410"
                 class="h-16 w-16 rounded-full"
             />
         @endif
