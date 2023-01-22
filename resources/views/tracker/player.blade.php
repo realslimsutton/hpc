@@ -19,11 +19,11 @@
         <div class="w-full max-w-screen-2xl mx-auto grid lg:grid-cols-2 gap-12 bg-hpc-red-700 border border-hpc-red-800 rounded-lg p-4">
             <div class="flex items-center gap-4">
                 @if($player->featured_image !== null)
-                    <x-curator-glider :media="$player->featured_image" class="h-32 w-auto rounded-full"/>
+                    <x-curator-glider :media="$player->featured_image" class="h-32 w-32 rounded-full"/>
                 @else
                     <img
                         src="https://ui-avatars.com/api/?name={{ urlencode($player->name) }}&color=FFCD67&background=5A0410"
-                        class="h-32 w-auto rounded-full"
+                        class="h-32 w-32 rounded-full"
                     />
                 @endif
 
