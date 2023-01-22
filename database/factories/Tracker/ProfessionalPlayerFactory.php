@@ -14,10 +14,12 @@ class ProfessionalPlayerFactory extends Factory
      *
      * @return array<string, mixed>
      */
-    public function definition()
+    public function definition(): array
     {
         return [
-            //
+            'name' => $this->faker->name(),
+            'biography' => $this->faker->paragraphs(2, true),
+            'enabled' => true
         ];
     }
 }

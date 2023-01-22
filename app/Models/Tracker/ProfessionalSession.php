@@ -6,14 +6,16 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Support\Facades\Cache;
 
 class ProfessionalSession extends Model
 {
     use HasFactory;
 
     protected $fillable = [
+        'name',
         'date',
-        'stream_link',
+        'stream_url',
         'location_id',
         'poker_game_id',
         'stake_id',
@@ -22,6 +24,13 @@ class ProfessionalSession extends Model
     protected $casts = [
         'date' => 'datetime',
     ];
+
+    protected static function booted(): void
+    {
+        static::updating(static function(ProfessionalSession $model): void {
+            Cache::forget('tracker.location.' . $model->location_id . '.rankings');
+        });
+    }
 
     public function location(): BelongsTo
     {

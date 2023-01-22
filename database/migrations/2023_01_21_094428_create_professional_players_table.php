@@ -16,7 +16,9 @@ return new class extends Migration
         Schema::create('professional_players', static function (Blueprint $table) {
             $table->id();
             $table->string('name')->index();
+            $table->text('biography');
             $table->boolean('enabled')->index();
+            $table->foreignId('featured_image_id')->nullable()->index()->constrained('media')->nullOnDelete();
             $table->timestamps();
         });
     }

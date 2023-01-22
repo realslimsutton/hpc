@@ -9,6 +9,8 @@ use Illuminate\Database\Eloquent\Factories\Factory;
  */
 class ProfessionalSessionFactory extends Factory
 {
+    private static array $counts = [];
+
     /**
      * Define the model's default state.
      *
@@ -16,8 +18,6 @@ class ProfessionalSessionFactory extends Factory
      */
     public function definition()
     {
-        return [
-            //
-        ];
+        return [];
     }
 }

@@ -3,17 +3,19 @@
 namespace App\Filament\Resources\Tracker\ProfessionalPlayerResource\Pages;
 
 use App\Filament\Resources\Tracker\ProfessionalPlayerResource;
+use App\Models\Tracker\Location;
 use Filament\Pages\Actions;
-use Filament\Resources\Pages\ListRecords;
+use Filament\Resources\Pages\EditRecord;
+use Illuminate\Support\Facades\Cache;
 
-class ListPlayers extends ListRecords
+class EditProfessionalPlayer extends EditRecord
 {
     protected static string $resource = ProfessionalPlayerResource::class;
 
     protected function getActions(): array
     {
         return [
-            Actions\CreateAction::make(),
+            Actions\DeleteAction::make(),
         ];
     }
 }

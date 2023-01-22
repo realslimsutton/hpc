@@ -13,7 +13,7 @@ class PlayersRelationManager extends RelationManager
 {
     protected static string $relationship = 'players';
 
-    protected static ?string $inverseRelationship = 'sessions';
+    protected static ?string $inverseRelationship = 'professional_sessions';
 
     protected static ?string $recordTitleAttribute = 'name';
 
@@ -25,7 +25,7 @@ class PlayersRelationManager extends RelationManager
                     ->label('Name')
                     ->sortable()
                     ->searchable(),
-                Tables\Columns\TextColumn::make('pivot.net_winnings')
+                Tables\Columns\TextColumn::make('net_winnings')
                     ->label('Net winnings')
                     ->sortable()
                     ->searchable()

@@ -4,16 +4,16 @@ namespace App\Filament\Resources\Tracker\ProfessionalPlayerResource\Pages;
 
 use App\Filament\Resources\Tracker\ProfessionalPlayerResource;
 use Filament\Pages\Actions;
-use Filament\Resources\Pages\EditRecord;
+use Filament\Resources\Pages\ListRecords;
 
-class EditPlayer extends EditRecord
+class ListProfessionalPlayers extends ListRecords
 {
     protected static string $resource = ProfessionalPlayerResource::class;
 
     protected function getActions(): array
     {
         return [
-            Actions\DeleteAction::make(),
+            Actions\CreateAction::make(),
         ];
     }
 }

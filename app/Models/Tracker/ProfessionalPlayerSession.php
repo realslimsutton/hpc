@@ -3,7 +3,9 @@
 namespace App\Models\Tracker;
 
 use Illuminate\Database\Eloquent\Casts\Attribute;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\Pivot;
+use Illuminate\Support\Facades\Cache;
 
 class ProfessionalPlayerSession extends Pivot
 {
@@ -21,6 +23,23 @@ class ProfessionalPlayerSession extends Pivot
     protected $casts = [
         'hours_played' => 'float',
     ];
+
+    protected static function booted(): void
+    {
+        static::updating(static function(ProfessionalPlayerSession $model): void {
+            Cache::forget('tracker.location.' . $model->professional_session->location_id . '.rankings');
+        });
+    }
+
+    public function professional_session(): BelongsTo
+    {
+        return $this->belongsTo(ProfessionalSession::class);
+    }
+
+    public function professional_player(): BelongsTo
+    {
+        return $this->belongsTo(ProfessionalPlayer::class);
+    }
 
     public function netWinnings(): Attribute
     {

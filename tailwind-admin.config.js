@@ -4,7 +4,8 @@ const defaultTheme = require('tailwindcss/defaultTheme');
 /** @type {import('tailwindcss').Config} */
 module.exports = {
     content: [
-        './vendor/filament/**/*.blade.php'
+        './vendor/filament/**/*.blade.php',
+        './vendor/awcodes/curator/resources/views/**/*.blade.php'
     ],
     darkMode: 'class',
     theme: {

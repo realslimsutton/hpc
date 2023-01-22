@@ -38,7 +38,7 @@
                     <x-page.header.promotions-menu placement="bottom-center"/>
                 </li>
 
-                <x-page.header.link>
+                <x-page.header.link :to="route('tracker.index')">
                     Tracker
                 </x-page.header.link>
 
@@ -103,7 +103,7 @@
     >
         <nav class="bg-gray-900">
             <ul>
-                <x-page.header.link>
+                <x-page.header.link :href="route('home')">
                     Home
                 </x-page.header.link>
 
@@ -119,7 +119,7 @@
                     <x-page.header.promotions-menu placement="bottom-center"/>
                 </li>
 
-                <x-page.header.link>
+                <x-page.header.link :to="route('tracker.index')">
                     Tracker
                 </x-page.header.link>
 
