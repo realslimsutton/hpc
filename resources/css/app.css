@@ -101,3 +101,8 @@
 .filament-tables-text-column {
     @apply !bg-hpc-red-700;
 }
+
+.calendar .days-grid .day.end,
+.calendar .days-grid .day.start {
+    @apply !bg-hpc-red-700;
+}

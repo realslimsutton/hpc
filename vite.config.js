@@ -7,8 +7,10 @@ export default defineConfig({
             input: [
                 'resources/css/app.css',
                 'resources/css/filament.css',
+                'resources/css/litepicker.css',
                 'resources/js/app.js',
-                'resources/js/chart.js'
+                'resources/js/chart.js',
+                'resources/js/litepicker.js',
             ],
             refresh: true
         })

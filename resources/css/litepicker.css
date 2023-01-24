@@ -1,0 +1,35 @@
+@import 'litepicker/dist/css/litepicker.css';
+@import 'litepicker/dist/css/plugins/mobilefriendly.js.css';
+@import 'litepicker/dist/css/plugins/ranges.js.css';
+
+@tailwind utilities;
+
+:root {
+    --litepicker-is-start-color-bg: theme('colors.hpc.red.700');
+    --litepicker-is-end-color-bg: theme('colors.hpc.red.700');
+    --litepicker-is-in-range-color: theme('colors.hpc.red.DEFAULT');
+    --litepicker-day-color-hover: theme('colors.hpc.gold.DEFAULT');
+    --litepicker-button-reset-color-hover: theme('colors.hpc.red.DEFAULT');
+    --litepicker-button-prev-month-color-hover: theme('colors.hpc.red.DEFAULT');
+    --litepicker-button-next-month-color-hover: theme('colors.hpc.red.DEFAULT');
+}
+
+.litepicker .container__days .day-item.is-in-range {
+    @apply text-white;
+}
+
+.litepicker .month-item-header > div {
+    @apply flex;
+    @apply items-center;
+    @apply flex-wrap;
+    @apply justify-center;
+    @apply text-center;
+}
+
+.litepicker select.month-item-name,
+.litepicker select.month-item-year {
+    @apply flex-grow;
+    @apply px-2;
+    @apply border-0;
+    @apply focus:ring-0;
+}

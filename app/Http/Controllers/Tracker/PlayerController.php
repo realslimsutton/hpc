@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Tracker;
 
 use App\Http\Controllers\Controller;
 use App\Models\Tracker\ProfessionalPlayer;
+use App\Models\Tracker\ProfessionalSession;
 use Squire\Models\Country;
 
 class PlayerController extends Controller
@@ -15,6 +16,8 @@ class PlayerController extends Controller
                 $query->orderBy('date');
             },
             'professional_sessions.stake',
+            'professional_sessions.location',
+            'professional_sessions.poker_game'
         ]);
 
         $country = null;
@@ -39,7 +42,7 @@ class PlayerController extends Controller
             'hoursPlayed' => $hoursPlayed,
             'mostPlayedStake' => $mostPlayedStake,
             'firstSession' => $firstSession,
-            'chartData' => $chartData,
+            'chartData' => $chartData
         ]);
     }
 
@@ -47,7 +50,7 @@ class PlayerController extends Controller
     {
         $stakes = [];
         foreach ($player->professional_sessions as $session) {
-            if (! isset($stakes[$session->stake->name])) {
+            if (!isset($stakes[$session->stake->name])) {
                 $stakes[$session->stake->name] = 0;
             }
 
@@ -62,24 +65,29 @@ class PlayerController extends Controller
 
     private function getChartData(ProfessionalPlayer $player): array
     {
-        $data = [];
+        return [
+            'data' => $player->professional_sessions
+                ->map(static fn(ProfessionalSession $session): array => [
+                    'date' => $session->date,
+                    'net_winnings' => $session->pivot->net_winnings,
+                    'location' => $session->location->name,
+                    'game_type' => $session->poker_game->name
+                ])
+                ->sortBy('date')
+                ->all(),
 
-        foreach ($player->professional_sessions as $session) {
-            $date = $session->date->format('Y-m-d');
+            'locations' => $player->professional_sessions
+                ->pluck('location.name')
+                ->unique()
+                ->sort(),
 
-            if (! isset($data[$date])) {
-                $data[$date] = 0;
-            }
+            'gameTypes' => $player->professional_sessions
+                ->pluck('poker_game.name')
+                ->unique()
+                ->sort(),
 
-            $data[$date] += $session->pivot->net_winnings;
-        }
-
-        return collect($data)
-            ->map(static fn ($value, $key): array => [
-                'x' => $key,
-                'y' => $value,
-            ])
-            ->values()
-            ->all();
+            'minYear' => $player->professional_sessions
+                ->min(static fn(ProfessionalSession $session) => $session->date->year)
+        ];
     }
 }

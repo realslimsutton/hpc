@@ -1,8 +1,6 @@
-import Chart from 'chart.js/auto'
-import zoomPlugin from 'chartjs-plugin-zoom';
+import Chart from 'chart.js/auto';
+import 'chartjs-adapter-date-fns';
 
-Chart.register(
-    zoomPlugin
-);
+Chart.register();
 
 window.Chart = Chart;

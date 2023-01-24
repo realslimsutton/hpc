@@ -2,7 +2,7 @@
 
 @push('head.assets')
     @once
-        @vite(['resources/js/chart.js'])
+        @vite(['resources/css/litepicker.css', 'resources/js/chart.js', 'resources/js/litepicker.js'])
     @endonce
 @endpush
 
