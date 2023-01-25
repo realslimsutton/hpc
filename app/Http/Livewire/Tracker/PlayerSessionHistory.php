@@ -88,6 +88,7 @@ class PlayerSessionHistory extends Component implements HasTable
             ->with([
                 'location',
             ])
+//            ->selectRaw('professional_sessions.*, professional_sessions.net_winnings / professional_sessions.hours_played AS hourly_net_winnings')
             ->getQuery();
     }
 }

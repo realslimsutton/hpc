@@ -32,8 +32,12 @@
                         {{ $player->name }}
                     </h2>
 
-                    <h3 class="font-medium text-hpc-gold">
-                        Nickname: {{ $player->nickname ?? 'Unknown' }}
+                    <h3 class="font-medium">
+                        <span class="text-hpc-gold">Nickname:</span> {{ $player->nickname ?? 'Unknown' }}
+                    </h3>
+
+                    <h3 class="font-medium">
+                        <span class="text-hpc-gold">Birth Date:</span> {{ $player->date_of_birth?->format('M j, Y') ?? 'Unknown' }}
                     </h3>
 
                     @if($player->twitter_url !== null)
@@ -43,7 +47,7 @@
                                 class="inline-flex items-center gap-1 transition-colors hover:text-hpc-gold"
                                 target="_blank"
                             >
-                                <span>
+                                <span class="text-hpc-gold">
                                     @svg('hpc-social.twitter', 'h-6 w-6')
                                 </span>
 
@@ -78,8 +82,8 @@
                 </span>
             </x-tracker.player.player-fact>
 
-            <x-tracker.player.player-fact title="Birth Date">
-                {{ $player->date_of_birth?->format('M j, Y') ?? 'Unknown' }}
+            <x-tracker.player.player-fact title="Profession">
+                {{ $player->profession ?? 'Unknown' }}
             </x-tracker.player.player-fact>
 
             <x-tracker.player.player-fact title="Net Winnings">

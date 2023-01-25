@@ -12,6 +12,7 @@
         "akaunting/laravel-money": "^3.1",
         "awcodes/filament-curator": "^2.0",
         "bezhansalleh/filament-shield": "^2.3",
+        "doctrine/dbal": "^3.5",
         "filament/filament": "^2.16",
         "guzzlehttp/guzzle": "^7.2",
         "laravel/framework": "^9.19",
@@ -23,7 +24,6 @@
         "squirephp/countries-en": "^3.3"
     },
     "require-dev": {
-        "barryvdh/laravel-debugbar": "^3.7",
         "fakerphp/faker": "^1.9.1",
         "laravel/pint": "^1.0",
         "laravel/sail": "^1.0.1",

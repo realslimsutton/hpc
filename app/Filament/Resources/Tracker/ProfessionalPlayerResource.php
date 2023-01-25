@@ -83,6 +83,10 @@ class ProfessionalPlayerResource extends Resource
                                     ->label('Nickname')
                                     ->nullable()
                                     ->maxLength(255),
+                                Forms\Components\TextInput::make('profession')
+                                    ->label('Profession')
+                                    ->nullable()
+                                    ->maxLength(255)
                             ]),
                     ]),
 
@@ -95,10 +99,10 @@ class ProfessionalPlayerResource extends Resource
                             ->helperText('If disabled, the player will not be viewable within the tracker'),
                         Forms\Components\Placeholder::make('created_at')
                             ->label('Created at')
-                            ->content(static fn (?ProfessionalPlayer $record): string => $record?->created_at?->diffForHumans() ?? '-'),
+                            ->content(static fn(?ProfessionalPlayer $record): string => $record?->created_at?->diffForHumans() ?? '-'),
                         Forms\Components\Placeholder::make('updated_at')
                             ->label('Updated at')
-                            ->content(static fn (?ProfessionalPlayer $record): string => $record?->updated_at?->diffForHumans() ?? '-'),
+                            ->content(static fn(?ProfessionalPlayer $record): string => $record?->updated_at?->diffForHumans() ?? '-'),
                     ]),
             ]);
     }

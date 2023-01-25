@@ -23,6 +23,7 @@ class ProfessionalPlayer extends Model
         'country',
         'hometown',
         'date_of_birth',
+        'profession',
         'featured_image_id',
     ];
 
