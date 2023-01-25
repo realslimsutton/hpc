@@ -109,8 +109,10 @@ class PlayersRelationManager extends RelationManager
                             ->label('Name')
                             ->required()
                             ->maxLength(255),
-                        CuratorPicker::make('featured_image_id')
-                            ->label('Featured image'),
+                        Forms\Components\TextInput::make('nickname')
+                            ->label('Nickname')
+                            ->nullable()
+                            ->maxLength(255),
                         Forms\Components\MarkdownEditor::make('biography')
                             ->label('Biography')
                             ->columnSpanFull()
@@ -139,10 +141,6 @@ class PlayersRelationManager extends RelationManager
                             ->label('Date of birth')
                             ->nullable()
                             ->maxDate(now()),
-                        Forms\Components\TextInput::make('nickname')
-                            ->label('Nickname')
-                            ->nullable()
-                            ->maxLength(255),
                         Forms\Components\TextInput::make('profession')
                             ->label('Profession')
                             ->nullable()
