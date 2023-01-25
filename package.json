@@ -13,6 +13,7 @@
         "autoprefixer": "^10.4.13",
         "chart.js": "^4.2.0",
         "chartjs-adapter-date-fns": "^3.0.0",
+        "chokidar": "^3.5.3",
         "date-fns": "^2.29.3",
         "laravel-vite-plugin": "^0.7.2",
         "litepicker": "^2.0.12",
