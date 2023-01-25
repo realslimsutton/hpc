@@ -90,7 +90,7 @@
                 {{ number_format($sessionsPlayed) }}
             </x-tracker.player.player-fact>
 
-            <x-tracker.player.player-fact title="Livestream Hours">
+            <x-tracker.player.player-fact title="Hours played">
                 {{ number_format($hoursPlayed) }}
             </x-tracker.player.player-fact>
 
