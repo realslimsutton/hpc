@@ -118,15 +118,9 @@
                         Breakdown by Livestream
                     </h2>
 
-                    <div class="relative bg-hpc-red-700  rounded-xl border border-hpc-red-800 p-4 h-48"></div>
-                </div>
-
-                <div class="w-full space-y-4">
-                    <h2 class="text-4xl font-bold text-white">
-                        Custom Breakdown
-                    </h2>
-
-                    <div class="relative bg-hpc-red-700  rounded-xl border border-hpc-red-800 p-4 h-48"></div>
+                    <div class="relative bg-hpc-red-700  rounded-xl border border-hpc-red-800 p-4">
+                        <x-tracker.player.location-breakdown-table :data="$breakdownByLocation"/>
+                    </div>
                 </div>
             </div>
         </div>

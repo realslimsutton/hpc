@@ -34,6 +34,11 @@ class PlayerController extends Controller
 
         $chartData = $this->getChartData($player);
 
+        $breakdownByLocation = $player->professional_sessions
+            ->mapToGroups(fn(ProfessionalSession $session): array => [
+                $session->location->name => $session
+            ]);
+
         return view('tracker.player', [
             'player' => $player,
             'country' => $country,
@@ -42,7 +47,8 @@ class PlayerController extends Controller
             'hoursPlayed' => $hoursPlayed,
             'mostPlayedStake' => $mostPlayedStake,
             'firstSession' => $firstSession,
-            'chartData' => $chartData
+            'chartData' => $chartData,
+            'breakdownByLocation' => $breakdownByLocation
         ]);
     }
 

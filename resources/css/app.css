@@ -85,8 +85,15 @@
     @apply !shadow-none;
 }
 
-.filament-tables-table {
+.filament-tables-table,
+.filament-tables-table tbody {
     @apply !divide-hpc-red-800;
+}
+
+.filament-tables-table th button,
+.filament-tables-table th span {
+    @apply !text-hpc-gold;
+    @apply !text-base;
 }
 
 .filament-tables-pagination-container {
