@@ -23,46 +23,30 @@ class PlayersRelationManager extends RelationManager
     {
         return $table
             ->columns([
-                Forms\Components\TextInput::make('name')
+                Tables\Columns\TextColumn::make('name')
                     ->label('Name')
-                    ->required()
-                    ->maxLength(255),
-                Forms\Components\MarkdownEditor::make('biography')
-                    ->label('Biography')
-                    ->columnSpanFull()
-                    ->required()
-                    ->maxLength(65535),
-                Forms\Components\Select::make('country')
-                    ->label('Country')
-                    ->options(Country::all()->pluck('name', 'id'))
+                    ->sortable()
+                    ->searchable(),
+                Tables\Columns\TextColumn::make('net_winnings')
+                    ->label('Net winnings')
+                    ->sortable()
                     ->searchable()
-                    ->nullable(),
-                Forms\Components\TextInput::make('hometown')
-                    ->label('Hometown')
-                    ->nullable()
-                    ->maxLength(255),
-                Forms\Components\TextInput::make('twitter_url')
-                    ->label('Twitter URL')
-                    ->nullable()
-                    ->requiredWith('twitter_handle')
-                    ->maxLength(65535),
-                Forms\Components\TextInput::make('twitter_handle')
-                    ->label('Twitter handle')
-                    ->nullable()
-                    ->requiredWith('twitter_url')
-                    ->maxLength(255),
-                Forms\Components\DatePicker::make('date_of_birth')
-                    ->label('Date of birth')
-                    ->nullable()
-                    ->maxDate(now()),
-                Forms\Components\TextInput::make('nickname')
-                    ->label('Nickname')
-                    ->nullable()
-                    ->maxLength(255),
-                Forms\Components\TextInput::make('profession')
-                    ->label('Profession')
-                    ->nullable()
-                    ->maxLength(255)
+                    ->formatStateUsing(static fn ($record, $state) => Money::USD($state)),
+                Tables\Columns\TextColumn::make('pivot.vpip')
+                    ->label('VPIP (%)')
+                    ->sortable()
+                    ->searchable()
+                    ->formatStateUsing(static fn ($state) => number_format($state, 2).'%'),
+                Tables\Columns\TextColumn::make('pivot.pfr')
+                    ->label('PFR (%)')
+                    ->sortable()
+                    ->searchable()
+                    ->formatStateUsing(static fn ($state) => number_format($state, 2).'%'),
+                Tables\Columns\TextColumn::make('hours_played')
+                    ->label('Hours played')
+                    ->sortable()
+                    ->searchable()
+                    ->formatStateUsing(static fn ($state) => number_format($state, 1)),
             ])
             ->filters([
                 //
@@ -108,48 +92,62 @@ class PlayersRelationManager extends RelationManager
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('name')
-                    ->label('Name')
-                    ->required()
-                    ->maxLength(255),
-                CuratorPicker::make('featured_image_id')
-                    ->label('Featured image'),
-                Forms\Components\MarkdownEditor::make('biography')
-                    ->label('Biography')
-                    ->columnSpanFull()
-                    ->required()
-                    ->maxLength(65535),
-                Forms\Components\Select::make('country')
-                    ->label('Country')
-                    ->options(Country::all()->pluck('name', 'id'))
-                    ->searchable()
-                    ->nullable(),
-                Forms\Components\TextInput::make('hometown')
-                    ->label('Hometown')
-                    ->nullable()
-                    ->maxLength(255),
-                Forms\Components\TextInput::make('twitter_url')
-                    ->label('Twitter URL')
-                    ->nullable()
-                    ->requiredWith('twitter_handle')
-                    ->maxLength(65535),
-                Forms\Components\TextInput::make('twitter_handle')
-                    ->label('Twitter handle')
-                    ->nullable()
-                    ->requiredWith('twitter_url')
-                    ->maxLength(255),
-                Forms\Components\DatePicker::make('date_of_birth')
-                    ->label('Date of birth')
-                    ->nullable()
-                    ->maxDate(now()),
-                Forms\Components\TextInput::make('nickname')
-                    ->label('Nickname')
-                    ->nullable()
-                    ->maxLength(255),
-                Forms\Components\TextInput::make('profession')
-                    ->label('Profession')
-                    ->nullable()
-                    ->maxLength(255)
+                Forms\Components\Fieldset::make('Player information')
+                    ->schema([
+                        Forms\Components\TextInput::make('name')
+                            ->label('Name')
+                            ->required()
+                            ->maxLength(255),
+                        Forms\Components\Checkbox::make('enabled')
+                            ->label('Enabled')
+                            ->default(true)
+                            ->helperText('If disabled, the player will not be viewable within the tracker'),
+                    ]),
+                Forms\Components\Fieldset::make('Session information')
+                    ->schema([
+                        Forms\Components\TextInput::make('name')
+                            ->label('Name')
+                            ->required()
+                            ->maxLength(255),
+                        CuratorPicker::make('featured_image_id')
+                            ->label('Featured image'),
+                        Forms\Components\MarkdownEditor::make('biography')
+                            ->label('Biography')
+                            ->columnSpanFull()
+                            ->required()
+                            ->maxLength(65535),
+                        Forms\Components\Select::make('country')
+                            ->label('Country')
+                            ->options(Country::all()->pluck('name', 'id'))
+                            ->searchable()
+                            ->nullable(),
+                        Forms\Components\TextInput::make('hometown')
+                            ->label('Hometown')
+                            ->nullable()
+                            ->maxLength(255),
+                        Forms\Components\TextInput::make('twitter_url')
+                            ->label('Twitter URL')
+                            ->nullable()
+                            ->requiredWith('twitter_handle')
+                            ->maxLength(65535),
+                        Forms\Components\TextInput::make('twitter_handle')
+                            ->label('Twitter handle')
+                            ->nullable()
+                            ->requiredWith('twitter_url')
+                            ->maxLength(255),
+                        Forms\Components\DatePicker::make('date_of_birth')
+                            ->label('Date of birth')
+                            ->nullable()
+                            ->maxDate(now()),
+                        Forms\Components\TextInput::make('nickname')
+                            ->label('Nickname')
+                            ->nullable()
+                            ->maxLength(255),
+                        Forms\Components\TextInput::make('profession')
+                            ->label('Profession')
+                            ->nullable()
+                            ->maxLength(255)
+                    ]),
             ]);
     }
 }
