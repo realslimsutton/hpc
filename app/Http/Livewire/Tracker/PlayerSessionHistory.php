@@ -4,9 +4,12 @@ namespace App\Http\Livewire\Tracker;
 
 use Akaunting\Money\Money;
 use App\Models\Tracker\ProfessionalPlayer;
+use Filament\Forms\Components\DatePicker;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Concerns\InteractsWithTable;
 use Filament\Tables\Contracts\HasTable;
+use Filament\Tables\Filters\Filter;
+use Filament\Tables\Filters\SelectFilter;
 use Illuminate\Contracts\View\View;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\Relation;
@@ -107,6 +110,49 @@ class PlayerSessionHistory extends Component implements HasTable
     protected function getTableContentFooter(): ?View
     {
         return view('components.tracker.player.historical-chart-summary');
+    }
+
+    protected function getTableFilters(): array
+    {
+        return [
+            SelectFilter::make('location_id')
+                ->label('Livestream')
+                ->options($this->player->professional_sessions
+                    ->pluck('location.name', 'location.id')
+                    ->sort()
+                    ->unique()
+                ),
+            SelectFilter::make('poker_game_id')
+                ->label('Game played')
+                ->options($this->player->professional_sessions
+                    ->pluck('poker_game.name', 'poker_game.id')
+                    ->sort()
+                    ->unique()
+                ),
+            SelectFilter::make('stake_id')
+                ->label('Stake played')
+                ->options($this->player->professional_sessions
+                    ->sortBy(['stake.small_blind', 'stake.big_blind'])
+                    ->pluck('stake.name', 'stake.id')
+                    ->unique()
+                ),
+            Filter::make('date')
+                ->form([
+                    DatePicker::make('date_from'),
+                    DatePicker::make('date_to'),
+                ])
+                ->query(function (Builder $query, array $data): Builder {
+                    return $query
+                        ->when(
+                            $data['date_from'],
+                            fn(Builder $query, $date): Builder => $query->whereDate('date', '>=', $date),
+                        )
+                        ->when(
+                            $data['date_to'],
+                            fn(Builder $query, $date): Builder => $query->whereDate('date', '<=', $date),
+                        );
+                })
+        ];
     }
 
     protected function getTableQuery(): Builder|Relation

@@ -74,7 +74,8 @@
     @apply !border-hpc-red-800;
 }
 
-.filament-tables-table-container select {
+.filament-tables-table-container select,
+.filament-tables-table .filament-tables-empty-state {
     @apply bg-hpc-red-800;
 }
 
@@ -112,4 +113,15 @@
 .calendar .days-grid .day.end,
 .calendar .days-grid .day.start {
     @apply !bg-hpc-red-700;
+}
+
+.filament-tables-filters-form label span {
+    @apply !text-hpc-red;
+}
+
+.filament-tables-filters-form .filament-forms-date-time-picker-component > button {
+    @apply !bg-white;
+    @apply !border-gray-300;
+    @apply focus:!border-hpc-gold;
+    @apply focus:!ring-hpc-gold;
 }

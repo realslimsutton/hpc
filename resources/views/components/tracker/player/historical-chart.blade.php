@@ -9,6 +9,7 @@
         filters: {
             location: 'all',
             game_type: 'all',
+            stake: 'all',
             date: {
                 start: null,
                 end: null
@@ -131,6 +132,13 @@
                 return false;
             }
 
+            if(
+                this.filters.stake !== 'all' &&
+                this.filters.stake !== session.stake
+            ) {
+                return false;
+            }
+
             if(this.filters.date.start !== null && this.filters.date.end !== null) {
                 const date = new Date(session.date);
 
@@ -151,7 +159,7 @@
         }
     }"
 >
-    <div class="grid md:grid-cols-3 p-4 gap-4">
+    <div class="grid md:grid-cols-2 p-4 gap-4">
         <div>
             <label class="space-y-2">
                 <span
@@ -198,6 +206,32 @@
                     @foreach($chartData['gameTypes'] as $gameType)
                         <option value="{{ $gameType }}">
                             {{ $gameType }}
+                        </option>
+                    @endforeach
+                </select>
+            </label>
+        </div>
+
+        <div>
+            <label class="space-y-2">
+                <span
+                    class="flex items-center font-medium leading-4 text-white"
+                >
+                    Stake played
+                </span>
+
+                <select
+                    class="block w-full transition duration-75 rounded-lg shadow-sm bg-hpc-red-800 focus:border-hpc-gold focus:ring-1 focus:ring-inset focus:ring-hpc-gold disabled:opacity-70 border-hpc-red-800"
+                    x-model="filters.stake"
+                    x-on:change="updateChart"
+                >
+                    <option value="all" selected>
+                        All
+                    </option>
+
+                    @foreach($chartData['stakes'] as $stake)
+                        <option value="{{ $stake }}">
+                            {{ $stake }}
                         </option>
                     @endforeach
                 </select>

@@ -47,12 +47,12 @@
 
         @forelse($data as $location => $records)
             @php
-                $netWinnings = $records->sum('pivot.net_winnings');
+                $netWinnings = $records->sum('pivot.net_winnings') * 100;
                 $vpip = $records->average('pivot.vpip');
                 $pfr = $records->average('pivot.pfr');
                 $hoursPlayed = $records->sum('pivot.hours_played');
-                $hourlyNetWinnings = $records->average(static fn($record) => $record->pivot->net_winnings / $record->pivot->hours_played);
-                $hourlyBigBlind = $records->average(static fn($record) => ($record->pivot->net_winnings / $record->stake->big_blind) / $record->pivot->hours_played);
+                $hourlyNetWinnings = $records->average(static fn($record) => ($record->pivot->net_winnings * 100) / $record->pivot->hours_played);
+                $hourlyBigBlind = $records->average(static fn($record) => (($record->pivot->net_winnings * 100) / $record->stake->big_blind) / $record->pivot->hours_played);
 
                 $allNetWinnings += $netWinnings;
                 $allVPip += $vpip;

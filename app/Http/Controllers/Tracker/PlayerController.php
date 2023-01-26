@@ -77,7 +77,8 @@ class PlayerController extends Controller
                     'date' => $session->date,
                     'net_winnings' => $session->pivot->net_winnings,
                     'location' => $session->location->name,
-                    'game_type' => $session->poker_game->name
+                    'game_type' => $session->poker_game->name,
+                    'stake' => $session->stake->name
                 ])
                 ->sortBy('date')
                 ->all(),
@@ -91,6 +92,11 @@ class PlayerController extends Controller
                 ->pluck('poker_game.name')
                 ->unique()
                 ->sort(),
+
+            'stakes' => collect($player->professional_sessions)
+                ->sortBy(['stake.small_blind', 'stake.big_blind'])
+                ->pluck('stake.name')
+                ->unique(),
 
             'minYear' => $player->professional_sessions
                 ->min(static fn(ProfessionalSession $session) => $session->date->year)
