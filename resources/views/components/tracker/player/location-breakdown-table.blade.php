@@ -92,7 +92,7 @@
 
                 <td class="py-2">
                     <span class="{{ $hourlyBigBlind > 0 ?'text-green-500' : 'text-rose-500' }}">
-                        {{ \Akaunting\Money\Money::USD($hourlyBigBlind) }}
+                        {{ number_format($hourlyBigBlind / 100, 2) }} BB
                     </span>
                 </td>
             </tr>
@@ -143,7 +143,7 @@
 
                 <td class="py-2">
                     <span class="{{ $allHourlyBigBlind > 0 ?'text-green-500' : 'text-rose-500' }}">
-                        {{ \Akaunting\Money\Money::USD($allHourlyBigBlind) }}
+                        {{ number_format($allHourlyBigBlind / 100, 2) }} BB
                     </span>
                 </td>
             </tr>

@@ -23,7 +23,7 @@
         </h3>
 
         <p class="text-hpc-gold text-sm font-medium">
-            Professional player
+            {{ $result->profession ?? 'Player' }}
         </p>
     </div>
 </a>

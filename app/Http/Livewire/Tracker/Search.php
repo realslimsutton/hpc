@@ -53,7 +53,7 @@ class Search extends Component
                     ->with([
                         'featured_image',
                     ]),
-                'name'
+                ['name', 'nickname']
             )
             ->add(
                 ProfessionalSession::query()
