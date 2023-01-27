@@ -90,7 +90,7 @@
                 {{ \Akaunting\Money\Money::USD($totalWinnings * 100) }}
             </x-tracker.player.player-fact>
 
-            <x-tracker.player.player-fact title="Sessions Played">
+            <x-tracker.player.player-fact title="Sessions">
                 {{ number_format($sessionsPlayed) }}
             </x-tracker.player.player-fact>
 
