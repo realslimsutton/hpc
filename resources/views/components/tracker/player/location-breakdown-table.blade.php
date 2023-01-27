@@ -2,7 +2,7 @@
     'data'
 ])
 
-<table class="w-full text-center">
+<table class='table-auto overflow-scroll w-full'>
     <thead>
         <tr>
             <th class="text-hpc-gold">
@@ -62,35 +62,35 @@
                 $allHourlyBigBlind += $hourlyBigBlind;
             @endphp
             <tr>
-                <td class="py-2">
+                <td class="p-2 whitespace-nowrap">
                     {{ $location }}
                 </td>
 
-                <td class="py-2">
+                <td class="p-2 whitespace-nowrap">
                     <span class="{{ $netWinnings > 0 ?'text-green-500' : 'text-rose-500' }}">
                         {{ \Akaunting\Money\Money::USD($netWinnings) }}
                     </span>
                 </td>
 
-                <td class="py-2">
+                <td class="p-2 whitespace-nowrap">
                     {{ number_format($vpip) }}%
                 </td>
 
-                <td class="py-2">
+                <td class="p-2 whitespace-nowrap">
                     {{ number_format($pfr) }}%
                 </td>
 
-                <td class="py-2">
+                <td class="p-2 whitespace-nowrap">
                     {{ number_format($hoursPlayed) }}
                 </td>
 
-                <td class="py-2">
+                <td class="p-2 whitespace-nowrap">
                     <span class="{{ $hourlyNetWinnings > 0 ?'text-green-500' : 'text-rose-500' }}">
                         {{ \Akaunting\Money\Money::USD($hourlyNetWinnings) }}
                     </span>
                 </td>
 
-                <td class="py-2">
+                <td class="p-2 whitespace-nowrap">
                     <span class="{{ $hourlyBigBlind > 0 ?'text-green-500' : 'text-rose-500' }}">
                         {{ number_format($hourlyBigBlind / 100, 2) }} BB
                     </span>
@@ -98,7 +98,7 @@
             </tr>
         @empty
             <tr>
-                <td class="py-2" colspan="6">
+                <td class="p-2" colspan="6">
                     No results found
                 </td>
             </tr>
@@ -117,31 +117,31 @@
             <tr>
                 <td></td>
 
-                <td class="py-2">
+                <td class="p-2 whitespace-nowrap">
                     <span class="{{ $allNetWinnings > 0 ?'text-green-500' : 'text-rose-500' }}">
                         {{ \Akaunting\Money\Money::USD($allNetWinnings) }}
                     </span>
                 </td>
 
-                <td class="py-2">
+                <td class="p-2 whitespace-nowrap">
                     {{ number_format($allVPip) }}%
                 </td>
 
-                <td class="py-2">
+                <td class="p-2 whitespace-nowrap">
                     {{ number_format($allPfr) }}%
                 </td>
 
-                <td class="py-2">
+                <td class="p-2 whitespace-nowrap">
                     {{ number_format($allHoursPlayed) }}
                 </td>
 
-                <td class="py-2">
+                <td class="p-2 whitespace-nowrap">
                     <span class="{{ $allHourlyNetWinnings > 0 ?'text-green-500' : 'text-rose-500' }}">
                         {{ \Akaunting\Money\Money::USD($allHourlyNetWinnings) }}
                     </span>
                 </td>
 
-                <td class="py-2">
+                <td class="p-2 whitespace-nowrap">
                     <span class="{{ $allHourlyBigBlind > 0 ?'text-green-500' : 'text-rose-500' }}">
                         {{ number_format($allHourlyBigBlind / 100, 2) }} BB
                     </span>
