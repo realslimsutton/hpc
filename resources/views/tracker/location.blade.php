@@ -33,12 +33,65 @@
                 </div>
             </div>
 
-            <div class="space-y-2">
-                <h2 class="text-4xl font-bold text-white">
-                    Sessions
-                </h2>
+            <div
+                class="space-y-2"
+                x-data="{
+                    showSessions: true,
+                    playersLoaded: false,
+                    toggleShowSessions() {
+                        this.showSessions = !this.showSessions;
 
-                @livewire('tracker.location.historical-sessions-table', ['location' => $location])
+                        if(!this.playersLoaded && !this.showSessions) {
+                            window.livewire.emit('showPlayers');
+                        }
+                    },
+                    onPlayersLoaded() {
+                        this.playersLoaded = true;
+                    }
+                }"
+                x-on:players-loaded.window="onPlayersLoaded"
+            >
+                <div class="flex items-center justify-between gap-8 flex-wrap">
+                    <h2 class="text-4xl font-bold text-white">
+                        <span x-show="showSessions">
+                            Sessions
+                        </span>
+
+                        <span x-show="!showSessions" x-cloak>
+                            Players
+                        </span>
+                    </h2>
+
+                    <x-button x-on:click.prevent="toggleShowSessions" wire:loading.attr="disabled">
+                        <span x-show="showSessions">
+                            Show players
+                        </span>
+
+                        <span x-show="!showSessions" x-cloak>
+                            Show sessions
+                        </span>
+                    </x-button>
+                </div>
+
+                <div
+                    x-show="showSessions"
+                >
+                    @livewire('tracker.location.historical-sessions-table', ['location' => $location])
+                </div>
+
+                <div
+                    x-show="!showSessions"
+                    x-cloak
+                >
+                    <div
+                        class="flex items-center justify-center text-lg font-medium"
+                        x-show="!playersLoaded"
+                    >
+                        Loading...
+                    </div>
+
+                    @livewire('tracker.location.player-table', ['location' => $location])
+                </div>
             </div>
         </div>
     </div>

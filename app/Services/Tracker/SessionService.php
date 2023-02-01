@@ -13,8 +13,9 @@ class SessionService extends BaseService
 {
     public function __construct(
         string $cachePrefix = 'tracker.sessions',
-        int $cacheTtl = 86400
-    ) {
+        int    $cacheTtl = 86400
+    )
+    {
         parent::__construct($cachePrefix, $cacheTtl);
     }
 
@@ -22,7 +23,7 @@ class SessionService extends BaseService
     {
         return $this->cache(
             'latest',
-            static fn () => Session::query()
+            static fn() => Session::query()
                 ->with([
                     'location',
                     'game_rules',
@@ -40,8 +41,8 @@ class SessionService extends BaseService
     public function findOrFail($id): Session
     {
         return $this->cache(
-            'find.'.$id,
-            static fn () => Session::query()
+            'find.' . $id,
+            static fn() => Session::query()
                 ->with([
                     'players',
                     'stake',
@@ -59,11 +60,11 @@ class SessionService extends BaseService
             'sum_net_winnings' => $sessions->sum('pivot.net_winnings'),
             'avg_vpip' => $sessions->avg('pivot.vpip'),
             'avg_pfr' => $sessions->avg('pivot.pfr'),
-            'avg_hourly_net_winnings' => $sessions->avg(static fn (Session $session) => $session->pivot->hours_played > 0
+            'avg_hourly_net_winnings' => $sessions->avg(static fn(Session $session) => $session->pivot->hours_played > 0
                 ? $session->pivot->net_winnings / $session->pivot->hours_played
                 : null
             ),
-            'avg_hourly_bb' => $sessions->avg(static fn (Session $session) => ($session->pivot->hours_played > 0 && $session->stake->big_blind > 0)
+            'avg_hourly_bb' => $sessions->avg(static fn(Session $session) => ($session->pivot->hours_played > 0 && $session->stake->big_blind > 0)
                 ? ($session->pivot->net_winnings / $session->stake->big_blind) / $session->pivot->hours_played
                 : null
             ),
@@ -72,29 +73,32 @@ class SessionService extends BaseService
             'first_session_date' => $sessions->first()?->date,
             'most_played_stake' => $sessions
                 ->groupBy('stake.name')
-                ->map(static fn (Collection $sessions): int => $sessions->count())
+                ->map(static fn(Collection $sessions): int => $sessions->count())
                 ->sort()
                 ->keys()
                 ->last(),
+            'location' => $sessions
+                ->pluck('location.name')
+                ->first(),
         ];
     }
 
     public function getBreakdownByLocation(Collection $sessions): Collection
     {
         return $sessions
-            ->mapToGroups(static fn (Session $session): array => [
-                $session->location->name => $session,
+            ->mapToGroups(static fn(Session $session): array => [
+                $session->location->id => $session,
             ])
-            ->map(fn (Collection $sessions): array => $this->getFacts($sessions));
+            ->map(fn(Collection $sessions, int $location): array => $this->getFacts($sessions));
     }
 
     public function getHistoricalChart(Collection $sessions): array
     {
-        $data = $sessions->filter(static fn (Session $session): bool => filled($session->pivot->net_winnings));
+        $data = $sessions->filter(static fn(Session $session): bool => filled($session->pivot->net_winnings));
 
         return [
             'series' => $data
-                ->map(static fn (Session $session): array => [
+                ->map(static fn(Session $session): array => [
                     'date' => $session->date,
                     'net_winnings' => $session->pivot->net_winnings / 100,
                     'location' => $session->location->name,
@@ -121,7 +125,7 @@ class SessionService extends BaseService
                     ->unique(),
 
                 'minYear' => $data
-                    ->min(static fn (Session $session) => $session->date->year),
+                    ->min(static fn(Session $session) => $session->date->year),
             ],
         ];
     }
@@ -129,7 +133,7 @@ class SessionService extends BaseService
     public function getTable(Session $session): Collection
     {
         return $session->players
-            ->map(static fn (Player $player) => [
+            ->map(static fn(Player $player) => [
                 'player_id' => $player->id,
                 'player_name' => $player->name,
                 'net_winnings' => $player->pivot->net_winnings,
@@ -154,7 +158,7 @@ class SessionService extends BaseService
                     return null;
                 }
 
-                if(Str::startsWith(Str::lower($session->stream_url), 'https://youtube.com/embed/')) {
+                if (Str::startsWith(Str::lower($session->stream_url), 'https://youtube.com/embed/')) {
                     return $session->stream_url;
                 }
 
@@ -162,9 +166,9 @@ class SessionService extends BaseService
                     return null;
                 }
 
-                if(blank($url['query'] ?? null)) {
-                    if(filled($url['path'])) {
-                        return 'https://youtube.com/embed/'.$url['path'];
+                if (blank($url['query'] ?? null)) {
+                    if (filled($url['path'])) {
+                        return 'https://youtube.com/embed/' . $url['path'];
                     }
 
                     return $session->stream_url;
@@ -173,11 +177,11 @@ class SessionService extends BaseService
                 parse_str($url['query'], $parameters);
 
                 $id = $parameters['v'] ?? null;
-                if(blank($id)) {
+                if (blank($id)) {
                     return $session->stream_url;
                 }
 
-                return 'https://youtube.com/embed/'.$id;
+                return 'https://youtube.com/embed/' . $id;
             },
             $session->stream_url,
             false

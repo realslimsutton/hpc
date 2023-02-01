@@ -37,8 +37,8 @@
         </thead>
 
         <tbody>
-        @forelse($data as $location => $row)
-            <x-tracker.player.breakdown-by-location.table-row :location="$location" :data="$row"/>
+        @forelse($data as $locationId => $row)
+            <x-tracker.player.breakdown-by-location.table-row :location-id="$locationId" :data="$row"/>
         @empty
             <x-tracker.player.breakdown-by-location.table-empty/>
         @endforelse

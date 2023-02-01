@@ -130,3 +130,8 @@
 .filament-tables-row.hover\:bg-gray-50:hover {
     @apply hover:!bg-hpc-red-800;
 }
+
+.filament-forms-date-time-picker-component input[readonly],
+.filament-forms-date-time-picker-component input[type="number"]{
+    @apply !text-gray-900;
+}

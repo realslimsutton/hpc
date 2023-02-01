@@ -6,6 +6,7 @@ use Awcodes\Curator\Models\Media;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Support\Facades\Cache;
 
@@ -23,7 +24,7 @@ class Location extends Model
     {
         $clearCache = static function (Location $location): void {
             Cache::forget('tracker.locations.index');
-            Cache::forget('tracker.locations.'.$location->id.'.rankings');
+            Cache::forget('tracker.locations.' . $location->id . '.rankings');
             Cache::forget('tracker.locations.find.' . $location->id);
 
             Cache::forget('tracker.sessions.latest');
@@ -42,5 +43,13 @@ class Location extends Model
     public function sessions(): HasMany
     {
         return $this->hasMany(Session::class);
+    }
+
+    public function player_sessions(): HasManyThrough
+    {
+        return $this->hasManyThrough(
+            PlayerSession::class,
+            Session::class
+        );
     }
 }

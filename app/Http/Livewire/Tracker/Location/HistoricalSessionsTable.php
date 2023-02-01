@@ -115,4 +115,9 @@ class HistoricalSessionsTable extends Component implements HasTable
     {
         return static fn($record): string => route('tracker.session', $record->id);
     }
+
+    protected function getTableQueryStringIdentifier(): string
+    {
+        return 'sessions';
+    }
 }

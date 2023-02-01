@@ -10,7 +10,7 @@
 @endphp
 
 <tr>
-    <td colspan="3"></td>
+    <td></td>
 
     <x-tables::cell>
         <div class="filament-tables-column-wrapper">
