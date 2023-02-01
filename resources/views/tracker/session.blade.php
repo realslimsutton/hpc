@@ -29,14 +29,25 @@
                         </div>
                     @endif
 
-                    <h2 class="text-4xl font-bold">
-                        {{ $session->location->name }}
-                    </h2>
+                    <div>
+                        <h2 class="text-4xl font-bold">
+                            {{ $session->location->name }}
+                        </h2>
+                        <h3 class="text-lg font-semibold text-hpc-gold">
+                            {{ $session->name }}
+                        </h3>
+                    </div>
                 </div>
 
-                <h3 class="text-2xl font-semibold">
-                    {{ $session->name }}
-                </h3>
+                <h4 class="text-xl font-semibold">
+                    <span class="text-hpc-gold">
+                        Date:
+                    </span>
+
+                    <span>
+                        {{ $session->date->format('M j, Y') }}
+                    </span>
+                </h4>
 
                 <h4 class="text-xl font-semibold">
                     <span class="text-hpc-gold">
