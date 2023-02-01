@@ -142,7 +142,7 @@ class SessionService extends BaseService
                     ? ($player->pivot->net_winnings / $session->stake->big_blind) / $player->pivot->hours_played
                     : null,
             ])
-            ->sortBy('net_winnings');
+            ->sortByDesc('net_winnings');
     }
 
     public function getEmbedUrl(Session $session): ?string
