@@ -34,7 +34,7 @@
                     <x-page.header.game-menu placement="bottom-center"/>
                 </li>
 
-                <x-page.header.link>
+                <x-page.header.link :href="route('home', ['#faq'])">
                     FAQ
                 </x-page.header.link>
 
@@ -49,7 +49,10 @@
                     Tracker
                 </x-page.header.link>
 
-                <x-page.header.link>
+                <x-page.header.link
+                    :to="route('contact')"
+                    :routes="['contact']"
+                >
                     Contact
                 </x-page.header.link>
             </ul>
@@ -129,7 +132,7 @@
                     <x-page.header.game-menu placement="bottom-center"/>
                 </li>
 
-                <x-page.header.link>
+                <x-page.header.link :href="route('home', ['#faq'])">
                     FAQ
                 </x-page.header.link>
 
@@ -144,7 +147,10 @@
                     Tracker
                 </x-page.header.link>
 
-                <x-page.header.link>
+                <x-page.header.link
+                    :to="route('contact')"
+                    :routes="['contact']"
+                >
                     Contact
                 </x-page.header.link>
             </ul>

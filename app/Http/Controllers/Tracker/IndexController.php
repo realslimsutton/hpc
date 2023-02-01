@@ -18,7 +18,7 @@ class IndexController extends Controller
 
         $lastUpdated = $this->getLastUpdatedDateTime($locations, $latestSessions);
 
-        return view('tracker.index', [
+        return view('tracker', [
             'locations' => $locations,
             'locationRankings' => $locations->mapWithKeys(static fn (Location $location): array => [
                 $location->id => $locationService->getLocationRankings($location),
