@@ -2,7 +2,10 @@
 
 namespace App\Support;
 
+use Illuminate\Contracts\Filesystem\FileNotFoundException;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\File;
+use function public_path;
 
 class AssetVersion
 {
@@ -13,17 +16,23 @@ class AssetVersion
     public function asset_version(string $file, ?bool $secure = null): string
     {
         $version = $this->version($file);
+        if ($version === null) {
+            return asset($file, $secure);
+        }
 
-        return asset($file.'?v='.$version, $secure);
+        return asset($file . '?v=' . $version, $secure);
     }
 
-    public function version(string $file): string
+    public function version(string $file): ?string
     {
         if (isset($this->versions()[$file])) {
             return $this->versions()[$file];
         }
 
-        $version = $this->getFileHash($file);
+        if (!$version = $this->getFileHash($file)) {
+            return null;
+        }
+
         $this->versions[$file] = $version;
 
         $this->updateCache();
@@ -48,9 +57,19 @@ class AssetVersion
         );
     }
 
-    private function getFileHash(string $file): string
+    private function getFileHash(string $file): ?string
     {
-        return hash_file('md5', public_path($file));
+        return rescue(static function () use ($file) {
+            $path = public_path($file);
+
+            if (!File::exists($path)) {
+                throw new FileNotFoundException(
+                    sprintf('Cannot find asset "%s"', $path)
+                );
+            }
+
+            return hash_file('md5', $path);
+        });
     }
 
     private function updateCache(): void
