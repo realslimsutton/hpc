@@ -24,7 +24,7 @@
             </div>
 
             <div class="flex items-center justify-center lg:justify-start flex-wrap gap-4">
-                <x-button tag="a" href="#" size="lg">
+                <x-button tag="a" href="#how-to-join" size="lg">
                     <span>
                         @svg('heroicon-o-play', 'h-8 w-8')
                     </span>
