@@ -7,10 +7,12 @@ use Filament\Models\Contracts\HasName;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use Spatie\Permission\Traits\HasRoles;
+use Squire\Models\Country;
 
 class User extends Authenticatable implements MustVerifyEmail, FilamentUser, HasName
 {
@@ -43,6 +45,11 @@ class User extends Authenticatable implements MustVerifyEmail, FilamentUser, Has
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function country(): BelongsTo
+    {
+        return $this->belongsTo(Country::class);
+    }
 
     public function getFilamentName(): string
     {

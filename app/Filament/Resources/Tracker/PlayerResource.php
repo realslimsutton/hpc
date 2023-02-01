@@ -14,6 +14,7 @@ use Filament\Resources\Table;
 use Filament\Tables;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Str;
+use Squire\Models\Country;
 use function parse_url;
 use function today;
 
@@ -79,9 +80,8 @@ class PlayerResource extends Resource
                             ->schema([
                                 Forms\Components\Select::make('country_id')
                                     ->label('Country')
+                                    ->options(Country::all()->pluck('name', 'id'))
                                     ->searchable()
-                                    ->preload()
-                                    ->relationship('country', 'name')
                                     ->nullable(),
                                 Forms\Components\TextInput::make('hometown')
                                     ->label('Hometown')
@@ -209,7 +209,7 @@ class PlayerResource extends Resource
     {
         return parent::getEloquentQuery()
             ->with([
-                'featured_image'
+                'featured_image',
             ]);
     }
 }
