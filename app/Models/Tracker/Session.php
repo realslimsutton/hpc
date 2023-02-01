@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Support\Facades\Cache;
 
 class Session extends Model
 {
@@ -23,6 +24,20 @@ class Session extends Model
     protected $casts = [
         'date' => 'datetime',
     ];
+
+    protected static function booted(): void
+    {
+        $clearCache = static function (Location $model): void {
+            Cache::forget('tracker.locations.index');
+            Cache::forget('tracker.locations.'.$model->location_id.'.rankings');
+
+            Cache::forget('tracker.sessions.latest');
+        };
+
+        static::created($clearCache);
+        static::updated($clearCache);
+        static::deleted($clearCache);
+    }
 
     public function location(): BelongsTo
     {

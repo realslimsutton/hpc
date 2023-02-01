@@ -20,7 +20,7 @@ class SessionService extends BaseService
     public function getLatestSessions(int $limit = 4): Collection
     {
         return $this->cache(
-            'latest.' . $limit,
+            'latest',
             static fn() => Session::query()
                 ->with([
                     'location',

@@ -20,11 +20,12 @@ class LocationService extends BaseService
     public function getLocations(int $limit = 3)
     {
         return $this->cache(
-            'index.' . $limit,
+            'index',
             static fn() => Location::query()
                 ->with([
                     'featured_image'
                 ])
+                ->limit($limit)
                 ->get()
         );
     }
@@ -32,7 +33,7 @@ class LocationService extends BaseService
     public function getLocationRankings(Location $location, int $limit = 5): array
     {
         return $this->cache(
-            $location->id . '.rankings.' . $limit,
+            $location->id . '.rankings',
             fn(): array => [
                 'high' => $this->calculateLocationRankings($location, 'desc', $limit),
                 'low' => $this->calculateLocationRankings($location, 'asc', $limit),

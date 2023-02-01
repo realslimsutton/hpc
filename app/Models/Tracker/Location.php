@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Support\Facades\Cache;
 
 class Location extends Model
 {
@@ -16,6 +17,20 @@ class Location extends Model
         'name',
         'featured_image_id',
     ];
+
+    protected static function booted(): void
+    {
+        $clearCache = static function (Location $model): void {
+            Cache::forget('tracker.locations.index');
+            Cache::forget('tracker.locations.'.$model->id.'.rankings');
+
+            Cache::forget('tracker.sessions.latest');
+        };
+
+        static::created($clearCache);
+        static::updated($clearCache);
+        static::deleted($clearCache);
+    }
 
     public function featured_image(): HasOne
     {

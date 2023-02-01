@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Support\Facades\Cache;
 use Squire\Models\Country;
 
 class Player extends Model
@@ -32,6 +33,23 @@ class Player extends Model
         'enabled' => 'boolean',
         'date_of_birth' => 'datetime',
     ];
+
+    protected static function booted(): void
+    {
+        $clearCache = static function () {
+            Cache::forget('tracker.locations.index');
+
+            foreach (Location::query()->lazy() as $model) {
+                Cache::forget('tracker.locations.'.$model->id.'.rankings');
+            }
+
+            Cache::forget('tracker.sessions.latest');
+        };
+
+        static::created($clearCache);
+        static::updated($clearCache);
+        static::deleted($clearCache);
+    }
 
     public function country(): BelongsTo
     {
