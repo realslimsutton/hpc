@@ -8,15 +8,23 @@
     <div class="w-full mx-auto px-6 my-20 mt-0 md:mt-20 py-12 text-white space-y-12">
         <div class="w-full max-w-xl mx-auto flex flex-col items-center justify-center gap-4">
             @livewire('tracker.search')
+
+            @if(filled($lastUpdated))
+                <div>
+                    <h2 class="text-lg font-semibold text-center">
+                        Last updated: {{ $lastUpdated->diffForHumans() }}
+                    </h2>
+                </div>
+            @endif
         </div>
 
-        <x-tracker.locations :locations="$locations" :rankings="$locationRankings" />
+        <x-tracker.locations :locations="$locations" :rankings="$locationRankings"/>
 
         <h2 class="text-2xl font-semibold text-center">
             Most Recent Episodes
         </h2>
 
-        <x-tracker.latest-sessions :sessions="$latestSessions" />
+        <x-tracker.latest-sessions :sessions="$latestSessions"/>
 
         <h2 class="text-2xl font-semibold text-center text-white">
             Disclaimer
