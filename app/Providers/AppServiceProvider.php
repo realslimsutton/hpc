@@ -2,19 +2,15 @@
 
 namespace App\Providers;
 
-use App\Repositories\Tracker\SessionRepository;
 use App\Support\AssetVersion;
 use Filament\Facades\Filament;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\ServiceProvider;
-use Laravel\Telescope\Telescope;
 
 class AppServiceProvider extends ServiceProvider
 {
     public function register(): void
     {
-        Telescope::ignoreMigrations();
-
         $this->registerHelpers();
         $this->registerModelRepositories();
     }

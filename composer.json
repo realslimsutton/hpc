@@ -17,7 +17,6 @@
         "laravel/framework": "^9.19",
         "laravel/octane": "^1.4",
         "laravel/sanctum": "^3.0",
-        "laravel/telescope": "^4.12",
         "laravel/tinker": "^2.7",
         "protonemedia/laravel-cross-eloquent-search": "^3.1",
         "squirephp/countries-en": "^3.3"
