@@ -33,6 +33,14 @@ Route::prefix('/games')->name('games.')->group(static function () {
     Route::view('/payout-structure', 'games.payout-structure')->name('payout-structure');
 });
 
+Route::prefix('/promotions')->name('promotions.')->group(static function () {
+    Route::view('/loyalty-program', 'promotions.loyalty-program')->name('loyalty-program');
+    Route::view('/freeroll-tournaments', 'promotions.freeroll-tournaments')->name('freeroll-tournaments');
+    Route::view('/giveaways', 'promotions.giveaways')->name('giveaways');
+    Route::view('/first-deposit-bonus', 'promotions.first-deposit-bonus')->name('first-deposit-bonus');
+    Route::view('/referral-program', 'promotions.referral-program')->name('referral-program');
+});
+
 Route::prefix('/tracker')->name('tracker.')->group(static function () {
     Route::get('/', IndexController::class)->name('index');
     Route::get('/player/{id}', PlayerController::class)->name('player');
