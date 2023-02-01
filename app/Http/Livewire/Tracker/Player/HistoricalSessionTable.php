@@ -4,6 +4,8 @@ namespace App\Http\Livewire\Tracker\Player;
 
 use Akaunting\Money\Money;
 use App\Models\Tracker\Player;
+use App\Models\Tracker\Session;
+use Closure;
 use Filament\Forms\Components\DatePicker;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Concerns\InteractsWithTable;
@@ -12,6 +14,7 @@ use Filament\Tables\Filters\Filter;
 use Filament\Tables\Filters\SelectFilter;
 use Illuminate\Contracts\View\View;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Support\HtmlString;
 use Livewire\Component;
@@ -177,7 +180,7 @@ class HistoricalSessionTable extends Component implements HasTable
                             $data['date_to'],
                             fn(Builder $query, $date): Builder => $query->whereDate('date', '<=', $date),
                         );
-                })
+                }),
         ];
     }
 
@@ -201,5 +204,10 @@ class HistoricalSessionTable extends Component implements HasTable
                 'stakes.id'
             )
             ->getQuery();
+    }
+
+    protected function getTableRecordUrlUsing(): ?Closure
+    {
+        return static fn($record): string => route('tracker.session', $record->session_id);
     }
 }
