@@ -3,7 +3,7 @@
 ])
 
 <a
-    href="#"
+    href="{{ route('tracker.location', $result->id) }}"
     class="w-full py-4 px-6 h-20 flex items-center gap-4"
 >
     @if($result->featured_image !== null)

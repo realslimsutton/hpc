@@ -44,9 +44,14 @@
                 @endif
 
                 <div>
-                    <h2 class="text-4xl font-bold">
+                    <a
+                        href="{{ route('tracker.location', $session->location->id) }}"
+                        class="text-4xl font-bold transition-colors hover:text-hpc-gold focus:text-hpc-gold"
+                        target="_blank"
+                    >
                         {{ $session->location->name }}
-                    </h2>
+                    </a>
+
                     <h3 class="text-lg font-semibold text-hpc-gold">
                         {{ $session->name }}
                     </h3>
