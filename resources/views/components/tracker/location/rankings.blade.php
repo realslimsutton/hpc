@@ -19,9 +19,11 @@
                 {{ $location->name }}
             </h3>
 
-            <h4 class="text-hpc-gold">
-                70k subscribers
-            </h4>
+            @if(filled($location->subscriber_count))
+                <h4 class="text-hpc-gold">
+                    {{ $location->subscriber_count }} subscribers
+                </h4>
+            @endif
         </div>
     </div>
 

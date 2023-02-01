@@ -11,6 +11,7 @@ use Filament\Resources\Form;
 use Filament\Resources\Resource;
 use Filament\Resources\Table;
 use Filament\Tables;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 
 class LocationResource extends Resource
@@ -48,25 +49,35 @@ class LocationResource extends Resource
                             ->required()
                             ->maxLength(255)
                             ->unique(ignoreRecord: true),
-                        CuratorPicker::make('featured_image_id')
-                            ->label('Featured image')
-                            ->acceptedFileTypes([
-                                'image/jpeg',
-                                'image/png',
-                                'image/webp',
-                                'image/svg+xml',
-                            ]),
+                        Forms\Components\TextInput::make('subscriber_count')
+                            ->label('Subscriber count')
+                            ->nullable()
+                            ->maxLength(255),
                     ]),
 
-                Forms\Components\Card::make()
+                Forms\Components\Grid::make()
                     ->columnSpan(1)
                     ->schema([
-                        Forms\Components\Placeholder::make('created_at')
-                            ->label('Created at')
-                            ->content(static fn (?Location $record): string => $record?->created_at?->diffForHumans() ?? '-'),
-                        Forms\Components\Placeholder::make('updated_at')
-                            ->label('Updated at')
-                            ->content(static fn (?Location $record): string => $record?->updated_at?->diffForHumans() ?? '-'),
+                        Forms\Components\Card::make()
+                            ->schema([
+                                Forms\Components\Placeholder::make('created_at')
+                                    ->label('Created at')
+                                    ->content(static fn(?Location $record): string => $record?->created_at?->diffForHumans() ?? '-'),
+                                Forms\Components\Placeholder::make('updated_at')
+                                    ->label('Updated at')
+                                    ->content(static fn(?Location $record): string => $record?->updated_at?->diffForHumans() ?? '-'),
+                            ]),
+                        Forms\Components\Card::make()
+                            ->schema([
+                                CuratorPicker::make('featured_image_id')
+                                    ->disableLabel()
+                                    ->acceptedFileTypes([
+                                        'image/jpeg',
+                                        'image/png',
+                                        'image/webp',
+                                        'image/svg+xml',
+                                    ]),
+                            ]),
                     ]),
             ]);
     }
@@ -129,5 +140,13 @@ class LocationResource extends Resource
     public static function getGlobalSearchResultTitle(Model $record): string
     {
         return $record->name;
+    }
+
+    public static function getEloquentQuery(): Builder
+    {
+        return parent::getEloquentQuery()
+            ->with([
+                'featured_image'
+            ]);
     }
 }

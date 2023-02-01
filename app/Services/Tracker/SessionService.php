@@ -7,6 +7,7 @@ use App\Models\Tracker\Session;
 use App\Services\BaseService;
 use Illuminate\Contracts\Database\Eloquent\Builder;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Str;
 
 class SessionService extends BaseService
 {
@@ -153,13 +154,28 @@ class SessionService extends BaseService
                     return null;
                 }
 
-                if ((! $url = parse_url($session->stream_url)) || blank($url['query'])) {
+                if(Str::startsWith(Str::lower($session->stream_url), 'https://youtube.com/embed/')) {
+                    return $session->stream_url;
+                }
+
+                if (!$url = parse_url($session->stream_url)) {
                     return null;
+                }
+
+                if(blank($url['query'] ?? null)) {
+                    if(filled($url['path'])) {
+                        return 'https://youtube.com/embed/'.$url['path'];
+                    }
+
+                    return $session->stream_url;
                 }
 
                 parse_str($url['query'], $parameters);
 
-                $id = $parameters['v'] ?? mb_substr($url['path'], 1);
+                $id = $parameters['v'] ?? null;
+                if(blank($id)) {
+                    return $session->stream_url;
+                }
 
                 return 'https://youtube.com/embed/'.$id;
             },

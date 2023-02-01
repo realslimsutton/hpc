@@ -15,6 +15,7 @@ class Location extends Model
 
     protected $fillable = [
         'name',
+        'subscriber_count',
         'featured_image_id',
     ];
 
