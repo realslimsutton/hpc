@@ -20,9 +20,9 @@ class Location extends Model
 
     protected static function booted(): void
     {
-        $clearCache = static function (Location $model): void {
+        $clearCache = static function (Location $location): void {
             Cache::forget('tracker.locations.index');
-            Cache::forget('tracker.locations.'.$model->id.'.rankings');
+            Cache::forget('tracker.locations.'.$location->id.'.rankings');
 
             Cache::forget('tracker.sessions.latest');
         };

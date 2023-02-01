@@ -27,9 +27,10 @@ class Session extends Model
 
     protected static function booted(): void
     {
-        $clearCache = static function (Location $model): void {
+        $clearCache = static function (Session $session): void {
+            Cache::forget('tracker.sessions.find.' . $session->id);
             Cache::forget('tracker.locations.index');
-            Cache::forget('tracker.locations.'.$model->location_id.'.rankings');
+            Cache::forget('tracker.locations.'.$session->location_id.'.rankings');
 
             Cache::forget('tracker.sessions.latest');
         };
@@ -57,6 +58,7 @@ class Session extends Model
     public function players(): BelongsToMany
     {
         return $this->belongsToMany(Player::class)
+            ->using(PlayerSession::class)
             ->withPivot([
                 'id',
                 'net_winnings',

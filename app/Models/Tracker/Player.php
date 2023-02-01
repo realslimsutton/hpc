@@ -36,10 +36,11 @@ class Player extends Model
 
     protected static function booted(): void
     {
-        $clearCache = static function () {
+        $clearCache = static function (Player $player) {
+            Cache::forget('tracker.players.find.' . $player->id);
             Cache::forget('tracker.locations.index');
 
-            foreach (Location::query()->lazy() as $model) {
+            foreach (Location::all() as $model) {
                 Cache::forget('tracker.locations.'.$model->id.'.rankings');
             }
 
@@ -64,6 +65,7 @@ class Player extends Model
     public function sessions(): BelongsToMany
     {
         return $this->belongsToMany(Session::class)
+            ->using(PlayerSession::class)
             ->withPivot([
                 'id',
                 'net_winnings',

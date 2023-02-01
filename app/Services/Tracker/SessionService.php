@@ -36,6 +36,15 @@ class SessionService extends BaseService
         );
     }
 
+    public function findOrFail($id): Session
+    {
+        return $this->cache(
+            'find.' . $id,
+            static fn() => Session::query()
+                ->findOrFail($id)
+        );
+    }
+
     public function getFacts(Collection $sessions): array
     {
         return [

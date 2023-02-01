@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\Pivot;
+use Illuminate\Support\Facades\Cache;
 
 class PlayerSession extends Pivot
 {
@@ -19,6 +20,25 @@ class PlayerSession extends Pivot
         'pfr',
         'hours_played'
     ];
+
+    protected static function booted(): void
+    {
+        $clearCache = static function (PlayerSession $playerSession) {
+            Cache::forget('tracker.players.find.' . $playerSession->id);
+            Cache::forget('tracker.sessions.find.' . $playerSession->id);
+            Cache::forget('tracker.locations.index');
+
+            foreach (Location::all() as $model) {
+                Cache::forget('tracker.locations.'.$model->id.'.rankings');
+            }
+
+            Cache::forget('tracker.sessions.latest');
+        };
+
+        static::created($clearCache);
+        static::updated($clearCache);
+        static::deleted($clearCache);
+    }
 
     public function player(): BelongsTo
     {
