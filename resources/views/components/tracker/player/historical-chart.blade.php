@@ -116,7 +116,7 @@
 
             this.chart.update();
         },
-        checkFilters(session) {t
+        checkFilters(session) {
             if(
                 this.filters.location !== 'all' &&
                 this.filters.location !== session.location
