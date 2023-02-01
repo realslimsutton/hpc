@@ -24,7 +24,7 @@
     <td>
         <a href="{{ $route }}" class="block">
             @if(filled($data['sum_net_winnings']))
-                <span class="{{ $data['sum_net_winnings'] > 0 ?'text-green-500' : 'text-rose-500' }}">
+                <span class="{{ $data['sum_net_winnings'] > 0 ? 'text-green-500' : 'text-rose-500' }}">
                     {{ \Akaunting\Money\Money::USD($data['sum_net_winnings']) }}
                 </span>
             @else

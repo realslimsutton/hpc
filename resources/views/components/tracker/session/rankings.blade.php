@@ -3,14 +3,19 @@
 ])
 
 <div
-    class="bg-hpc-red-700 border border-hpc-red-800 rounded-lg p-4 text-white space-y-6"
+    class="bg-hpc-red-700 border border-hpc-red-800 rounded-lg p-4 text-white space-y-4"
     x-data="{showWinners: true}"
 >
     <div>
-        <h3 class="text-xl font-semibold">
+        <a
+            href="{{ route('tracker.session', $session->id) }}"
+            class="block text-xl font-semibold transition-colors hover:text-hpc-gold focus:text-hpc-gold"
+        >
             {{ $session->name }}
-        </h3>
+        </a>
+    </div>
 
+    <div>
         <h4 class="font-medium">
             <span class="text-hpc-gold">Table Stakes:</span> {{ $session->stake->name }}
         </h4>

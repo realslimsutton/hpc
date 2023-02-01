@@ -15,7 +15,7 @@
     <td></td>
 
     <td class="p-2 whitespace-nowrap">
-        <span class="{{ $netWinnings > 0 ?'text-green-500' : 'text-rose-500' }}">
+        <span class="{{ $netWinnings > 0 ? 'text-green-500' : 'text-rose-500' }}">
             {{ \Akaunting\Money\Money::USD($netWinnings) }}
         </span>
     </td>
@@ -33,13 +33,13 @@
     </td>
 
     <td class="p-2 whitespace-nowrap">
-        <span class="{{ $hourlyNetWinnings > 0 ?'text-green-500' : 'text-rose-500' }}">
+        <span class="{{ $hourlyNetWinnings > 0 ? 'text-green-500' : 'text-rose-500' }}">
             {{ \Akaunting\Money\Money::USD($hourlyNetWinnings) }}
         </span>
     </td>
 
     <td class="p-2 whitespace-nowrap">
-        <span class="{{ $hourlyBB > 0 ?'text-green-500' : 'text-rose-500' }}">
+        <span class="{{ $hourlyBB > 0 ? 'text-green-500' : 'text-rose-500' }}">
             {{ number_format($hourlyBB / 100, 2) }} BB
         </span>
     </td>

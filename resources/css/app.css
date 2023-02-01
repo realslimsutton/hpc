@@ -125,3 +125,7 @@
     @apply focus:!border-hpc-gold;
     @apply focus:!ring-hpc-gold;
 }
+
+.filament-tables-row.hover\:bg-gray-50:hover {
+    @apply hover:!bg-hpc-red-800;
+}

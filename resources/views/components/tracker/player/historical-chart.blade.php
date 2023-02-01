@@ -3,7 +3,7 @@
 ])
 
 <div
-    class="relative bg-hpc-red-700  rounded-xl border border-hpc-red-800"
+    class="relative bg-hpc-red-700 rounded-xl border border-hpc-red-800"
     x-data="{
         data: @js($data['series']),
         filters: {
