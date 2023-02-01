@@ -7,7 +7,7 @@
     $vpip = $data->average('avg_vpip');
     $pfr = $data->average('avg_pfr');
     $hoursPlayed = $data->sum('sum_hours_played');
-    $hourlyNetWinnings = $data->average('avg_hourly_net_winnings');
+    $hourlyNetWinnings = (filled($hoursPlayed) && $hoursPlayed > 0) ? $netWinnings / $hoursPlayed : null;
     $hourlyBB = $data->average('avg_hourly_bb');
 @endphp
 

@@ -94,6 +94,10 @@ class LocationResource extends Resource
                     ->label('Name')
                     ->searchable()
                     ->sortable(),
+                Tables\Columns\BadgeColumn::make('subscriber_count')
+                    ->label('Subscribers')
+                    ->sortable()
+                    ->formatStateUsing(static fn($state) => $state ?? '-'),
                 Tables\Columns\TextColumn::make('created_at')
                     ->label('Created at')
                     ->date()
@@ -146,7 +150,7 @@ class LocationResource extends Resource
     {
         return parent::getEloquentQuery()
             ->with([
-                'featured_image'
+                'featured_image',
             ]);
     }
 }

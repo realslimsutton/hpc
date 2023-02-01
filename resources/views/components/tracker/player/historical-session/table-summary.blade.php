@@ -5,7 +5,7 @@
     $vpip = $records->avg('vpip');
     $pfr = $records->avg('pfr');
     $hoursPlayed = $records->sum('hours_played');
-    $hourlyNetWinnings = $records->avg('hourly_net_winnings');
+    $hourlyNetWinnings = (filled($hoursPlayed) && $hoursPlayed > 0) ? $netWinnings / $hoursPlayed : null;
     $hourlyBB = $records->avg('hourly_bb');
 @endphp
 
