@@ -25,6 +25,8 @@ class AppServiceProvider extends ServiceProvider
         Model::preventLazyLoading(!app()->isProduction());
 
         Filament::serving(static function () {
+            Filament::registerViteTheme('resources/css/filament.css');
+
             Filament::registerNavigationGroups([
                 'Tracker',
                 'System',
