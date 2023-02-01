@@ -42,9 +42,7 @@ class SessionService extends BaseService
             'find.'.$id,
             static fn () => Session::query()
                 ->with([
-                    'players' => static function(Builder $query) {
-                        $query->orderBy('net_winnings');
-                    },
+                    'players',
                     'stake',
                     'game_rules',
                     'location',
@@ -127,7 +125,7 @@ class SessionService extends BaseService
         ];
     }
 
-    public function getTable(Session $session)
+    public function getTable(Session $session): Collection
     {
         return $session->players
             ->map(static fn (Player $player) => [
@@ -143,7 +141,8 @@ class SessionService extends BaseService
                 'avg_hourly_bb' => ($player->pivot->hours_played > 0 && $session->stake->big_blind > 0)
                     ? ($player->pivot->net_winnings / $session->stake->big_blind) / $player->pivot->hours_played
                     : null,
-            ]);
+            ])
+            ->sortBy('net_winnings');
     }
 
     public function getEmbedUrl(Session $session): ?string
