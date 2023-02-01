@@ -8,26 +8,23 @@
     ],
     "license": "MIT",
     "require": {
-        "php": "^8.0.2",
+        "php": "^8.2.0",
         "akaunting/laravel-money": "^3.1",
         "awcodes/filament-curator": "^2.0",
         "bezhansalleh/filament-shield": "^2.3",
-        "doctrine/dbal": "^3.5",
         "filament/filament": "^2.16",
         "guzzlehttp/guzzle": "^7.2",
         "laravel/framework": "^9.19",
-        "laravel/octane": "^1.4",
         "laravel/sanctum": "^3.0",
+        "laravel/telescope": "^4.12",
         "laravel/tinker": "^2.7",
         "protonemedia/laravel-cross-eloquent-search": "^3.1",
-        "spatie/ray": "^1.36",
         "squirephp/countries-en": "^3.3"
     },
     "require-dev": {
         "fakerphp/faker": "^1.9.1",
         "laravel/pint": "^1.0",
         "laravel/sail": "^1.0.1",
-        "laravel/telescope": "^4.12",
         "mockery/mockery": "^1.4.4",
         "nunomaduro/collision": "^6.1",
         "phpunit/phpunit": "^9.5.10",
@@ -54,7 +51,8 @@
             "@php artisan package:discover --ansi"
         ],
         "post-update-cmd": [
-            "@php artisan vendor:publish --tag=laravel-assets --ansi --force"
+            "@php artisan vendor:publish --tag=laravel-assets --ansi --force",
+            "@php artisan filament:upgrade"
         ],
         "post-root-package-install": [
             "@php -r \"file_exists('.env') || copy('.env.example', '.env');\""
@@ -62,13 +60,11 @@
         "post-create-project-cmd": [
             "@php artisan key:generate --ansi"
         ],
-        "format": "./vendor/bin/pint"
+        "format": "vendor/bin/pint"
     },
     "extra": {
         "laravel": {
-            "dont-discover": [
-                "laravel/telescope"
-            ]
+            "dont-discover": []
         }
     },
     "config": {

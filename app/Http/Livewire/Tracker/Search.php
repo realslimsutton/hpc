@@ -3,8 +3,8 @@
 namespace App\Http\Livewire\Tracker;
 
 use App\Models\Tracker\Location;
-use App\Models\Tracker\ProfessionalPlayer;
-use App\Models\Tracker\ProfessionalSession;
+use App\Models\Tracker\Player;
+use App\Models\Tracker\Session;
 use Illuminate\Contracts\Pagination\Paginator;
 use Illuminate\Contracts\View\View;
 use Livewire\Component;
@@ -49,14 +49,14 @@ class Search extends Component
 
         $results = EloquentSearch::new()
             ->add(
-                ProfessionalPlayer::query()
+                Player::query()
                     ->with([
                         'featured_image',
                     ]),
                 ['name', 'nickname']
             )
             ->add(
-                ProfessionalSession::query()
+                Session::query()
                     ->with([
                         'location',
                         'location.featured_image',

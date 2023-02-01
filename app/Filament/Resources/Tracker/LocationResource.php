@@ -11,7 +11,6 @@ use Filament\Resources\Form;
 use Filament\Resources\Resource;
 use Filament\Resources\Table;
 use Filament\Tables;
-use Illuminate\Database\Eloquent\Builder;
 
 class LocationResource extends Resource
 {
@@ -35,23 +34,26 @@ class LocationResource extends Resource
                 'lg' => null,
             ])
             ->schema([
-                Forms\Components\Grid::make()
-                    ->columns([
-                        'sm' => 2,
-                    ])
+                Forms\Components\Card::make()
                     ->columnSpan([
                         'sm' => 2,
                     ])
+                    ->columns([
+                        'sm' => 2,
+                    ])
                     ->schema([
-                        Forms\Components\Card::make()
-                            ->columns()
-                            ->schema([
-                                CuratorPicker::make('featured_image_id')
-                                    ->label('Featured image'),
-                                Forms\Components\TextInput::make('name')
-                                    ->label('Name')
-                                    ->required()
-                                    ->maxLength(255),
+                        Forms\Components\TextInput::make('name')
+                            ->label('Name')
+                            ->required()
+                            ->maxLength(255)
+                            ->unique(ignoreRecord: true),
+                        CuratorPicker::make('featured_image_id')
+                            ->label('Featured image')
+                            ->acceptedFileTypes([
+                                'image/jpeg',
+                                'image/png',
+                                'image/webp',
+                                'image/svg+xml',
                             ]),
                     ]),
 
@@ -71,22 +73,23 @@ class LocationResource extends Resource
     public static function table(Table $table): Table
     {
         return $table
+            ->defaultSort('updated_at', 'desc')
             ->columns([
                 CuratorColumn::make('featured_image')
                     ->label('Featured image')
                     ->circular(),
                 Tables\Columns\TextColumn::make('name')
                     ->label('Name')
-                    ->sortable()
-                    ->searchable(),
+                    ->searchable()
+                    ->sortable(),
                 Tables\Columns\TextColumn::make('created_at')
                     ->label('Created at')
-                    ->sortable()
-                    ->date(),
+                    ->date()
+                    ->sortable(),
                 Tables\Columns\TextColumn::make('updated_at')
                     ->label('Updated at')
-                    ->sortable()
-                    ->date(),
+                    ->date()
+                    ->sortable(),
             ])
             ->filters([
                 //
@@ -104,14 +107,6 @@ class LocationResource extends Resource
         return [
             //
         ];
-    }
-
-    public static function getEloquentQuery(): Builder
-    {
-        return parent::getEloquentQuery()
-            ->with([
-                'featured_image',
-            ]);
     }
 
     public static function getPages(): array

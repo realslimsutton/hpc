@@ -8,10 +8,10 @@
 
 @section('body')
     <x-page.banner>
-        Professional Player
+        Player
     </x-page.banner>
 
-    <div class="w-full mx-auto px-6 my-20 mt-0 md:mt-20 py-12 text-white space-y-12 space-y-12">
+    <div class="w-full mx-auto px-6 my-20 mt-0 md:mt-20 py-12 text-white space-y-12">
         <div class="w-full max-w-xl mx-auto flex flex-col items-center justify-center gap-4">
             @livewire('tracker.search')
         </div>
@@ -20,14 +20,7 @@
             class="w-full max-w-screen-2xl mx-auto grid lg:grid-cols-2 gap-12 bg-hpc-red-700 border border-hpc-red-800 rounded-lg p-4"
         >
             <div class="flex items-center gap-4">
-                @if($player->featured_image !== null)
-                    <x-curator-glider :media="$player->featured_image" class="h-32 w-32 rounded-full"/>
-                @else
-                    <img
-                        src="https://ui-avatars.com/api/?name={{ urlencode($player->name) }}&color=FFCD67&background=5A0410"
-                        class="h-32 w-32 rounded-full"
-                    />
-                @endif
+                <x-tracker.player.avatar :player="$player"/>
 
                 <div class="space-y-2">
                     <h2 class="font-semibold text-white text-4xl">
@@ -43,7 +36,7 @@
                             class="text-hpc-gold">Birth Date:</span> {{ $player->date_of_birth?->format('M j, Y') ?? 'Unknown' }}
                     </h3>
 
-                    @if($player->twitter_url !== null)
+                    @if(filled($player->twitter_url) && filled($player->twitter_handle))
                         <p>
                             <a
                                 href="{{ $player->twitter_url }}"
@@ -64,70 +57,18 @@
             </div>
 
             <div class="flex flex-col justify-center space-y-2">
-                {!! Str::markdown($player->biography) !!}
+                {!! Str::markdown($player->biography ?? '') !!}
             </div>
         </div>
 
-        <div class="grid md:grid-cols-4 lg:grid-cols-8">
-            <x-tracker.player.player-fact title="Hometown"
-                                          class="rounded-tl-lg rounded-tr-lg md:rounded-tr-none rounded-bl-none lg:rounded-bl-lg">
-                {{ $player->hometown ?? 'Unknown' }}
-            </x-tracker.player.player-fact>
-
-            <x-tracker.player.player-fact title="Nationality">
-                @if($country !== null)
-                    <span>
-                        @svg('hpc-country-flags.4x3.' . $country->code_2, 'h-6 w-6')
-                    </span>
-                @endif
-
-                <span>
-                    {{ $country?->name ?? 'Unknown' }}
-                </span>
-            </x-tracker.player.player-fact>
-
-            <x-tracker.player.player-fact title="Profession">
-                {{ $player->profession ?? 'Unknown' }}
-            </x-tracker.player.player-fact>
-
-            <x-tracker.player.player-fact title="Net Winnings" class="md:rounded-tr-lg lg:rounded-tr-none">
-                {{ \Akaunting\Money\Money::USD($totalWinnings * 100) }}
-            </x-tracker.player.player-fact>
-
-            <x-tracker.player.player-fact title="Sessions" class="md:rounded-bl-lg lg:rounded-bl-none">
-                {{ number_format($sessionsPlayed) }}
-            </x-tracker.player.player-fact>
-
-            <x-tracker.player.player-fact title="Hours played">
-                {{ number_format($hoursPlayed) }}
-            </x-tracker.player.player-fact>
-
-            <x-tracker.player.player-fact title="Stakes Played">
-                {{ $mostPlayedStake ?? 'Unknown' }}
-            </x-tracker.player.player-fact>
-
-            <x-tracker.player.player-fact title="First Session"
-                                          class="rounded-br-lg rounded-bl-lg md:rounded-bl-none lg:rounded-tr-lg">
-                {{ $firstSession?->format('M j, Y') ?? 'Unknown' }}
-            </x-tracker.player.player-fact>
-        </div>
+        <x-tracker.player.facts :facts="$facts"/>
 
         <div class="w-full grid lg:grid-cols-2 gap-12">
             <div>
-                <x-tracker.player.historical-chart :chart-data="$chartData"/>
+                <x-tracker.player.historical-chart :data="$historicalChart"/>
             </div>
 
-            <div class="space-y-12 overflow-x-hidden">
-                <div class="w-full space-y-4 overflow-x-hidden">
-                    <h2 class="text-4xl font-bold text-white">
-                        Breakdown by Livestream
-                    </h2>
-
-                    <div class="relative bg-hpc-red-700  rounded-xl border border-hpc-red-800 p-4 overflow-x-auto">
-                        <x-tracker.player.location-breakdown-table :data="$breakdownByLocation"/>
-                    </div>
-                </div>
-            </div>
+            <x-tracker.player.breakdown-by-location :data="$breakdownByLocation"/>
         </div>
 
         <div class="w-full space-y-4">
@@ -135,7 +76,7 @@
                 Session History
             </h2>
 
-            @livewire('tracker.player-session-history', ['player' => $player])
+            @livewire('tracker.player.historical-session-table', ['player' => $player])
         </div>
     </div>
 @endsection

@@ -24,9 +24,9 @@
             @forelse($results as $result)
                 @php
                     $component = match(get_class($result)) {
-                        \App\Models\Tracker\ProfessionalPlayer::class => 'tracker.search-results.professional-player',
-                        \App\Models\Tracker\ProfessionalSession::class => 'tracker.search-results.professional-session',
-                        \App\Models\Tracker\Location::class => 'tracker.search-results.location',
+                        \App\Models\Tracker\Player::class => 'tracker.search.player',
+                        \App\Models\Tracker\Session::class => 'tracker.search.session',
+                        \App\Models\Tracker\Location::class => 'tracker.search.location',
                         default => null
                     }
                 @endphp
@@ -44,9 +44,9 @@
                 <div class="flex items-center justify-between flex-wrap px-6 py-2">
                     <div>
                         @if($this->currentPage > 1)
-                            <x-tracker.search-results.button target="previousPage">
+                            <x-tracker.search.button target="previousPage">
                                 Previous
-                            </x-tracker.search-results.button>
+                            </x-tracker.search.button>
                         @endif
                     </div>
 
@@ -56,9 +56,9 @@
 
                     <div>
                         @if($results->hasMorePages())
-                            <x-tracker.search-results.button target="nextPage">
+                            <x-tracker.search.button target="nextPage">
                                 Next
-                            </x-tracker.search-results.button>
+                            </x-tracker.search.button>
                         @endif
                     </div>
                 </div>

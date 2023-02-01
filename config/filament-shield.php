@@ -4,27 +4,27 @@ return [
     'shield_resource' => [
         'should_register_navigation' => true,
         'slug' => 'system/roles',
-        'navigation_sort' => 2,
+        'navigation_sort' => 1,
         'navigation_badge' => true,
         'navigation_group' => true,
-        'is_globally_searchable' => false,
-        'show_model_path' => false,
+        'is_globally_searchable' => true,
+        'show_model_path' => true,
     ],
 
     'auth_provider_model' => [
-        'fqcn' => 'App\\Models\\User',
+        'fqcn' => \App\Models\User::class,
     ],
 
     'super_admin' => [
-        'enabled' => false,
-        'name' => 'super_admin',
+        'enabled' => true,
+        'name' => 'administrator',
         'define_via_gate' => false,
         'intercept_gate' => 'before', // after
     ],
 
     'filament_user' => [
-        'enabled' => false,
-        'name' => 'filament_user',
+        'enabled' => true,
+        'name' => 'user',
     ],
 
     'permission_prefixes' => [

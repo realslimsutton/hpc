@@ -4,7 +4,6 @@ namespace App\Policies;
 
 use App\Models\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
-use Spatie\Permission\Models\Role;
 
 class RolePolicy
 {
@@ -15,7 +14,7 @@ class RolePolicy
         return $user->can('view_any_role');
     }
 
-    public function view(User $user, Role $model): bool
+    public function view(User $user): bool
     {
         return $user->can('view_role');
     }
@@ -25,12 +24,12 @@ class RolePolicy
         return $user->can('create_role');
     }
 
-    public function update(User $user, Role $model): bool
+    public function update(User $user): bool
     {
         return $user->can('update_role');
     }
 
-    public function delete(User $user, Role $model): bool
+    public function delete(User $user): bool
     {
         return $user->can('delete_role');
     }
@@ -38,5 +37,35 @@ class RolePolicy
     public function deleteAny(User $user): bool
     {
         return $user->can('delete_any_role');
+    }
+
+    public function forceDelete(User $user): bool
+    {
+        return $user->can('force_delete_role');
+    }
+
+    public function forceDeleteAny(User $user): bool
+    {
+        return $user->can('force_delete_any_role');
+    }
+
+    public function restore(User $user): bool
+    {
+        return $user->can('restore_role');
+    }
+
+    public function restoreAny(User $user): bool
+    {
+        return $user->can('restore_any_role');
+    }
+
+    public function replicate(User $user): bool
+    {
+        return $user->can('replicate_role');
+    }
+
+    public function reorder(User $user): bool
+    {
+        return $user->can('reorder_role');
     }
 }

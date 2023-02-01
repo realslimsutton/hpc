@@ -1,14 +1,14 @@
 @props([
-    'chartData'
+    'data'
 ])
 
 <div
     class="relative bg-hpc-red-700  rounded-xl border border-hpc-red-800"
     x-data="{
-        data: @js($chartData['data']),
+        data: @js($data['series']),
         filters: {
             location: 'all',
-            game_type: 'all',
+            game_rules: 'all',
             stake: 'all',
             date: {
                 start: null,
@@ -34,7 +34,7 @@
                 element: $refs.dateFilter,
                 plugins: ['keyboardnav', 'mobilefriendly', 'ranges'],
                 format: 'MMM DD, YYYY',
-                dropdowns: {minYear: {{ $chartData['minYear'] }}, maxYear:null, months:true, years:true},
+                dropdowns: {minYear: {{ $data['filters']['minYear'] }}, maxYear:null, months:true, years:true},
                 resetButton: true,
                 setup: (picker) => {
                     picker.on('selected', (start, end) => {
@@ -92,7 +92,6 @@
                         tooltip: {
                             callbacks: {
                                 label: function(context) {
-                                console.log(context);
                                     return `${context.dataset.label}: ${currencyFormatter.format(context.raw)}`;
                                 }
                             }
@@ -117,7 +116,7 @@
 
             this.chart.update();
         },
-        checkFilters(session) {
+        checkFilters(session) {t
             if(
                 this.filters.location !== 'all' &&
                 this.filters.location !== session.location
@@ -126,8 +125,8 @@
             }
 
             if(
-                this.filters.game_type !== 'all' &&
-                this.filters.game_type !== session.game_type
+                this.filters.game_rules !== 'all' &&
+                this.filters.game_rules !== session.game_rules
             ) {
                 return false;
             }
@@ -141,10 +140,6 @@
 
             if(this.filters.date.start !== null && this.filters.date.end !== null) {
                 const date = new Date(session.date);
-
-                console.log(date);
-                console.log(this.filters.date.start);
-                console.log(this.filters.date.end);
 
                 if(this.filters.date.start > date) {
                     return false;
@@ -177,7 +172,7 @@
                         All
                     </option>
 
-                    @foreach($chartData['locations'] as $location)
+                    @foreach($data['filters']['locations'] as $location)
                         <option value="{{ $location }}">
                             {{ $location }}
                         </option>
@@ -196,16 +191,16 @@
 
                 <select
                     class="block w-full transition duration-75 rounded-lg shadow-sm bg-hpc-red-800 focus:border-hpc-gold focus:ring-1 focus:ring-inset focus:ring-hpc-gold disabled:opacity-70 border-hpc-red-800"
-                    x-model="filters.game_type"
+                    x-model="filters.game_rules"
                     x-on:change="updateChart"
                 >
                     <option value="all" selected>
                         All
                     </option>
 
-                    @foreach($chartData['gameTypes'] as $gameType)
-                        <option value="{{ $gameType }}">
-                            {{ $gameType }}
+                    @foreach($data['filters']['gameRules'] as $gameRules)
+                        <option value="{{ $gameRules }}">
+                            {{ $gameRules }}
                         </option>
                     @endforeach
                 </select>
@@ -229,7 +224,7 @@
                         All
                     </option>
 
-                    @foreach($chartData['stakes'] as $stake)
+                    @foreach($data['filters']['stakes'] as $stake)
                         <option value="{{ $stake }}">
                             {{ $stake }}
                         </option>

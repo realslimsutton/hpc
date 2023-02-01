@@ -2,9 +2,9 @@
 
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Filament\Models\Contracts\FilamentUser;
 use Filament\Models\Contracts\HasName;
+use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -12,15 +12,10 @@ use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use Spatie\Permission\Traits\HasRoles;
 
-class User extends Authenticatable implements FilamentUser, HasName
+class User extends Authenticatable implements MustVerifyEmail, FilamentUser, HasName
 {
     use HasApiTokens, HasFactory, Notifiable, HasRoles;
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array<int, string>
-     */
     protected $fillable = [
         'first_name',
         'last_name',
@@ -30,7 +25,7 @@ class User extends Authenticatable implements FilamentUser, HasName
         'email_verified_at',
         'password',
         'phone_number',
-        'country',
+        'country_id',
         'accepts_marketing',
         'discord_id',
         'discord_username',
@@ -40,39 +35,18 @@ class User extends Authenticatable implements FilamentUser, HasName
         'discord_avatar',
     ];
 
-    /**
-     * The attributes that should be hidden for serialization.
-     *
-     * @var array<int, string>
-     */
     protected $hidden = [
         'password',
         'remember_token',
     ];
 
-    /**
-     * The attributes that should be cast.
-     *
-     * @var array<string, string>
-     */
     protected $casts = [
         'email_verified_at' => 'datetime',
-        'date_of_birth' => 'datetime',
-        'accepts_marketing' => 'bool',
     ];
 
-    public function fullName(): Attribute
+    public function getFilamentName(): string
     {
-        return Attribute::make(
-            get: fn () => $this->first_name.' '.$this->last_name
-        );
-    }
-
-    public function discordName(): Attribute
-    {
-        return Attribute::make(
-            get: fn () => $this->discord_username.'#'.$this->discord_discriminator
-        );
+        return $this->full_name;
     }
 
     public function canAccessFilament(): bool
@@ -80,20 +54,10 @@ class User extends Authenticatable implements FilamentUser, HasName
         return $this->can('page_Dashboard');
     }
 
-    public function getFilamentName(): string
+    public function fullName(): Attribute
     {
-        return $this->full_name;
-    }
-
-    public function disconnectDiscord(): void
-    {
-        $this->forceFill([
-            'discord_id' => null,
-            'discord_username' => null,
-            'discord_token' => null,
-            'discord_refresh_token' => null,
-            'discord_discriminator' => null,
-            'discord_avatar' => null,
-        ])->save();
+        return Attribute::make(
+            get: fn () => $this->first_name.' '.$this->last_name
+        );
     }
 }

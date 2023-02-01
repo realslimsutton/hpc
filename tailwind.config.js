@@ -60,7 +60,7 @@ module.exports = {
                 }
             },
             fontFamily: {
-                sans: [ 'Poppins', ...defaultTheme.fontFamily.sans ]
+                sans: ['Poppins', ...defaultTheme.fontFamily.sans]
             }
         },
         container: {

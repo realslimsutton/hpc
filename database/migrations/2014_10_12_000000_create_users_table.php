@@ -6,27 +6,22 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     *
-     * @return void
-     */
-    public function up()
+    public function up(): void
     {
-        Schema::create('users', function (Blueprint $table) {
+        Schema::create('users', static function (Blueprint $table) {
             $table->id();
-            $table->string('first_name');
-            $table->string('last_name');
+            $table->string('first_name')->index();
+            $table->string('last_name')->index();
             $table->timestamp('date_of_birth');
             $table->string('clubgg_id')->unique();
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->string('phone_number')->unique();
-            $table->string('country');
+            $table->string('country_id')->index();
             $table->boolean('accepts_marketing')->index();
             $table->string('discord_id')->nullable()->unique();
-            $table->string('discord_username')->nullable();
+            $table->string('discord_username')->nullable()->index();
             $table->string('discord_token')->nullable();
             $table->string('discord_refresh_token')->nullable();
             $table->integer('discord_discriminator')->nullable();
@@ -34,15 +29,5 @@ return new class extends Migration
             $table->rememberToken();
             $table->timestamps();
         });
-    }
-
-    /**
-     * Reverse the migrations.
-     *
-     * @return void
-     */
-    public function down()
-    {
-        Schema::dropIfExists('users');
     }
 };

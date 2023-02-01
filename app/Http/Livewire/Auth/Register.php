@@ -62,7 +62,7 @@ class Register extends Component implements HasForms
                     'email',
                     'password',
                     'phone_number',
-                    'country',
+                    'country_id',
                     'accepts_marketing',
                 ])
                 ->all()
@@ -134,7 +134,7 @@ class Register extends Component implements HasForms
                         ->tel()
                         ->maxLength(255)
                         ->unique(table: User::class),
-                    Select::make('country')
+                    Select::make('country_id')
                         ->label('Country')
                         ->options(Country::all()->pluck('name', 'id'))
                         ->searchable()
