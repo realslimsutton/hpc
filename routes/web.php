@@ -19,6 +19,8 @@ use Illuminate\Support\Facades\Route;
 Route::view('/', 'index')->name('home');
 Route::view('/contact', 'contact')->name('contact');
 
+Route::get('/admin/login', fn() => redirect()->route('auth.login'))->name('filament.auth.login');
+
 Route::middleware('guest')->name('auth.')->group(static function () {
     Route::view('/login', 'auth.login')->name('login');
 

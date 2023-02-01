@@ -4,6 +4,7 @@ namespace App\Http\Livewire\Auth;
 
 use DanHarrin\LivewireRateLimiting\Exceptions\TooManyRequestsException;
 use DanHarrin\LivewireRateLimiting\WithRateLimiting;
+use Filament\Facades\Filament;
 use Filament\Forms\Components\Checkbox;
 use Filament\Forms\Components\Grid;
 use Filament\Forms\Components\Placeholder;
@@ -49,7 +50,7 @@ class Login extends Component implements HasForms
 
         $data = $this->form->getState();
 
-        if (! auth()->attempt([
+        if (!auth()->attempt([
             'email' => $data['email'],
             'password' => $data['password'],
         ], $data['remember'])) {
@@ -60,7 +61,9 @@ class Login extends Component implements HasForms
 
         session()->regenerate();
 
-        return redirect()->intended();
+        return redirect()->intended(
+            auth()->user()->canAccessFilament() ? Filament::getUrl() : '/'
+        );
     }
 
     protected function getFormSchema(): array
