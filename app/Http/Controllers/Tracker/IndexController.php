@@ -7,7 +7,6 @@ use App\Models\Tracker\Location;
 use App\Services\Tracker\LocationService;
 use App\Services\Tracker\SessionService;
 use DateTimeInterface;
-use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 
 class IndexController extends Controller
@@ -21,7 +20,7 @@ class IndexController extends Controller
 
         return view('tracker.index', [
             'locations' => $locations,
-            'locationRankings' => $locations->mapWithKeys(static fn(Location $location): array => [
+            'locationRankings' => $locations->mapWithKeys(static fn (Location $location): array => [
                 $location->id => $locationService->getLocationRankings($location),
             ]),
             'latestSessions' => $latestSessions,

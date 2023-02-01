@@ -5,7 +5,6 @@ namespace App\Filament\Resources\Tracker\SessionResource\Pages;
 use App\Filament\Resources\Tracker\SessionResource;
 use Filament\Pages\Actions;
 use Filament\Resources\Pages\EditRecord;
-use Illuminate\Database\Eloquent\Model;
 
 class EditSession extends EditRecord
 {

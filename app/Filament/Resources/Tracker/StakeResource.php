@@ -6,12 +6,10 @@ use App\Filament\Resources\Tracker\StakeResource\Pages;
 use App\Models\Tracker\Stake;
 use Closure;
 use Filament\Forms;
-use Filament\GlobalSearch\Actions\Action;
 use Filament\Resources\Form;
 use Filament\Resources\Resource;
 use Filament\Resources\Table;
 use Filament\Tables;
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Validation\Rules\Unique;
 
@@ -136,7 +134,7 @@ class StakeResource extends Resource
         return [
             'name',
             'small_blind',
-            'big_blind'
+            'big_blind',
         ];
     }
 
@@ -149,7 +147,7 @@ class StakeResource extends Resource
     {
         return [
             'Small blind' => $record->small_blind,
-            'Big blind' => $record->big_blind
+            'Big blind' => $record->big_blind,
         ];
     }
 }

@@ -2,8 +2,6 @@
 
 namespace App\Models\Tracker;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\Pivot;
 use Illuminate\Support\Facades\Cache;
@@ -18,14 +16,14 @@ class PlayerSession extends Pivot
         'net_winnings',
         'vpip',
         'pfr',
-        'hours_played'
+        'hours_played',
     ];
 
     protected static function booted(): void
     {
         $clearCache = static function (PlayerSession $playerSession) {
-            Cache::forget('tracker.players.find.' . $playerSession->id);
-            Cache::forget('tracker.sessions.find.' . $playerSession->id);
+            Cache::forget('tracker.players.find.'.$playerSession->id);
+            Cache::forget('tracker.sessions.find.'.$playerSession->id);
             Cache::forget('tracker.locations.index');
 
             foreach (Location::all() as $model) {

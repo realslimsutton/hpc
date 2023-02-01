@@ -5,7 +5,6 @@ namespace App\Filament\Resources\Tracker;
 use App\Filament\Resources\Tracker\SessionResource\Pages;
 use App\Filament\Resources\Tracker\SessionResource\RelationManagers;
 use App\Models\Tracker\Session;
-use Awcodes\Curator\Components\Tables\CuratorColumn;
 use Closure;
 use Filament\Forms;
 use Filament\GlobalSearch\Actions\Action;
@@ -16,7 +15,6 @@ use Filament\Tables;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Validation\Rules\Unique;
-use function blank;
 
 class SessionResource extends Resource
 {
@@ -117,7 +115,7 @@ class SessionResource extends Resource
                                                     return $rule->where('big_blind', $get('big_blind'));
                                                 }
                                             )
-                                            ->mask(static fn(Forms\Components\TextInput\Mask $mask) => $mask->money(decimalPlaces: 0)),
+                                            ->mask(static fn (Forms\Components\TextInput\Mask $mask) => $mask->money(decimalPlaces: 0)),
                                         Forms\Components\TextInput::make('big_blind')
                                             ->label('Big blind')
                                             ->required()
@@ -129,7 +127,7 @@ class SessionResource extends Resource
                                                     return $rule->where('small_blind', $get('small_blind'));
                                                 }
                                             )
-                                            ->mask(static fn(Forms\Components\TextInput\Mask $mask) => $mask->money(decimalPlaces: 0)),
+                                            ->mask(static fn (Forms\Components\TextInput\Mask $mask) => $mask->money(decimalPlaces: 0)),
                                     ]),
                             ]),
                     ]),
@@ -139,10 +137,10 @@ class SessionResource extends Resource
                     ->schema([
                         Forms\Components\Placeholder::make('created_at')
                             ->label('Created at')
-                            ->content(static fn(?Session $record): string => $record?->created_at?->diffForHumans() ?? '-'),
+                            ->content(static fn (?Session $record): string => $record?->created_at?->diffForHumans() ?? '-'),
                         Forms\Components\Placeholder::make('updated_at')
                             ->label('Updated at')
-                            ->content(static fn(?Session $record): string => $record?->updated_at?->diffForHumans() ?? '-'),
+                            ->content(static fn (?Session $record): string => $record?->updated_at?->diffForHumans() ?? '-'),
                     ]),
             ]);
     }

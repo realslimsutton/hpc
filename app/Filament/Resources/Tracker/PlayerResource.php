@@ -4,7 +4,6 @@ namespace App\Filament\Resources\Tracker;
 
 use App\Filament\Resources\Tracker\PlayerResource\Pages;
 use App\Models\Tracker\Player;
-use App\Models\Tracker\Session;
 use Awcodes\Curator\Components\Forms\CuratorPicker;
 use Awcodes\Curator\Components\Tables\CuratorColumn;
 use Closure;
@@ -18,8 +17,6 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
 use Squire\Models\Country;
-use function parse_url;
-use function today;
 
 class PlayerResource extends Resource
 {
@@ -104,7 +101,7 @@ class PlayerResource extends Resource
                                     ->requiredWith('twitter_handle')
                                     ->debounce()
                                     ->afterStateUpdated(static function (Closure $set, Closure $get): void {
-                                        if (filled($get('twitter_handle')) || !$url = parse_url($get('twitter_url'))) {
+                                        if (filled($get('twitter_handle')) || ! $url = parse_url($get('twitter_url'))) {
                                             return;
                                         }
 
@@ -131,10 +128,10 @@ class PlayerResource extends Resource
                                     ->helperText('Disabling this player will remove them from all rankings'),
                                 Forms\Components\Placeholder::make('created_at')
                                     ->label('Created at')
-                                    ->content(static fn(?Player $record): string => $record?->created_at?->diffForHumans() ?? '-'),
+                                    ->content(static fn (?Player $record): string => $record?->created_at?->diffForHumans() ?? '-'),
                                 Forms\Components\Placeholder::make('updated_at')
                                     ->label('Updated at')
-                                    ->content(static fn(?Player $record): string => $record?->updated_at?->diffForHumans() ?? '-'),
+                                    ->content(static fn (?Player $record): string => $record?->updated_at?->diffForHumans() ?? '-'),
                             ]),
                         Forms\Components\Card::make()
                             ->schema([
@@ -167,11 +164,11 @@ class PlayerResource extends Resource
                     ->label('Nickname')
                     ->sortable()
                     ->searchable()
-                    ->formatStateUsing(static fn(?string $state): string => $state ?? '-'),
+                    ->formatStateUsing(static fn (?string $state): string => $state ?? '-'),
                 Tables\Columns\TextColumn::make('twitter_handle')
                     ->label('Twitter')
-                    ->url(static fn(Player $record): ?string => $record->twitter_url, true)
-                    ->formatStateUsing(static fn(?string $state): string => $state ?? '-'),
+                    ->url(static fn (Player $record): ?string => $record->twitter_url, true)
+                    ->formatStateUsing(static fn (?string $state): string => $state ?? '-'),
                 Tables\Columns\TextColumn::make('created_at')
                     ->label('Created at')
                     ->date()
@@ -222,7 +219,7 @@ class PlayerResource extends Resource
             'name',
             'nickname',
             'profession',
-            'twitter_handle'
+            'twitter_handle',
         ];
     }
 
@@ -236,7 +233,7 @@ class PlayerResource extends Resource
         return [
             'Nickname' => $record->nickname ?? 'Unknown',
             'Hometown' => $record->hometown ?? 'Unknown',
-            'Country' => $record->country?->name ?? 'Unknown'
+            'Country' => $record->country?->name ?? 'Unknown',
         ];
     }
 

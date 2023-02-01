@@ -4,7 +4,6 @@ namespace App\Services\Tracker;
 
 use App\Models\Tracker\Location;
 use App\Models\Tracker\PlayerSession;
-use App\Models\Tracker\Session;
 use App\Services\BaseService;
 
 class LocationService extends BaseService
@@ -12,8 +11,7 @@ class LocationService extends BaseService
     public function __construct(
         string $cachePrefix = 'tracker.locations',
         int $cacheTtl = 86400
-    )
-    {
+    ) {
         parent::__construct($cachePrefix, $cacheTtl);
     }
 
@@ -21,9 +19,9 @@ class LocationService extends BaseService
     {
         return $this->cache(
             'index',
-            static fn() => Location::query()
+            static fn () => Location::query()
                 ->with([
-                    'featured_image'
+                    'featured_image',
                 ])
                 ->limit($limit)
                 ->get()
@@ -33,8 +31,8 @@ class LocationService extends BaseService
     public function getLocationRankings(Location $location, int $limit = 5): array
     {
         return $this->cache(
-            $location->id . '.rankings',
-            fn(): array => [
+            $location->id.'.rankings',
+            fn (): array => [
                 'high' => $this->calculateLocationRankings($location, 'desc', $limit),
                 'low' => $this->calculateLocationRankings($location, 'asc', $limit),
             ]
@@ -46,7 +44,7 @@ class LocationService extends BaseService
         return PlayerSession::query()
             ->select([
                 'player_session.player_id AS player_id',
-                'players.name AS player_name'
+                'players.name AS player_name',
             ])
             ->selectRaw('SUM(player_session.net_winnings) as sum_net_winnings')
             ->selectRaw('AVG(player_session.vpip) as avg_vpip')
@@ -70,7 +68,7 @@ class LocationService extends BaseService
             ->where('sessions.location_id', '=', $location->id)
             ->limit($limit)
             ->get()
-            ->mapWithKeys(static fn(PlayerSession $playerSession): array => [
+            ->mapWithKeys(static fn (PlayerSession $playerSession): array => [
                 $playerSession->player_id => $playerSession->only([
                     'player_name',
                     'sum_net_winnings',

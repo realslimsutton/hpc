@@ -3,7 +3,6 @@
 namespace App\Filament\Resources\System;
 
 use App\Filament\Resources\System\UserResource\Pages;
-use App\Filament\Resources\System\UserResource\RelationManagers;
 use App\Models\User;
 use Closure;
 use Filament\Forms;
@@ -13,7 +12,6 @@ use Filament\Resources\Table;
 use Filament\Tables;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Illuminate\Support\Facades\Hash;
 use Spatie\Permission\Models\Role;
 use Squire\Models\Country;
@@ -67,7 +65,7 @@ class UserResource extends Resource
                                         Forms\Components\Checkbox::make('email_verified_at')
                                             ->label('Email verified')
                                             ->afterStateHydrated(static fn ($component, $state) => $component->state($state !== null))
-                                            ->dehydrateStateUsing(static function (?\App\Models\User $record, bool $state) {
+                                            ->dehydrateStateUsing(static function (?User $record, bool $state) {
                                                 if (! $state) {
                                                     return null;
                                                 }
@@ -235,7 +233,7 @@ class UserResource extends Resource
         return [
             'first_name',
             'last_name',
-            'email'
+            'email',
         ];
     }
 
@@ -248,7 +246,7 @@ class UserResource extends Resource
     {
         return [
             'Email address' => $record->email_address,
-            'Country' => $record->country->name ?? 'Unknown'
+            'Country' => $record->country->name ?? 'Unknown',
         ];
     }
 

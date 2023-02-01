@@ -3,7 +3,6 @@
 namespace App\Filament\Resources\System\UserResource\Pages;
 
 use App\Filament\Resources\System\UserResource;
-use Filament\Pages\Actions;
 use Filament\Resources\Pages\CreateRecord;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\Permission\Models\Role;

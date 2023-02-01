@@ -9,9 +9,8 @@ abstract class BaseService
 {
     public function __construct(
         protected string $cachePrefix,
-        protected int    $cacheTtl = 86400
-    )
-    {
+        protected int $cacheTtl = 86400
+    ) {
     }
 
     public function setCachePrefix(string $prefix): void
@@ -35,6 +34,6 @@ abstract class BaseService
 
     protected function getCacheKey(string $key): string
     {
-        return $this->cachePrefix . '.' . $key;
+        return $this->cachePrefix.'.'.$key;
     }
 }

@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Tracker;
 
 use App\Http\Controllers\Controller;
 use App\Services\Tracker\SessionService;
-use Illuminate\Http\Request;
 
 class SessionController extends Controller
 {
@@ -17,7 +16,7 @@ class SessionController extends Controller
         return view('tracker.session', [
             'session' => $session,
             'embedUrl' => $sessionService->getEmbedUrl($session),
-            'tableData' => $tableData
+            'tableData' => $tableData,
         ]);
     }
 }

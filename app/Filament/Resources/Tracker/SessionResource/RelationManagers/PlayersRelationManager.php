@@ -6,19 +6,13 @@ use Akaunting\Money\Money;
 use Awcodes\Curator\Components\Tables\CuratorColumn;
 use Closure;
 use Filament\Forms;
-use Filament\Pages\Actions\EditAction;
 use Filament\Resources\Form;
 use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Resources\Table;
 use Filament\Tables;
-use Illuminate\Contracts\Pagination\Paginator;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Relations\Relation;
-use function filled;
 use Illuminate\Support\Str;
-use function parse_url;
-use function today;
 
 class PlayersRelationManager extends RelationManager
 {
@@ -78,7 +72,7 @@ class PlayersRelationManager extends RelationManager
                             ->requiredWith('twitter_handle')
                             ->debounce()
                             ->afterStateUpdated(static function (Closure $set, Closure $get): void {
-                                if (filled($get('twitter_handle')) || !$url = parse_url($get('twitter_url'))) {
+                                if (filled($get('twitter_handle')) || ! $url = parse_url($get('twitter_url'))) {
                                     return;
                                 }
 
@@ -110,16 +104,16 @@ class PlayersRelationManager extends RelationManager
                     ->sortable(),
                 Tables\Columns\TextColumn::make('net_winnings')
                     ->label('Net winnings')
-                    ->formatStateUsing(static fn(?int $state) => filled($state) ? Money::USD($state) : '-'),
+                    ->formatStateUsing(static fn (?int $state) => filled($state) ? Money::USD($state) : '-'),
                 Tables\Columns\TextColumn::make('vpip')
                     ->label('VPIP (%)')
-                    ->formatStateUsing(static fn(?int $state) => filled($state) ? number_format($state, 2) . '%' : '-'),
+                    ->formatStateUsing(static fn (?int $state) => filled($state) ? number_format($state, 2).'%' : '-'),
                 Tables\Columns\TextColumn::make('pfr')
                     ->label('PFR (%)')
-                    ->formatStateUsing(static fn(?int $state) => filled($state) ? number_format($state, 2) . '%' : '-'),
+                    ->formatStateUsing(static fn (?int $state) => filled($state) ? number_format($state, 2).'%' : '-'),
                 Tables\Columns\TextColumn::make('hours_played')
                     ->label('Hours played')
-                    ->formatStateUsing(static fn(?int $state) => filled($state) ? number_format($state, 2) : '-'),
+                    ->formatStateUsing(static fn (?int $state) => filled($state) ? number_format($state, 2) : '-'),
             ])
             ->filters([
                 //
@@ -128,7 +122,7 @@ class PlayersRelationManager extends RelationManager
                 Tables\Actions\CreateAction::make(),
                 Tables\Actions\AttachAction::make()
                     ->preloadRecordSelect()
-                    ->form(static fn(Tables\Actions\AttachAction $action): array => [
+                    ->form(static fn (Tables\Actions\AttachAction $action): array => [
                         $action->getRecordSelect()
                             ->label('Player')
                             ->disableLabel(false),
@@ -140,7 +134,7 @@ class PlayersRelationManager extends RelationManager
                                     ->nullable()
                                     ->minValue(-2147483648)
                                     ->maxValue(2147483647)
-                                    ->dehydrateStateUsing(static fn(?int $state): ?int => filled($state) ? $state * 100 : null),
+                                    ->dehydrateStateUsing(static fn (?int $state): ?int => filled($state) ? $state * 100 : null),
                                 Forms\Components\TextInput::make('hours_played')
                                     ->label('Hours played')
                                     ->numeric()
@@ -166,7 +160,7 @@ class PlayersRelationManager extends RelationManager
             ])
             ->actions([
                 Tables\Actions\EditAction::make()
-                    ->form(static fn(Tables\Actions\EditAction $action): array => [
+                    ->form(static fn (Tables\Actions\EditAction $action): array => [
                         Forms\Components\Grid::make()
                             ->schema([
                                 Forms\Components\TextInput::make('net_winnings')
@@ -175,8 +169,8 @@ class PlayersRelationManager extends RelationManager
                                     ->nullable()
                                     ->minValue(-2147483648)
                                     ->maxValue(2147483647)
-                                    ->afterStateHydrated(static fn($component, ?int $state) => $component->state(filled($state) ? $state / 100 : null))
-                                    ->dehydrateStateUsing(static fn(?int $state): ?int => filled($state) ? $state * 100 : null),
+                                    ->afterStateHydrated(static fn ($component, ?int $state) => $component->state(filled($state) ? $state / 100 : null))
+                                    ->dehydrateStateUsing(static fn (?int $state): ?int => filled($state) ? $state * 100 : null),
                                 Forms\Components\TextInput::make('hours_played')
                                     ->label('Hours played')
                                     ->numeric()
@@ -212,7 +206,7 @@ class PlayersRelationManager extends RelationManager
     {
         return parent::getTableQuery()
             ->with([
-                'featured_image'
+                'featured_image',
             ]);
     }
 }

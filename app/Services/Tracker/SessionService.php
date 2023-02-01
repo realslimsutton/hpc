@@ -7,17 +7,13 @@ use App\Models\Tracker\Session;
 use App\Services\BaseService;
 use Illuminate\Contracts\Database\Eloquent\Builder;
 use Illuminate\Support\Collection;
-use function mb_substr;
-use function parse_str;
-use function parse_url;
 
 class SessionService extends BaseService
 {
     public function __construct(
         string $cachePrefix = 'tracker.sessions',
-        int    $cacheTtl = 86400
-    )
-    {
+        int $cacheTtl = 86400
+    ) {
         parent::__construct($cachePrefix, $cacheTtl);
     }
 
@@ -25,7 +21,7 @@ class SessionService extends BaseService
     {
         return $this->cache(
             'latest',
-            static fn() => Session::query()
+            static fn () => Session::query()
                 ->with([
                     'location',
                     'game_rules',
@@ -43,14 +39,16 @@ class SessionService extends BaseService
     public function findOrFail($id): Session
     {
         return $this->cache(
-            'find.' . $id,
-            static fn() => Session::query()
+            'find.'.$id,
+            static fn () => Session::query()
                 ->with([
-                    'players',
+                    'players' => static function(Builder $query) {
+                        $query->orderBy('net_winnings');
+                    },
                     'stake',
                     'game_rules',
                     'location',
-                    'location.featured_image'
+                    'location.featured_image',
                 ])
                 ->findOrFail($id)
         );
@@ -62,11 +60,11 @@ class SessionService extends BaseService
             'sum_net_winnings' => $sessions->sum('pivot.net_winnings'),
             'avg_vpip' => $sessions->avg('pivot.vpip'),
             'avg_pfr' => $sessions->avg('pivot.pfr'),
-            'avg_hourly_net_winnings' => $sessions->avg(static fn(Session $session) => $session->pivot->hours_played > 0
+            'avg_hourly_net_winnings' => $sessions->avg(static fn (Session $session) => $session->pivot->hours_played > 0
                 ? $session->pivot->net_winnings / $session->pivot->hours_played
                 : null
             ),
-            'avg_hourly_bb' => $sessions->avg(static fn(Session $session) => ($session->pivot->hours_played > 0 && $session->stake->big_blind > 0)
+            'avg_hourly_bb' => $sessions->avg(static fn (Session $session) => ($session->pivot->hours_played > 0 && $session->stake->big_blind > 0)
                 ? ($session->pivot->net_winnings / $session->stake->big_blind) / $session->pivot->hours_played
                 : null
             ),
@@ -75,7 +73,7 @@ class SessionService extends BaseService
             'first_session_date' => $sessions->first()?->date,
             'most_played_stake' => $sessions
                 ->groupBy('stake.name')
-                ->map(static fn(Collection $sessions): int => $sessions->count())
+                ->map(static fn (Collection $sessions): int => $sessions->count())
                 ->sort()
                 ->keys()
                 ->last(),
@@ -85,19 +83,19 @@ class SessionService extends BaseService
     public function getBreakdownByLocation(Collection $sessions): Collection
     {
         return $sessions
-            ->mapToGroups(static fn(Session $session): array => [
+            ->mapToGroups(static fn (Session $session): array => [
                 $session->location->name => $session,
             ])
-            ->map(fn(Collection $sessions): array => $this->getFacts($sessions));
+            ->map(fn (Collection $sessions): array => $this->getFacts($sessions));
     }
 
     public function getHistoricalChart(Collection $sessions): array
     {
-        $data = $sessions->filter(static fn(Session $session): bool => filled($session->pivot->net_winnings));
+        $data = $sessions->filter(static fn (Session $session): bool => filled($session->pivot->net_winnings));
 
         return [
             'series' => $data
-                ->map(static fn(Session $session): array => [
+                ->map(static fn (Session $session): array => [
                     'date' => $session->date,
                     'net_winnings' => $session->pivot->net_winnings / 100,
                     'location' => $session->location->name,
@@ -124,7 +122,7 @@ class SessionService extends BaseService
                     ->unique(),
 
                 'minYear' => $data
-                    ->min(static fn(Session $session) => $session->date->year),
+                    ->min(static fn (Session $session) => $session->date->year),
             ],
         ];
     }
@@ -132,7 +130,7 @@ class SessionService extends BaseService
     public function getTable(Session $session)
     {
         return $session->players
-            ->map(static fn(Player $player) => [
+            ->map(static fn (Player $player) => [
                 'player_id' => $player->id,
                 'player_name' => $player->name,
                 'net_winnings' => $player->pivot->net_winnings,
@@ -144,7 +142,7 @@ class SessionService extends BaseService
                     : null,
                 'avg_hourly_bb' => ($player->pivot->hours_played > 0 && $session->stake->big_blind > 0)
                     ? ($player->pivot->net_winnings / $session->stake->big_blind) / $player->pivot->hours_played
-                    : null
+                    : null,
             ]);
     }
 
@@ -156,7 +154,7 @@ class SessionService extends BaseService
                     return null;
                 }
 
-                if ((!$url = parse_url($session->stream_url)) || blank($url['query'])) {
+                if ((! $url = parse_url($session->stream_url)) || blank($url['query'])) {
                     return null;
                 }
 
@@ -164,7 +162,7 @@ class SessionService extends BaseService
 
                 $id = $parameters['v'] ?? mb_substr($url['path'], 1);
 
-                return 'https://youtube.com/embed/' . $id;
+                return 'https://youtube.com/embed/'.$id;
             },
             $session->stream_url,
             false

@@ -63,10 +63,10 @@ class LocationResource extends Resource
                     ->schema([
                         Forms\Components\Placeholder::make('created_at')
                             ->label('Created at')
-                            ->content(static fn(?Location $record): string => $record?->created_at?->diffForHumans() ?? '-'),
+                            ->content(static fn (?Location $record): string => $record?->created_at?->diffForHumans() ?? '-'),
                         Forms\Components\Placeholder::make('updated_at')
                             ->label('Updated at')
-                            ->content(static fn(?Location $record): string => $record?->updated_at?->diffForHumans() ?? '-'),
+                            ->content(static fn (?Location $record): string => $record?->updated_at?->diffForHumans() ?? '-'),
                     ]),
             ]);
     }

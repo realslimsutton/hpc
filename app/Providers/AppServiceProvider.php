@@ -2,7 +2,6 @@
 
 namespace App\Providers;
 
-use App\Repositories\Tracker\PlayerRepository;
 use App\Repositories\Tracker\SessionRepository;
 use App\Support\AssetVersion;
 use Filament\Facades\Filament;
@@ -22,7 +21,7 @@ class AppServiceProvider extends ServiceProvider
 
     public function boot(): void
     {
-        Model::preventLazyLoading(!app()->isProduction());
+        Model::preventLazyLoading(! app()->isProduction());
 
         Filament::serving(static function () {
             Filament::registerViteTheme('resources/css/filament.css');

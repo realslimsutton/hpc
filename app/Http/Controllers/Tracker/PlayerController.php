@@ -5,8 +5,6 @@ namespace App\Http\Controllers\Tracker;
 use App\Http\Controllers\Controller;
 use App\Services\Tracker\PlayerService;
 use App\Services\Tracker\SessionService;
-use Illuminate\Http\Request;
-use Illuminate\Support\Benchmark;
 
 class PlayerController extends Controller
 {

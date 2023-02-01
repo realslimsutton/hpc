@@ -37,7 +37,7 @@ class Player extends Model
     protected static function booted(): void
     {
         $clearCache = static function (Player $player) {
-            Cache::forget('tracker.players.find.' . $player->id);
+            Cache::forget('tracker.players.find.'.$player->id);
             Cache::forget('tracker.locations.index');
 
             foreach (Location::all() as $model) {
