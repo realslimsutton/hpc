@@ -4,15 +4,18 @@ namespace App\Filament\Resources\Tracker;
 
 use App\Filament\Resources\Tracker\PlayerResource\Pages;
 use App\Models\Tracker\Player;
+use App\Models\Tracker\Session;
 use Awcodes\Curator\Components\Forms\CuratorPicker;
 use Awcodes\Curator\Components\Tables\CuratorColumn;
 use Closure;
 use Filament\Forms;
+use Filament\GlobalSearch\Actions\Action;
 use Filament\Resources\Form;
 use Filament\Resources\Resource;
 use Filament\Resources\Table;
 use Filament\Tables;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
 use Squire\Models\Country;
 use function parse_url;
@@ -211,5 +214,52 @@ class PlayerResource extends Resource
             ->with([
                 'featured_image',
             ]);
+    }
+
+    public static function getGloballySearchableAttributes(): array
+    {
+        return [
+            'name',
+            'nickname',
+            'profession',
+            'twitter_handle'
+        ];
+    }
+
+    public static function getGlobalSearchResultTitle(Model $record): string
+    {
+        return $record->name;
+    }
+
+    public static function getGlobalSearchResultDetails(Model $record): array
+    {
+        return [
+            'Nickname' => $record->nickname ?? 'Unknown',
+            'Hometown' => $record->hometown ?? 'Unknown',
+            'Country' => $record->country?->name ?? 'Unknown'
+        ];
+    }
+
+    protected static function getGlobalSearchEloquentQuery(): Builder
+    {
+        return parent::getGlobalSearchEloquentQuery()
+            ->with([
+                'country',
+            ]);
+    }
+
+    public static function getGlobalSearchResultActions(Model $record): array
+    {
+        return [
+            Action::make('view-twitter')
+                ->label('View twitter')
+                ->url($record->twitter_url, true)
+                ->hidden(blank($record->twitter_url)),
+        ];
+    }
+
+    protected static function getNavigationBadge(): ?string
+    {
+        return number_format(Player::query()->count());
     }
 }

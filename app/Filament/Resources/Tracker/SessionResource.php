@@ -8,6 +8,7 @@ use App\Models\Tracker\Session;
 use Awcodes\Curator\Components\Tables\CuratorColumn;
 use Closure;
 use Filament\Forms;
+use Filament\GlobalSearch\Actions\Action;
 use Filament\Resources\Form;
 use Filament\Resources\Resource;
 use Filament\Resources\Table;
@@ -15,6 +16,7 @@ use Filament\Tables;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Validation\Rules\Unique;
+use function blank;
 
 class SessionResource extends Resource
 {
@@ -211,5 +213,49 @@ class SessionResource extends Resource
             'create' => Pages\CreateSession::route('/create'),
             'edit' => Pages\EditSession::route('/{record}/edit'),
         ];
+    }
+
+    public static function getGloballySearchableAttributes(): array
+    {
+        return [
+            'name',
+            'date',
+        ];
+    }
+
+    public static function getGlobalSearchResultTitle(Model $record): string
+    {
+        return $record->name;
+    }
+
+    public static function getGlobalSearchResultDetails(Model $record): array
+    {
+        return [
+            'Date' => $record->date->format('M j, Y'),
+            'Location' => $record->location->name,
+        ];
+    }
+
+    protected static function getGlobalSearchEloquentQuery(): Builder
+    {
+        return parent::getGlobalSearchEloquentQuery()
+            ->with([
+                'location',
+            ]);
+    }
+
+    public static function getGlobalSearchResultActions(Model $record): array
+    {
+        return [
+            Action::make('view-stream')
+                ->label('View stream')
+                ->url($record->stream_url)
+                ->hidden(blank($record->stream_url)),
+        ];
+    }
+
+    protected static function getNavigationBadge(): ?string
+    {
+        return number_format(Session::query()->count());
     }
 }

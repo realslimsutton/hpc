@@ -6,10 +6,13 @@ use App\Filament\Resources\Tracker\StakeResource\Pages;
 use App\Models\Tracker\Stake;
 use Closure;
 use Filament\Forms;
+use Filament\GlobalSearch\Actions\Action;
 use Filament\Resources\Form;
 use Filament\Resources\Resource;
 use Filament\Resources\Table;
 use Filament\Tables;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Validation\Rules\Unique;
 
 class StakeResource extends Resource
@@ -125,6 +128,28 @@ class StakeResource extends Resource
             'index' => Pages\ListStakes::route('/'),
             'create' => Pages\CreateStake::route('/create'),
             'edit' => Pages\EditStake::route('/{record}/edit'),
+        ];
+    }
+
+    public static function getGloballySearchableAttributes(): array
+    {
+        return [
+            'name',
+            'small_blind',
+            'big_blind'
+        ];
+    }
+
+    public static function getGlobalSearchResultTitle(Model $record): string
+    {
+        return $record->name;
+    }
+
+    public static function getGlobalSearchResultDetails(Model $record): array
+    {
+        return [
+            'Small blind' => $record->small_blind,
+            'Big blind' => $record->big_blind
         ];
     }
 }

@@ -11,6 +11,7 @@ use Filament\Resources\Form;
 use Filament\Resources\Resource;
 use Filament\Resources\Table;
 use Filament\Tables;
+use Illuminate\Database\Eloquent\Model;
 
 class LocationResource extends Resource
 {
@@ -62,10 +63,10 @@ class LocationResource extends Resource
                     ->schema([
                         Forms\Components\Placeholder::make('created_at')
                             ->label('Created at')
-                            ->content(static fn (?Location $record): string => $record?->created_at?->diffForHumans() ?? '-'),
+                            ->content(static fn(?Location $record): string => $record?->created_at?->diffForHumans() ?? '-'),
                         Forms\Components\Placeholder::make('updated_at')
                             ->label('Updated at')
-                            ->content(static fn (?Location $record): string => $record?->updated_at?->diffForHumans() ?? '-'),
+                            ->content(static fn(?Location $record): string => $record?->updated_at?->diffForHumans() ?? '-'),
                     ]),
             ]);
     }
@@ -116,5 +117,17 @@ class LocationResource extends Resource
             'create' => Pages\CreateLocation::route('/create'),
             'edit' => Pages\EditLocation::route('/{record}/edit'),
         ];
+    }
+
+    public static function getGloballySearchableAttributes(): array
+    {
+        return [
+            'name',
+        ];
+    }
+
+    public static function getGlobalSearchResultTitle(Model $record): string
+    {
+        return $record->name;
     }
 }
