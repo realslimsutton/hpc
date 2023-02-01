@@ -1,7 +1,11 @@
 @props([
     'location',
-    'rankings'
+    'rankings',
 ])
+
+@php
+    $route = route('tracker.location', $location->id);
+@endphp
 
 <div
     class="bg-hpc-red-700 border border-hpc-red-800 rounded-lg p-4 text-white space-y-8"
@@ -10,14 +14,19 @@
     <div class="flex items-center flex-wrap gap-8">
         @if($location->featured_image !== null)
             <div>
-                <x-curator-glider :media="$location->featured_image" class="rounded-full"/>
+                <a href="{{ $route }}">
+                    <x-curator-glider :media="$location->featured_image" class="rounded-full"/>
+                </a>
             </div>
         @endif
 
         <div>
-            <h3 class="text-xl font-semibold">
+            <a
+                href="{{ $route }}"
+                class="text-xl font-semibold transition-colors hover:text-hpc-gold focus:text-hpc-gold"
+            >
                 {{ $location->name }}
-            </h3>
+            </a>
 
             @if(filled($location->subscriber_count))
                 <h4 class="text-hpc-gold">

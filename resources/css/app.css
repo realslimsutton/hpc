@@ -106,7 +106,8 @@
     @apply !divide-hpc-red-800;
 }
 
-.filament-tables-text-column {
+.filament-tables-text-column,
+.filament-tables-badge-column {
     @apply !bg-hpc-red-700;
 }
 

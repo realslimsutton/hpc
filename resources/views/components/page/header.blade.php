@@ -44,7 +44,7 @@
 
                 <x-page.header.link
                     :to="route('tracker.index')"
-                    :routes="['tracker.index', 'tracker.player', 'tracker.session']"
+                    :routes="['tracker.index', 'tracker.player', 'tracker.session', 'tracker.location']"
                 >
                     Tracker
                 </x-page.header.link>
@@ -142,7 +142,7 @@
 
                 <x-page.header.link
                     :to="route('tracker.index')"
-                    :routes="['tracker.index', 'tracker.player', 'tracker.session']"
+                    :routes="['tracker.index', 'tracker.player', 'tracker.session', 'tracker.location']"
                 >
                     Tracker
                 </x-page.header.link>

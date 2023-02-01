@@ -21,6 +21,21 @@
         <div
             class="w-full max-w-screen-2xl mx-auto text-white"
         >
+            <div class="mb-8">
+                <a
+                    href="{{ route('tracker.location', $session->location->id) }}"
+                    class="inline-flex items-center gap-1 font-medium text-hpc-gold hover:underline focus:underline"
+                >
+                    <span>
+                        @svg('heroicon-o-chevron-left', 'h-5 w-5')
+                    </span>
+
+                    <span>
+                        Go back to {{ $session->location->name }}
+                    </span>
+                </a>
+            </div>
+
             <div class="flex items-center flex-wrap gap-8 mb-8">
                 @if($session->location->featured_image !== null)
                     <div>

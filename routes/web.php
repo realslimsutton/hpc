@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Tracker\IndexController;
+use App\Http\Controllers\Tracker\LocationController;
 use App\Http\Controllers\Tracker\PlayerController;
 use App\Http\Controllers\Tracker\SessionController;
 use Illuminate\Support\Facades\Route;
@@ -47,4 +48,5 @@ Route::prefix('/tracker')->name('tracker.')->group(static function () {
     Route::get('/', IndexController::class)->name('index');
     Route::get('/player/{id}', PlayerController::class)->name('player');
     Route::get('/session/{id}', SessionController::class)->name('session');
+    Route::get('/location/{id}', LocationController::class)->name('location');
 });

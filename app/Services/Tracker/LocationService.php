@@ -39,6 +39,21 @@ class LocationService extends BaseService
         );
     }
 
+    public function findOrFail($id): Location
+    {
+        return $this->cache(
+            'find.'.$id,
+            static fn () => Location::query()
+                ->with([
+                    'featured_image',
+                    'sessions',
+                    'sessions.stake',
+                    'sessions.game_rules'
+                ])
+                ->findOrFail($id)
+        );
+    }
+
     private function calculateLocationRankings(Location $location, string $direction, int $limit): array
     {
         return PlayerSession::query()
