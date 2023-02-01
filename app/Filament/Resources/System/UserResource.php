@@ -235,7 +235,7 @@ class UserResource extends Resource
         return [
             'first_name',
             'last_name',
-            'email_address'
+            'email'
         ];
     }
 
