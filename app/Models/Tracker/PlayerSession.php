@@ -22,8 +22,8 @@ class PlayerSession extends Pivot
     protected static function booted(): void
     {
         $clearCache = static function (PlayerSession $playerSession) {
-            Cache::forget('tracker.players.find.'.$playerSession->id);
-            Cache::forget('tracker.sessions.find.'.$playerSession->id);
+            Cache::forget('tracker.players.find.'.$playerSession->player_id);
+            Cache::forget('tracker.sessions.find.'.$playerSession->session_id);
             Cache::forget('tracker.locations.index');
 
             foreach (Location::all() as $model) {
