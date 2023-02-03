@@ -22,7 +22,7 @@ class LoyaltyTierResource extends Resource
 
     protected static ?string $navigationGroup = 'Loyalty Program';
 
-    protected static ?string $navigationIcon = 'heroicon-o-collection';
+    protected static ?string $navigationIcon = 'heroicon-o-gift';
 
     public static function form(Form $form): Form
     {
