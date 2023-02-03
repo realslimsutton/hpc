@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Member\DashboardController;
 use App\Http\Controllers\Tracker\IndexController;
 use App\Http\Controllers\Tracker\LocationController;
 use App\Http\Controllers\Tracker\PlayerController;
@@ -49,4 +50,8 @@ Route::prefix('/tracker')->name('tracker.')->group(static function () {
     Route::get('/player/{id}', PlayerController::class)->name('player');
     Route::get('/session/{id}', SessionController::class)->name('session');
     Route::get('/location/{id}', LocationController::class)->name('location');
+});
+
+Route::prefix('/member')->middleware(['auth'])->name('member.')->group(static function () {
+    Route::get('/dashboard', DashboardController::class)->name('dashboard');
 });

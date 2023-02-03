@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Member\LoyaltyTier;
 use Filament\Models\Contracts\FilamentUser;
 use Filament\Models\Contracts\HasName;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
@@ -23,6 +24,8 @@ class User extends Authenticatable implements MustVerifyEmail, FilamentUser, Has
         'last_name',
         'date_of_birth',
         'clubgg_id',
+        'balance',
+        'loyalty_tier_id',
         'email',
         'email_verified_at',
         'password',
@@ -44,7 +47,13 @@ class User extends Authenticatable implements MustVerifyEmail, FilamentUser, Has
 
     protected $casts = [
         'email_verified_at' => 'datetime',
+        'balance' => 'integer',
     ];
+
+    public function loyalty_tier(): BelongsTo
+    {
+        return $this->belongsTo(LoyaltyTier::class);
+    }
 
     public function country(): BelongsTo
     {
@@ -59,12 +68,5 @@ class User extends Authenticatable implements MustVerifyEmail, FilamentUser, Has
     public function canAccessFilament(): bool
     {
         return $this->can('page_Dashboard');
-    }
-
-    public function fullName(): Attribute
-    {
-        return Attribute::make(
-            get: fn () => $this->first_name.' '.$this->last_name
-        );
     }
 }

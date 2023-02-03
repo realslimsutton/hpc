@@ -24,6 +24,7 @@ class AppServiceProvider extends ServiceProvider
 
             Filament::registerNavigationGroups([
                 'Tracker',
+                'Loyalty Program',
                 'System',
             ]);
         });

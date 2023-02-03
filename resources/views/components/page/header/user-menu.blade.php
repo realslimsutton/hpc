@@ -28,7 +28,8 @@
 
         <x-filament::dropdown.list.item
             icon="heroicon-o-view-grid"
-            href="#"
+            tag="a"
+            href="{{ route('member.dashboard') }}"
         >
             Dashboard
         </x-filament::dropdown.list.item>

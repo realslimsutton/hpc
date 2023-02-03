@@ -62,7 +62,7 @@ class Login extends Component implements HasForms
         session()->regenerate();
 
         return redirect()->intended(
-            auth()->user()->canAccessFilament() ? Filament::getUrl() : '/'
+            auth()->user()->canAccessFilament() ? Filament::getUrl() : route('member.dashboard')
         );
     }
 

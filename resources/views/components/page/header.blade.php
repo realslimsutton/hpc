@@ -81,7 +81,16 @@
                 @else
                     <li>
                         <x-page.header.user-menu>
-                            My Account
+                            <span
+                                @class([
+                                    'flex items-center justify-center gap-0.5 p-4 lg:p-0 text-white uppercase font-semibold transition-colors hover:text-hpc-gold focu:text-hpc-gold',
+                                    '!text-hpc-gold' => in_array(Route::currentRouteName(), [
+                                        'member.dashboard'
+                                     ])
+                                ])
+                            >
+                                My Account
+                            </span>
                         </x-page.header.user-menu>
                     </li>
                 @endguest
@@ -97,7 +106,16 @@
                         </x-page.header.guest-menu>
                     @else
                         <x-page.header.user-menu>
-                            @svg('heroicon-o-user-circle', 'h-8 w-8')
+                            <span
+                                @class([
+                                    'flex items-center justify-center gap-0.5 p-4 lg:p-0 text-white uppercase font-semibold transition-colors hover:text-hpc-gold focu:text-hpc-gold',
+                                    '!text-hpc-gold' => in_array(Route::currentRouteName(), [
+                                        'member.dashboard'
+                                     ])
+                                ])
+                            >
+                                @svg('heroicon-o-user-circle', 'h-8 w-8')
+                            </span>
                         </x-page.header.user-menu>
                     @endguest
                 </li>
