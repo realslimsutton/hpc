@@ -1,11 +1,9 @@
 @extends('layouts.base')
 
 @section('body')
-    <x-page.banner>
-        Pot Limit Omaha
-    </x-page.banner>
+    <x-page.banner/>
 
-    <div class="w-full max-w-screen-2xl mx-auto px-6 my-20 mt-0 md:mt-20 py-12 text-white space-y-4">
+    <div class="w-full max-w-screen-2xl mx-auto px-6 mb-20 py-12 text-white space-y-12">
         <p>
             Pot Limit Omaha (also referred to as “PLO”) is another popular poker game that shares many similarities with
             No Limit Holdem. The biggest similarity is that the objective of the game is the exact same: to make the

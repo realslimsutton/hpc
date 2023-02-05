@@ -1,11 +1,9 @@
 @extends('layouts.base')
 
 @section('body')
-    <x-page.banner>
-        No Limit Holdem
-    </x-page.banner>
+    <x-page.banner/>
 
-    <div class="w-full max-w-screen-2xl mx-auto px-6 my-20 mt-0 md:mt-20 py-12 text-white space-y-4">
+    <div class="w-full max-w-screen-2xl mx-auto px-6 mb-20 py-12 text-white space-y-12">
         <p>
             No Limit Holdem (also referred to as Texas Holdem) is the world’s most popular and well-known poker game.
             Most of the poker games played in casinos, online sites, or home games are No Limit Holdem.

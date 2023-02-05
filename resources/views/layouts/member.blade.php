@@ -7,15 +7,11 @@
 @endpush
 
 @section('body')
-    <x-page.banner>
-        @yield('banner.title')
-    </x-page.banner>
+    <x-page.banner/>
 
-    <div
-        class="w-full max-w-screen-2xl mx-auto grid md:grid-cols-4 gap-8 px-6 my-20 mt-0 md:mt-20 py-12 text-white"
-    >
+    <div class="w-full max-w-screen-2xl mx-auto grid md:grid-cols-4 gap-8 px-6 mb-20 py-12 text-white space-y-12">
         <div class="col-span-1">
-            <x-member.left-sidebar />
+            <x-member.left-sidebar/>
         </div>
 
         <div class="md:col-span-3 space-y-8">

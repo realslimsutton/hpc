@@ -1,11 +1,9 @@
 @extends('layouts.base')
 
 @section('body')
-    <x-page.banner>
-        Tournaments
-    </x-page.banner>
+    <x-page.banner/>
 
-    <div class="w-full max-w-screen-2xl mx-auto px-6 my-20 mt-0 md:mt-20 py-12 text-white space-y-6">
+    <div class="w-full max-w-screen-2xl mx-auto px-6 mb-20 py-12 text-white space-y-12">
         <p>
             Tournament style is the most popular format to play poker in throughout the world. Tournaments play
             essentially the exact same whether you’re playing a No Limit Holdem tournament or a Pot Limit Omaha

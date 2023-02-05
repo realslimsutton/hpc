@@ -1,11 +1,9 @@
 @extends('layouts.base')
 
 @section('body')
-    <x-page.banner>
-        Contact Us
-    </x-page.banner>
+    <x-page.banner/>
 
-    <div class="w-full max-w-screen-2xl mx-auto px-6 my-20 mt-0 md:mt-20 py-12 text-white space-y-12">
+    <div class="w-full max-w-screen-2xl mx-auto px-6 mb-20 py-12 text-white space-y-12">
         <div class="w-full max-w-4xl mx-auto">
             <h2 class="text-2xl text-center">
                 We are here to help you 7 days a week and respond within 24 hours. Plus, you can find most answers to

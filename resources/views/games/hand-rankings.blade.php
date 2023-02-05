@@ -1,11 +1,9 @@
 @extends('layouts.base')
 
 @section('body')
-    <x-page.banner>
-        Hand Rankings
-    </x-page.banner>
+    <x-page.banner/>
 
-    <div class="w-full max-w-screen-2xl mx-auto px-6 my-20 mt-0 md:mt-20 py-12 text-white space-y-12">
+    <div class="w-full max-w-screen-2xl mx-auto px-6 mb-20 py-12 text-white space-y-12">
         <p>
             The hand rankings are the exact same in No Limit Holdem and Pot Limit Omaha. Below you will find a list of
             the poker hand ranks in order from highest to lowest:
