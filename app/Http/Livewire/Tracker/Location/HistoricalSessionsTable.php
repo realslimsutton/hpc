@@ -86,11 +86,11 @@ class HistoricalSessionsTable extends Component implements HasTable
                     return $query
                         ->when(
                             $data['date_from'],
-                            fn(Builder $query, $date): Builder => $query->whereDate('date', '>=', $date),
+                            fn (Builder $query, $date): Builder => $query->whereDate('date', '>=', $date),
                         )
                         ->when(
                             $data['date_to'],
-                            fn(Builder $query, $date): Builder => $query->whereDate('date', '<=', $date),
+                            fn (Builder $query, $date): Builder => $query->whereDate('date', '<=', $date),
                         );
                 }),
         ];
@@ -113,7 +113,7 @@ class HistoricalSessionsTable extends Component implements HasTable
 
     protected function getTableRecordUrlUsing(): ?Closure
     {
-        return static fn($record): string => route('tracker.session', $record->id);
+        return static fn ($record): string => route('tracker.session', $record->id);
     }
 
     protected function getTableQueryStringIdentifier(): string

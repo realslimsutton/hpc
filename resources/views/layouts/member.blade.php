@@ -8,7 +8,7 @@
 
 @section('body')
     <x-page.banner>
-        Member Dashboard
+        @yield('banner.title')
     </x-page.banner>
 
     <div

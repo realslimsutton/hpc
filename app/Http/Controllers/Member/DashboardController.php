@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Member;
 
 use App\Http\Controllers\Controller;
-use App\Models\Announcement;
 use App\Services\AnnouncementService;
 use Illuminate\Http\Request;
 
@@ -15,7 +14,7 @@ class DashboardController extends Controller
 
         return view('member.dashboard', [
             'announcements' => $announcements,
-            'user' => $request->user()
+            'user' => $request->user(),
         ]);
     }
 }

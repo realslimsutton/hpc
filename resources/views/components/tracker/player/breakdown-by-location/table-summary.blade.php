@@ -1,14 +1,18 @@
 @props([
-    'data'
+    'data',
+    'sessions',
 ])
 
 @php
     $netWinnings = $data->sum('sum_net_winnings');
-    $vpip = $data->average('avg_vpip');
-    $pfr = $data->average('avg_pfr');
+    $vpip = $sessions->average('pivot.vpip');
+    $pfr = $sessions->average('pivot.pfr');
     $hoursPlayed = $data->sum('sum_hours_played');
     $hourlyNetWinnings = (filled($hoursPlayed) && $hoursPlayed > 0) ? $netWinnings / $hoursPlayed : null;
-    $hourlyBB = $data->average('avg_hourly_bb');
+    $hourlyBB = $sessions->average(static fn($session) => ($session->pivot->hours_played > 0 && $session->stake->big_blind > 0)
+        ? ($session->pivot->net_winnings / $session->stake->big_blind) / $session->pivot->hours_played
+        : null
+    );
 @endphp
 
 <tr>

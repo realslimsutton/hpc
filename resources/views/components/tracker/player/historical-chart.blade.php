@@ -88,6 +88,14 @@
                             type: 'time'
                         }
                     },
+                    watermark: {
+                        image: '{{ asset_version('images/transparent-logo.png') }}',
+                        height: 130,
+                        width: 130,
+                        alignToChartArea: true,
+                        opacity: .4,
+                        position: 'back'
+                    },
                     plugins: {
                         tooltip: {
                             callbacks: {

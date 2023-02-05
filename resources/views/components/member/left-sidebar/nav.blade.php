@@ -5,7 +5,7 @@
         :routes="['member.dashboard']"
     />
 
-    <x-member.left-sidebar.nav-item href="#" title="Deposit History"/>
+    <x-member.left-sidebar.nav-item href="{{ route('member.billing.deposit') }}" title="Deposit History"/>
 
     <x-member.left-sidebar.nav-item href="#" title="Withdrawal History"/>
 

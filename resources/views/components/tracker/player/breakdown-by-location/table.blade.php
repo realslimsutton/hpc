@@ -1,5 +1,6 @@
 @props([
-    'data'
+    'data',
+    'sessions'
 ])
 
 <div class="overflow-x-auto">
@@ -44,7 +45,7 @@
         @endforelse
 
         @if($data->isNotEmpty())
-            <x-tracker.player.breakdown-by-location.table-summary :data="$data"/>
+            <x-tracker.player.breakdown-by-location.table-summary :data="$data" :sessions="$sessions"/>
         @endif
         </tbody>
     </table>

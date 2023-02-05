@@ -3,7 +3,6 @@
 namespace App\Filament\Resources\Member;
 
 use App\Filament\Resources\Member\LoyaltyTierResource\Pages;
-use App\Filament\Resources\Member\LoyaltyTierResource\RelationManagers;
 use App\Models\Member\LoyaltyTier;
 use Awcodes\Curator\Components\Forms\CuratorPicker;
 use Awcodes\Curator\Components\Tables\CuratorColumn;
@@ -12,8 +11,6 @@ use Filament\Resources\Form;
 use Filament\Resources\Resource;
 use Filament\Resources\Table;
 use Filament\Tables;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
 use function number_format;
 
 class LoyaltyTierResource extends Resource
@@ -47,7 +44,7 @@ class LoyaltyTierResource extends Resource
                         Forms\Components\TextInput::make('lp_requirement')
                             ->label('LP Requirement')
                             ->required()
-                            ->mask(static fn(Forms\Components\TextInput\Mask $mask) => $mask
+                            ->mask(static fn (Forms\Components\TextInput\Mask $mask) => $mask
                                 ->money(prefix: '', decimalPlaces: 0, isSigned: false)
                                 ->minValue(0)
                                 ->maxValue(18446744073709551615)
@@ -64,10 +61,10 @@ class LoyaltyTierResource extends Resource
                             ->schema([
                                 Forms\Components\Placeholder::make('created_at')
                                     ->label('Created at')
-                                    ->content(static fn(?LoyaltyTier $record): string => $record?->created_at?->diffForHumans() ?? '-'),
+                                    ->content(static fn (?LoyaltyTier $record): string => $record?->created_at?->diffForHumans() ?? '-'),
                                 Forms\Components\Placeholder::make('updated_at')
                                     ->label('Updated at')
-                                    ->content(static fn(?LoyaltyTier $record): string => $record?->updated_at?->diffForHumans() ?? '-'),
+                                    ->content(static fn (?LoyaltyTier $record): string => $record?->updated_at?->diffForHumans() ?? '-'),
                             ]),
                         Forms\Components\Card::make()
                             ->schema([
@@ -87,6 +84,7 @@ class LoyaltyTierResource extends Resource
     public static function table(Table $table): Table
     {
         return $table
+            ->defaultSort('lp_requirement')
             ->columns([
                 CuratorColumn::make('featured_image')
                     ->label('Featured image')
@@ -99,7 +97,7 @@ class LoyaltyTierResource extends Resource
                     ->label('LP Requirement')
                     ->sortable()
                     ->searchable()
-                    ->formatStateUsing(static fn(int $state) => number_format($state)),
+                    ->formatStateUsing(static fn (int $state) => number_format($state)),
                 Tables\Columns\BadgeColumn::make('users_count')
                     ->label('Members')
                     ->counts('users')

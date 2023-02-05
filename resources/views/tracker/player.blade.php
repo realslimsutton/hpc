@@ -68,7 +68,7 @@
                 <x-tracker.player.historical-chart :data="$historicalChart"/>
             </div>
 
-            <x-tracker.player.breakdown-by-location :data="$breakdownByLocation"/>
+            <x-tracker.player.breakdown-by-location :data="$breakdownByLocation" :sessions="$player->sessions"/>
         </div>
 
         <div class="w-full space-y-4">

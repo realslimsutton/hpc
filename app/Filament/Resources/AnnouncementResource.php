@@ -3,7 +3,6 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\AnnouncementResource\Pages;
-use App\Filament\Resources\AnnouncementResource\RelationManagers;
 use App\Models\Announcement;
 use Filament\Forms;
 use Filament\Resources\Form;
@@ -11,15 +10,19 @@ use Filament\Resources\Resource;
 use Filament\Resources\Table;
 use Filament\Tables;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
-use Illuminate\Support\HtmlString;
 use Illuminate\Support\Str;
 
 class AnnouncementResource extends Resource
 {
     protected static ?string $model = Announcement::class;
 
+    protected static ?string $slug = 'system/announcements';
+
+    protected static ?string $navigationGroup = 'System';
+
     protected static ?string $navigationIcon = 'heroicon-o-speakerphone';
+
+    protected static ?int $navigationSort = -1;
 
     public static function form(Form $form): Form
     {
@@ -67,10 +70,10 @@ class AnnouncementResource extends Resource
                                     ->default(auth()->id()),
                                 Forms\Components\Placeholder::make('created_at')
                                     ->label('Created at')
-                                    ->content(static fn(?Announcement $record): string => $record?->created_at?->diffForHumans() ?? '-'),
+                                    ->content(static fn (?Announcement $record): string => $record?->created_at?->diffForHumans() ?? '-'),
                                 Forms\Components\Placeholder::make('updated_at')
                                     ->label('Updated at')
-                                    ->content(static fn(?Announcement $record): string => $record?->updated_at?->diffForHumans() ?? '-'),
+                                    ->content(static fn (?Announcement $record): string => $record?->updated_at?->diffForHumans() ?? '-'),
                             ]),
                     ]),
             ]);
@@ -88,7 +91,7 @@ class AnnouncementResource extends Resource
                     ->wrap(),
                 Tables\Columns\BadgeColumn::make('status')
                     ->label('Status')
-                    ->formatStateUsing(static fn(string $state): string => Str::title($state))
+                    ->formatStateUsing(static fn (string $state): string => Str::title($state))
                     ->colors([
                         'secondary' => 'draft',
                         'warning' => 'pending',
@@ -111,15 +114,15 @@ class AnnouncementResource extends Resource
                         return $query
                             ->when(
                                 $data['value'] === 'draft',
-                                fn(Builder $query, $date): Builder => $query->whereNull('published_at'),
+                                fn (Builder $query, $date): Builder => $query->whereNull('published_at'),
                             )
                             ->when(
                                 $data['value'] === 'pending',
-                                fn(Builder $query, $date): Builder => $query->whereDate('published_at', '>', now()),
+                                fn (Builder $query, $date): Builder => $query->whereDate('published_at', '>', now()),
                             )
                             ->when(
                                 $data['value'] === 'publushed',
-                                fn(Builder $query, $date): Builder => $query->whereDate('published_at', '<=', now()),
+                                fn (Builder $query, $date): Builder => $query->whereDate('published_at', '<=', now()),
                             );
                     }),
             ])

@@ -1,5 +1,7 @@
 @extends('layouts.member')
 
+@section('banner.title', 'Member Dashboard')
+
 @section('page-content')
     <x-member.dashboard.announcements :announcements="$announcements"/>
 

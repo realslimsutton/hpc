@@ -17,11 +17,11 @@ class Announcement extends Model
         'title',
         'body',
         'user_id',
-        'published_at'
+        'published_at',
     ];
 
     protected $casts = [
-        'published_at' => 'datetime'
+        'published_at' => 'datetime',
     ];
 
     protected static function booted(): void
@@ -48,12 +48,12 @@ class Announcement extends Model
     public function status(): Attribute
     {
         return Attribute::make(
-            get: function() {
-                if($this->published_at === null) {
+            get: function () {
+                if ($this->published_at === null) {
                     return 'draft';
                 }
 
-                if($this->published_at > now()) {
+                if ($this->published_at > now()) {
                     return 'pending';
                 }
 

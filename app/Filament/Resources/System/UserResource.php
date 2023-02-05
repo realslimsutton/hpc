@@ -69,9 +69,9 @@ class UserResource extends Resource
                                                     ->unique(ignoreRecord: true),
                                                 Forms\Components\Checkbox::make('email_verified_at')
                                                     ->label('Email verified')
-                                                    ->afterStateHydrated(static fn($component, $state) => $component->state($state !== null))
+                                                    ->afterStateHydrated(static fn ($component, $state) => $component->state($state !== null))
                                                     ->dehydrateStateUsing(static function (?User $record, bool $state) {
-                                                        if (!$state) {
+                                                        if (! $state) {
                                                             return null;
                                                         }
 
@@ -101,9 +101,9 @@ class UserResource extends Resource
                                                 Forms\Components\TextInput::make('password')
                                                     ->label('Password')
                                                     ->password()
-                                                    ->dehydrateStateUsing(fn($state) => Hash::make($state))
-                                                    ->dehydrated(fn($state) => filled($state))
-                                                    ->required(fn(string $context): bool => $context === 'create')
+                                                    ->dehydrateStateUsing(fn ($state) => Hash::make($state))
+                                                    ->dehydrated(fn ($state) => filled($state))
+                                                    ->required(fn (string $context): bool => $context === 'create')
                                                     ->confirmed(),
                                                 Forms\Components\TextInput::make('password_confirmation')
                                                     ->label('Confirm password')
@@ -138,13 +138,13 @@ class UserResource extends Resource
                             ->schema([
                                 Forms\Components\Placeholder::make('discord_name')
                                     ->label('Discord name')
-                                    ->content(static fn(?User $record): string => $record?->discord_id !== null ? $record->discord_name : '-'),
+                                    ->content(static fn (?User $record): string => $record?->discord_id !== null ? $record->discord_name : '-'),
                                 Forms\Components\Placeholder::make('created_at')
                                     ->label('Created at')
-                                    ->content(static fn(?User $record): string => $record?->created_at?->diffForHumans() ?? '-'),
+                                    ->content(static fn (?User $record): string => $record?->created_at?->diffForHumans() ?? '-'),
                                 Forms\Components\Placeholder::make('updated_at')
                                     ->label('Updated at')
-                                    ->content(static fn(?User $record): string => $record?->updated_at?->diffForHumans() ?? '-'),
+                                    ->content(static fn (?User $record): string => $record?->updated_at?->diffForHumans() ?? '-'),
                             ]),
 
                         Forms\Components\Card::make()
@@ -154,7 +154,7 @@ class UserResource extends Resource
                                     ->multiple()
                                     ->options(Role::all()->pluck('name', 'id'))
                                     ->searchable()
-                                    ->afterStateHydrated(static fn($component, ?User $record) => $component->state($record?->roles->pluck('id') ?? [])),
+                                    ->afterStateHydrated(static fn ($component, ?User $record) => $component->state($record?->roles->pluck('id') ?? [])),
                             ]),
 
                         Forms\Components\Card::make()
@@ -166,7 +166,7 @@ class UserResource extends Resource
                                     ->rules([
                                         static function () {
                                             return static function (string $attribute, $value, Closure $fail) {
-                                                if (!preg_match('/^[0-9-]+$/', $value)) {
+                                                if (! preg_match('/^[0-9-]+$/', $value)) {
                                                     $fail('Invalid ClubGG ID');
                                                 }
                                             };
@@ -196,7 +196,7 @@ class UserResource extends Resource
                     ->searchable(),
                 Tables\Columns\BadgeColumn::make('email_verified_at')
                     ->label('Verified')
-                    ->getStateUsing(static fn(\App\Models\User $record): bool => $record->hasVerifiedEmail())
+                    ->getStateUsing(static fn (\App\Models\User $record): bool => $record->hasVerifiedEmail())
                     ->enum([
                         true => 'Verified',
                         false => 'Unverified',

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Member\Billing\DepositController;
 use App\Http\Controllers\Member\DashboardController;
 use App\Http\Controllers\Tracker\IndexController;
 use App\Http\Controllers\Tracker\LocationController;
@@ -21,7 +22,7 @@ use Illuminate\Support\Facades\Route;
 Route::view('/', 'index')->name('home');
 Route::view('/contact', 'contact')->name('contact');
 
-Route::get('/admin/login', fn() => redirect()->route('auth.login'))->name('filament.auth.login');
+Route::get('/admin/login', fn () => redirect()->route('auth.login'))->name('filament.auth.login');
 
 Route::middleware('guest')->name('auth.')->group(static function () {
     Route::view('/login', 'auth.login')->name('login');
@@ -54,4 +55,8 @@ Route::prefix('/tracker')->name('tracker.')->group(static function () {
 
 Route::prefix('/member')->middleware(['auth'])->name('member.')->group(static function () {
     Route::get('/dashboard', DashboardController::class)->name('dashboard');
+
+    Route::name('billing.')->prefix('/billing')->group(static function () {
+        Route::get('/deposit', DepositController::class)->name('deposit');
+    });
 });

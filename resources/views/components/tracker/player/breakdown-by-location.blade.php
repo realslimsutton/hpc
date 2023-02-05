@@ -1,5 +1,6 @@
 @props([
-    'data'
+    'data',
+    'sessions'
 ])
 
 <div class="space-y-12 overflow-x-hidden">
@@ -9,7 +10,7 @@
         </h2>
 
         <div class="relative bg-hpc-red-700 rounded-xl border border-hpc-red-800 p-4 overflow-x-auto">
-            <x-tracker.player.breakdown-by-location.table :data="$data"/>
+            <x-tracker.player.breakdown-by-location.table :data="$data" :sessions="$sessions"/>
         </div>
     </div>
 </div>

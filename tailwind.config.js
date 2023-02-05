@@ -19,16 +19,16 @@ module.exports = {
                 warning: colors.amber,
                 primary: {
                     DEFAULT: '#FFCD67',
-                    50: '#FFEBC3',
-                    100: '#FFE8B9',
-                    200: '#FFE1A4',
-                    300: '#FFDA90',
-                    400: '#FFD47B',
+                    50: '#FFCD67',
+                    100: '#FFCD67',
+                    200: '#FFCD67',
+                    300: '#FFCD67',
+                    400: '#FFCD67',
                     500: '#FFCD67',
-                    600: '#FFBB2F',
-                    700: '#F6A500',
-                    800: '#BE7F00',
-                    900: '#865A00'
+                    600: '#FFCD67',
+                    700: '#FFCD67',
+                    800: '#FFCD67',
+                    900: '#FFCD67'
                 },
                 hpc: {
                     red: {

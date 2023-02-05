@@ -24,8 +24,8 @@ class Location extends Model
     {
         $clearCache = static function (Location $location): void {
             Cache::forget('tracker.locations.index');
-            Cache::forget('tracker.locations.' . $location->id . '.rankings');
-            Cache::forget('tracker.locations.find.' . $location->id);
+            Cache::forget('tracker.locations.'.$location->id.'.rankings');
+            Cache::forget('tracker.locations.find.'.$location->id);
 
             Cache::forget('tracker.sessions.latest');
         };

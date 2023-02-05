@@ -132,11 +132,30 @@
 }
 
 .filament-forms-date-time-picker-component input[readonly],
-.filament-forms-date-time-picker-component input[type="number"]{
+.filament-forms-date-time-picker-component input[type="number"] {
     @apply !text-gray-900;
 }
 
 .members-announcement a {
     @apply text-hpc-gold;
     @apply hover:underline;
+}
+
+.choices__list--dropdown {
+    @apply !text-gray-900;
+}
+
+.choices__list--dropdown .choices__item:hover,
+.choices__list--dropdown .choices__item.is-highlighted {
+    @apply !bg-hpc-gold;
+    @apply !text-gray-900;
+}
+
+.filament-forms-wizard-component > ol {
+    @apply !bg-hpc-red-700;
+    @apply !border-hpc-red-800;
+}
+
+.filament-forms-wizard-component .group-hover\:bg-gray-200 {
+    @apply group-hover:!bg-hpc-red-800;
 }

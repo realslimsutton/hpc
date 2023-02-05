@@ -101,7 +101,7 @@ class PlayerResource extends Resource
                                     ->requiredWith('twitter_handle')
                                     ->debounce()
                                     ->afterStateUpdated(static function (Closure $set, Closure $get): void {
-                                        if (filled($get('twitter_handle')) || !$url = parse_url($get('twitter_url'))) {
+                                        if (filled($get('twitter_handle')) || ! $url = parse_url($get('twitter_url'))) {
                                             return;
                                         }
 
@@ -128,10 +128,10 @@ class PlayerResource extends Resource
                                     ->helperText('Disabling this player will remove them from all rankings'),
                                 Forms\Components\Placeholder::make('created_at')
                                     ->label('Created at')
-                                    ->content(static fn(?Player $record): string => $record?->created_at?->diffForHumans() ?? '-'),
+                                    ->content(static fn (?Player $record): string => $record?->created_at?->diffForHumans() ?? '-'),
                                 Forms\Components\Placeholder::make('updated_at')
                                     ->label('Updated at')
-                                    ->content(static fn(?Player $record): string => $record?->updated_at?->diffForHumans() ?? '-'),
+                                    ->content(static fn (?Player $record): string => $record?->updated_at?->diffForHumans() ?? '-'),
                             ]),
                         Forms\Components\Card::make()
                             ->schema([
@@ -164,11 +164,11 @@ class PlayerResource extends Resource
                     ->label('Nickname')
                     ->sortable()
                     ->searchable()
-                    ->formatStateUsing(static fn(?string $state): string => $state ?? '-'),
+                    ->formatStateUsing(static fn (?string $state): string => $state ?? '-'),
                 Tables\Columns\TextColumn::make('twitter_handle')
                     ->label('Twitter')
-                    ->url(static fn(Player $record): ?string => $record->twitter_url, true)
-                    ->formatStateUsing(static fn(?string $state): string => $state ?? '-'),
+                    ->url(static fn (Player $record): ?string => $record->twitter_url, true)
+                    ->formatStateUsing(static fn (?string $state): string => $state ?? '-'),
                 Tables\Columns\BadgeColumn::make('enabled')
                     ->label('Status')
                     ->enum([

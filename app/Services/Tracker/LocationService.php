@@ -48,7 +48,7 @@ class LocationService extends BaseService
                     'featured_image',
                     'sessions',
                     'sessions.stake',
-                    'sessions.game_rules'
+                    'sessions.game_rules',
                 ])
                 ->findOrFail($id)
         );

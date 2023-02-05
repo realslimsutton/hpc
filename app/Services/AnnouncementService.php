@@ -9,9 +9,8 @@ class AnnouncementService extends BaseService
 {
     public function __construct(
         string $cachePrefix = 'announcements',
-        int    $cacheTtl = 604_800 // 1 week
-    )
-    {
+        int $cacheTtl = 604_800 // 1 week
+    ) {
         parent::__construct($cachePrefix, $cacheTtl);
     }
 
@@ -19,7 +18,7 @@ class AnnouncementService extends BaseService
     {
         return $this->cache(
             'latest',
-            static fn() => Announcement::query()
+            static fn () => Announcement::query()
                 ->published()
                 ->latest('published_at')
                 ->limit($limit)
