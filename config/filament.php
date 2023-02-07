@@ -273,7 +273,7 @@ return [
     |
     */
 
-    'default_avatar_provider' => \Filament\AvatarProviders\UiAvatarsProvider::class,
+    'default_avatar_provider' => \App\Filament\AvatarProviders\AvatarProvider::class,
 
     /*
     |--------------------------------------------------------------------------
