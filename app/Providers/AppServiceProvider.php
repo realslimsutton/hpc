@@ -23,6 +23,7 @@ class AppServiceProvider extends ServiceProvider
             Filament::registerViteTheme('resources/css/filament.css');
 
             Filament::registerNavigationGroups([
+                'Club',
                 'Tracker',
                 'Loyalty Program',
                 'System',
