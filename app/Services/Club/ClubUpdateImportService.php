@@ -99,6 +99,7 @@ class ClubUpdateImportService
             }
 
             $records[] = [
+                'date' => $clubUpdate->ended_at ?? $clubUpdate->started_at,
                 'user_id' => $user->id,
                 'club_tournament_id' => $tournament->id,
                 'buy_in' => (float)$row[2] * 100,
@@ -148,6 +149,7 @@ class ClubUpdateImportService
             }
 
             $records[] = [
+                'date' => $clubUpdate->ended_at ?? $clubUpdate->started_at,
                 'user_id' => $user->id,
                 'club_ring_game_id' => $ringGame->id,
                 'buy_in' => (float)$row[2] * 100,
@@ -267,7 +269,8 @@ class ClubUpdateImportService
     {
         $parts = explode(' ', $timeRange);
 
-        $timeDifference = explode(':', rtrim($parts[9], ')'));
+        $time = $parts[9] ?? $parts[8];
+        $timeDifference = explode(':', rtrim($time, ')'));
 
         // We need to convert the timestamp to UTC.
         // Since we're only given the hour/minute difference from UTC, we need to add/remove
@@ -275,9 +278,14 @@ class ClubUpdateImportService
         $hourDifference = (int)$timeDifference[0] * -1;
         $minuteDifference = (int)$timeDifference[1] * -1;
 
+        $startedAt = Carbon::parse($parts[3] . ' ' . $parts[4])->addHours($hourDifference)->addMinutes($minuteDifference);
+        $endedAt = filled($parts[6])
+            ? Carbon::parse($parts[6] . ' ' . $parts[7])->addhours($hourDifference)->addMinutes($minuteDifference)
+            : null;
+
         return [
-            Carbon::parse($parts[3] . ' ' . $parts[4])->addHours($hourDifference)->addMinutes($minuteDifference),
-            Carbon::parse($parts[6] . ' ' . $parts[7])->addhours($hourDifference)->addMinutes($minuteDifference)
+            $startedAt,
+            $endedAt
         ];
     }
 

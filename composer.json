@@ -12,6 +12,7 @@
         "akaunting/laravel-money": "^3.1",
         "awcodes/filament-curator": "^2.0",
         "bezhansalleh/filament-shield": "^2.3",
+        "doctrine/dbal": "^3.6",
         "filament/filament": "^2.16",
         "guzzlehttp/guzzle": "^7.5",
         "laravel/framework": "^9.19",
