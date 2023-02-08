@@ -131,8 +131,8 @@
     @apply hover:!bg-hpc-red-800;
 }
 
-.filament-forms-date-time-picker-component input[readonly],
-.filament-forms-date-time-picker-component input[type="number"] {
+.filament-dropdown-panel .filament-forms-date-time-picker-component input[readonly],
+.filament-dropdown-panel .filament-forms-date-time-picker-component input[type="number"] {
     @apply !text-gray-900;
 }
 
