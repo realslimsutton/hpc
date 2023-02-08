@@ -3,6 +3,7 @@
 namespace App\Filament\Resources\Club\ClubUpdateResource\RelationManagers;
 
 use App\Filament\Resources\System\UserResource;
+use App\Models\Club\ClubTournament;
 use Filament\Forms;
 use Filament\Resources\Form;
 use Filament\Resources\RelationManagers\RelationManager;
@@ -66,10 +67,12 @@ class TournamentsRelationManager extends RelationManager
                 Tables\Columns\TextColumn::make('ended_at')
                     ->label('Ended at')
                     ->date()
-                    ->sortable(),
+                    ->sortable()
+                    ->formatStateUsing(static fn(?string $state): string => $state ?? '-'),
                 Tables\Columns\BadgeColumn::make('duration')
                     ->label('Duration')
-                    ->sortable(),
+                    ->sortable()
+                    ->getStateUsing(static fn(ClubTournament $record) => $record->ended_at !== null ? $record->duration : now()->diff($record->started_at)->format('H:i:s')),
                 Tables\Columns\TextColumn::make('table_name')
                     ->label('Table name')
                     ->searchable()
