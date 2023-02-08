@@ -99,7 +99,7 @@ class ClubUpdateImportService
             }
 
             $records[] = [
-                'date' => $clubUpdate->ended_at ?? $clubUpdate->started_at,
+                'date' => $tournament->ended_at ?? $tournament->started_at,
                 'user_id' => $user->id,
                 'club_tournament_id' => $tournament->id,
                 'buy_in' => (float)$row[2] * 100,
@@ -149,7 +149,7 @@ class ClubUpdateImportService
             }
 
             $records[] = [
-                'date' => $clubUpdate->ended_at ?? $clubUpdate->started_at,
+                'date' => $ringGame->ended_at ?? $ringGame->started_at,
                 'user_id' => $user->id,
                 'club_ring_game_id' => $ringGame->id,
                 'buy_in' => (float)$row[2] * 100,
