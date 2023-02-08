@@ -12,6 +12,7 @@ use Filament\Tables\Concerns\InteractsWithTable;
 use Filament\Tables\Contracts\HasTable;
 use Filament\Tables\Filters\Filter;
 use Filament\Tables\Filters\SelectFilter;
+use Illuminate\Contracts\Pagination\Paginator;
 use Illuminate\Contracts\View\View;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
@@ -58,43 +59,43 @@ class PlayerTable extends Component implements HasTable
                 ->label('Net winnings')
                 ->sortable()
                 ->formatStateUsing(static function ($state) {
-                    if (! filled($state)) {
+                    if (!filled($state)) {
                         return '-';
                     }
 
                     $formattedState = Money::USD($state);
 
                     if ($state > 0) {
-                        return new HtmlString('<span class="text-green-500">'.$formattedState.'</span>');
+                        return new HtmlString('<span class="text-green-500">' . $formattedState . '</span>');
                     }
 
-                    return new HtmlString('<span class="text-rose-500">'.$formattedState.'</span>');
+                    return new HtmlString('<span class="text-rose-500">' . $formattedState . '</span>');
                 }),
             TextColumn::make('vpip')
                 ->label('VPIP')
                 ->sortable()
                 ->formatStateUsing(static function ($state) {
-                    if (! filled($state)) {
+                    if (!filled($state)) {
                         return '-';
                     }
 
-                    return number_format($state).'%';
+                    return number_format($state) . '%';
                 }),
             TextColumn::make('pfr')
                 ->label('PFR')
                 ->sortable()
                 ->formatStateUsing(static function ($state) {
-                    if (! filled($state)) {
+                    if (!filled($state)) {
                         return '-';
                     }
 
-                    return number_format($state).'%';
+                    return number_format($state) . '%';
                 }),
             TextColumn::make('hours_played')
                 ->label('Hours played')
                 ->sortable()
                 ->formatStateUsing(static function ($state) {
-                    if (! filled($state)) {
+                    if (!filled($state)) {
                         return '-';
                     }
 
@@ -104,33 +105,33 @@ class PlayerTable extends Component implements HasTable
                 ->label('Hourly $')
                 ->sortable()
                 ->formatStateUsing(static function ($state) {
-                    if (! filled($state)) {
+                    if (!filled($state)) {
                         return '-';
                     }
 
                     $formattedState = Money::USD($state);
 
                     if ($state > 0) {
-                        return new HtmlString('<span class="text-green-500">'.$formattedState.'</span>');
+                        return new HtmlString('<span class="text-green-500">' . $formattedState . '</span>');
                     }
 
-                    return new HtmlString('<span class="text-rose-500">'.$formattedState.'</span>');
+                    return new HtmlString('<span class="text-rose-500">' . $formattedState . '</span>');
                 }),
             TextColumn::make('hourly_bb')
                 ->label('BB/Hour')
                 ->sortable()
                 ->formatStateUsing(static function ($state) {
-                    if (! filled($state)) {
+                    if (!filled($state)) {
                         return '-';
                     }
 
                     $formattedState = number_format($state, 2);
 
                     if ($state > 0) {
-                        return new HtmlString('<span class="text-green-500">'.$formattedState.' BB</span>');
+                        return new HtmlString('<span class="text-green-500">' . $formattedState . ' BB</span>');
                     }
 
-                    return new HtmlString('<span class="text-rose-500">'.$formattedState.' BB</span>');
+                    return new HtmlString('<span class="text-rose-500">' . $formattedState . ' BB</span>');
                 }),
         ];
     }
@@ -200,7 +201,7 @@ class PlayerTable extends Component implements HasTable
                     return $query
                         ->when(
                             $data['value'],
-                            static fn (Builder $query, $value) => $query->where('game_rules.id', '=', $value)
+                            static fn(Builder $query, $value) => $query->where('game_rules.id', '=', $value)
                         );
                 }),
             SelectFilter::make('stake_id')
@@ -214,7 +215,7 @@ class PlayerTable extends Component implements HasTable
                     return $query
                         ->when(
                             $data['value'],
-                            static fn (Builder $query, $value) => $query->where('stakes.id', '=', $value)
+                            static fn(Builder $query, $value) => $query->where('stakes.id', '=', $value)
                         );
                 }),
             Filter::make('date')
@@ -226,11 +227,11 @@ class PlayerTable extends Component implements HasTable
                     return $query
                         ->when(
                             $data['date_from'],
-                            fn (Builder $query, $date): Builder => $query->whereDate('sessions.date', '>=', $date),
+                            fn(Builder $query, $date): Builder => $query->whereDate('sessions.date', '>=', $date),
                         )
                         ->when(
                             $data['date_to'],
-                            fn (Builder $query, $date): Builder => $query->whereDate('sessions.date', '<=', $date),
+                            fn(Builder $query, $date): Builder => $query->whereDate('sessions.date', '<=', $date),
                         );
                 }),
         ];
@@ -263,6 +264,30 @@ class PlayerTable extends Component implements HasTable
 
     protected function getTableRecordUrlUsing(): ?Closure
     {
-        return static fn ($record): string => route('tracker.player', $record->player_id);
+        return static fn($record): string => route('tracker.player', $record->player_id);
+    }
+
+    protected function paginateTableQuery(Builder $query): Paginator
+    {
+        $records = $query->paginate(
+            $this->getTableRecordsPerPage() === -1 ? $this->getQueryCount() : $this->getTableRecordsPerPage(),
+            ['*'],
+            $this->getTablePaginationPageName(),
+        );
+
+        return $records->onEachSide(1);
+    }
+
+    protected function getQueryCount(): int
+    {
+        return PlayerSession::query()
+            ->join(
+                'sessions',
+                'player_session.session_id',
+                '=',
+                'sessions.id'
+            )
+            ->where('sessions.location_id', '=', $this->location->id)
+            ->count();
     }
 }

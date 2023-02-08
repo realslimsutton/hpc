@@ -18,7 +18,7 @@ class SessionService extends BaseService
         parent::__construct($cachePrefix, $cacheTtl);
     }
 
-    public function getLatestSessions(int $limit = 4): Collection
+    public function getLatestSessions(int $limit = 6): Collection
     {
         return $this->cache(
             'latest',
