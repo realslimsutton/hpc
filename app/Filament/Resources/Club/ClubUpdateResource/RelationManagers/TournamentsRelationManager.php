@@ -72,7 +72,7 @@ class TournamentsRelationManager extends RelationManager
                 Tables\Columns\BadgeColumn::make('duration')
                     ->label('Duration')
                     ->sortable()
-                    ->getStateUsing(static fn(ClubTournament $record) => $record->ended_at !== null ? $record->duration : now()->diff($record->started_at)->format('H:i:s')),
+                    ->getStateUsing(static fn(ClubTournament $record) => $record->ended_at !== null ? $record->duration : now()->diff($record->started_at)),
                 Tables\Columns\TextColumn::make('table_name')
                     ->label('Table name')
                     ->searchable()
